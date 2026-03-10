@@ -1,69 +1,28 @@
 import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { UserPlus } from 'lucide-react'
+import { Info, UserPlus } from 'lucide-react'
 
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { usePermissions } from '@/features/auth/hooks/usePermissions'
-import type { UserRole } from '@/shared/types'
 import type { CreateAdminUserData } from '@/features/users/api/users.api'
 import { CreateAdminUserDialog } from '@/features/users/components/CreateAdminUserDialog'
-import { UserDetailView } from '@/features/users/components/UserDetailView'
-import { UserFilters } from '@/features/users/components/UserFilters'
-import { UsersTable } from '@/features/users/components/UsersTable'
-import { useCreateAdminUser, useUsers } from '@/features/users/hooks/useUsers'
-import { Pagination } from '@/features/validations/components/Pagination'
+import { useCreateAdminUser } from '@/features/users/hooks/useUsers'
 
 export const Route = createFileRoute('/_authenticated/users')({
   component: UsersPage,
 })
 
-const LIMIT = 20
-
 function UsersPage() {
   const { canPerform } = usePermissions()
   const canCreate = canPerform('users', 'create')
-
-  const [role, setRole] = useState<UserRole | undefined>()
-  const [search, setSearch] = useState('')
-  const [offset, setOffset] = useState(0)
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
   const [createOpen, setCreateOpen] = useState(false)
-
-  const { data, isLoading } = useUsers({
-    role,
-    search: search || undefined,
-    limit: LIMIT,
-    offset,
-  })
   const createUser = useCreateAdminUser()
 
-  function handleCreateUser(formData: CreateAdminUserData): Promise<string> {
-    return new Promise((resolve, reject) => {
-      createUser.mutate(formData, {
-        onSuccess: (response) => {
-          resolve(response.temporaryPassword)
-        },
-        onError: (error) => {
-          reject(error)
-        },
-      })
+  function handleCreateUser(formData: CreateAdminUserData) {
+    createUser.mutate(formData, {
+      onSuccess: () => setCreateOpen(false),
     })
-  }
-
-  if (selectedUserId) {
-    return (
-      <UserDetailView
-        userId={selectedUserId}
-        onBack={() => setSelectedUserId(null)}
-      />
-    )
   }
 
   return (
@@ -72,7 +31,7 @@ function UsersPage() {
         <div>
           <h1 className="text-2xl font-bold">Users</h1>
           <p className="text-muted-foreground">
-            Manage users and create admin accounts.
+            Create admin and backoffice user accounts.
           </p>
         </div>
         {canCreate && (
@@ -83,43 +42,15 @@ function UsersPage() {
         )}
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>All Users</CardTitle>
-          <CardDescription>
-            {isLoading ? 'Loading...' : `Showing ${data?.length ?? 0} users`}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <UserFilters
-            role={role}
-            search={search}
-            onRoleChange={(r) => {
-              setRole(r)
-              setOffset(0)
-            }}
-            onSearchChange={(s) => {
-              setSearch(s)
-              setOffset(0)
-            }}
-          />
-
-          <UsersTable
-            data={data ?? []}
-            loading={isLoading}
-            onRowClick={(u) => setSelectedUserId(u.id)}
-          />
-
-          {data && (
-            <Pagination
-              offset={offset}
-              limit={LIMIT}
-              count={data.length}
-              onOffsetChange={setOffset}
-            />
-          )}
-        </CardContent>
-      </Card>
+      <Alert>
+        <Info className="size-4" />
+        <AlertTitle>User listing not available</AlertTitle>
+        <AlertDescription>
+          The backend does not currently provide a user listing endpoint. You can
+          create new admin or backoffice users using the button above. Users will
+          receive their credentials via email.
+        </AlertDescription>
+      </Alert>
 
       {canCreate && (
         <CreateAdminUserDialog

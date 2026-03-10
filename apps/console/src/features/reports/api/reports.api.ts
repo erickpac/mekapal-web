@@ -1,39 +1,36 @@
 import { apiClient } from '@/shared/api/client'
 
-export interface RevenueBreakdownItem {
-  category: string
-  totalRevenue: number
-  totalCommissions: number
-  totalTax: number
-  orderCount: number
-}
-
 export interface FinancialSummary {
   totalRevenue: number
   totalCommissions: number
-  totalTax: number
-  netRevenue: number
-  totalOrders: number
-  breakdown: RevenueBreakdownItem[]
+  totalTaxes: number
+  completedTransactions: number
+  pendingPayments: number
+  pendingPaymentsCount: number
+}
+
+export interface ReportQuery {
+  fromDate?: string
+  toDate?: string
+  preset?: 'TODAY' | 'WEEK' | 'MONTH' | 'YEAR' | 'CUSTOM'
+  transporterId?: string
+  clientId?: string
+  topLimit?: number
 }
 
 export async function getFinancialSummary(
-  startDate: string,
-  endDate: string,
+  params: ReportQuery,
 ): Promise<FinancialSummary> {
   const { data } = await apiClient.get<FinancialSummary>(
     '/reports/financial-summary',
-    { params: { startDate, endDate } },
+    { params },
   )
   return data
 }
 
-export async function exportDashboardCsv(
-  startDate: string,
-  endDate: string,
-): Promise<Blob> {
+export async function exportDashboardCsv(params: ReportQuery): Promise<Blob> {
   const { data } = await apiClient.get('/reports/dashboard/export', {
-    params: { startDate, endDate },
+    params,
     responseType: 'blob',
   })
   return data as Blob

@@ -17,13 +17,23 @@ export function FinancialSummaryCards({
   const cards = [
     { title: 'Total Revenue', value: data ? Q(data.totalRevenue) : '' },
     { title: 'Total Commissions', value: data ? Q(data.totalCommissions) : '' },
-    { title: 'Total Tax', value: data ? Q(data.totalTax) : '' },
-    { title: 'Net Revenue', value: data ? Q(data.netRevenue) : '' },
-    { title: 'Total Orders', value: data?.totalOrders.toLocaleString('es-GT') },
+    { title: 'Total Taxes', value: data ? Q(data.totalTaxes) : '' },
+    {
+      title: 'Completed Transactions',
+      value: data?.completedTransactions.toLocaleString('es-GT'),
+    },
+    {
+      title: 'Pending Payments',
+      value: data ? Q(data.pendingPayments) : '',
+    },
+    {
+      title: 'Pending Payments Count',
+      value: data?.pendingPaymentsCount.toLocaleString('es-GT'),
+    },
   ]
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {cards.map((card) => (
         <Card key={card.title}>
           <CardHeader className="pb-2">

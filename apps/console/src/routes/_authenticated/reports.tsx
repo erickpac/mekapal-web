@@ -5,17 +5,9 @@ import { requireModule } from '@/shared/utils/route-guard'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { DateRangePicker } from '@/features/dashboard/components/DateRangePicker'
 import { exportDashboardCsv } from '@/features/reports/api/reports.api'
 import { FinancialSummaryCards } from '@/features/reports/components/FinancialSummaryCards'
-import { RevenueBreakdownTable } from '@/features/reports/components/RevenueBreakdownTable'
 import { useFinancialSummary } from '@/features/reports/hooks/useReports'
 
 export const Route = createFileRoute('/_authenticated/reports')({
@@ -35,20 +27,20 @@ function getDefaultRange() {
 
 function ReportsPage() {
   const defaults = getDefaultRange()
-  const [startDate, setStartDate] = useState(defaults.start)
-  const [endDate, setEndDate] = useState(defaults.end)
+  const [fromDate, setFromDate] = useState(defaults.start)
+  const [toDate, setToDate] = useState(defaults.end)
   const [exporting, setExporting] = useState(false)
 
-  const { data, isLoading } = useFinancialSummary(startDate, endDate)
+  const { data, isLoading } = useFinancialSummary({ fromDate, toDate })
 
   async function handleExport() {
     setExporting(true)
     try {
-      const blob = await exportDashboardCsv(startDate, endDate)
+      const blob = await exportDashboardCsv({ fromDate, toDate })
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `report-${startDate}-to-${endDate}.csv`
+      a.download = `report-${fromDate}-to-${toDate}.csv`
       a.click()
       URL.revokeObjectURL(url)
       toast.success('Report exported')
@@ -65,7 +57,7 @@ function ReportsPage() {
         <div>
           <h1 className="text-2xl font-bold">Reports</h1>
           <p className="text-muted-foreground">
-            Financial summary and revenue breakdown.
+            Financial summary for the selected period.
           </p>
         </div>
         <Button size="sm" onClick={handleExport} disabled={exporting}>
@@ -79,30 +71,15 @@ function ReportsPage() {
       </div>
 
       <DateRangePicker
-        startDate={startDate}
-        endDate={endDate}
+        startDate={fromDate}
+        endDate={toDate}
         onChange={(s, e) => {
-          setStartDate(s)
-          setEndDate(e)
+          setFromDate(s)
+          setToDate(e)
         }}
       />
 
       <FinancialSummaryCards data={data} loading={isLoading} />
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Revenue Breakdown</CardTitle>
-          <CardDescription>
-            Breakdown by category for the selected period.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <RevenueBreakdownTable
-            data={data?.breakdown ?? []}
-            loading={isLoading}
-          />
-        </CardContent>
-      </Card>
     </div>
   )
 }
