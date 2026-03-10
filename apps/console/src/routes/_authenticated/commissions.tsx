@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { ArrowLeft, Plus } from 'lucide-react'
+import { requireModule } from '@/shared/utils/route-guard'
 
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -17,6 +18,7 @@ import {
 } from '@/features/commissions/hooks/useCommissions'
 
 export const Route = createFileRoute('/_authenticated/commissions')({
+  beforeLoad: requireModule('commissions'),
   component: CommissionsPage,
 })
 

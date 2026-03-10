@@ -1,14 +1,4 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import {
-  LayoutDashboard,
-  ClipboardCheck,
-  Banknote,
-  AlertTriangle,
-  Percent,
-  MapPin,
-  BarChart3,
-  Users,
-} from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
@@ -18,17 +8,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
-
-const navItems = [
-  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/validations', label: 'Validations', icon: ClipboardCheck },
-  { to: '/settlements', label: 'Settlements', icon: Banknote },
-  { to: '/incidents', label: 'Incidents', icon: AlertTriangle },
-  { to: '/commissions', label: 'Commissions', icon: Percent },
-  { to: '/locations', label: 'Locations', icon: MapPin },
-  { to: '/reports', label: 'Reports', icon: BarChart3 },
-  { to: '/users', label: 'Users', icon: Users },
-] as const
+import { usePermissions } from '@/features/auth/hooks/usePermissions'
+import { navItems } from '../config/navigation'
 
 interface MobileSidebarProps {
   open: boolean
@@ -37,6 +18,9 @@ interface MobileSidebarProps {
 
 export function MobileSidebar({ open, onOpenChange }: MobileSidebarProps) {
   const location = useLocation()
+  const { canAccess } = usePermissions()
+
+  const visibleItems = navItems.filter((item) => canAccess(item.module))
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -50,7 +34,7 @@ export function MobileSidebar({ open, onOpenChange }: MobileSidebarProps) {
         <Separator />
 
         <nav className="space-y-1 p-2">
-          {navItems.map(({ to, label, icon: Icon }) => {
+          {visibleItems.map(({ to, label, icon: Icon }) => {
             const isActive = location.pathname.startsWith(to)
             return (
               <Link

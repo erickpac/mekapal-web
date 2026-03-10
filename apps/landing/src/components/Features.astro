@@ -1,0 +1,106 @@
+---
+const clientFeatures = [
+  {
+    icon: '📦',
+    title: 'Instant Quotes',
+    description:
+      'Get competitive quotes from verified transporters within minutes.',
+  },
+  {
+    icon: '📍',
+    title: 'Real-Time Tracking',
+    description: 'Follow your shipment from pickup to delivery on a live map.',
+  },
+  {
+    icon: '🔒',
+    title: 'Secure Payments',
+    description:
+      'Pay through the platform with escrow protection until delivery is confirmed.',
+  },
+]
+
+const transporterFeatures = [
+  {
+    icon: '🚛',
+    title: 'Find Loads Fast',
+    description:
+      'Browse available shipments that match your vehicle type and route.',
+  },
+  {
+    icon: '💰',
+    title: 'Fast Settlements',
+    description:
+      'Receive payment within days of completing a delivery, not weeks.',
+  },
+  {
+    icon: '📊',
+    title: 'Business Dashboard',
+    description:
+      'Track earnings, manage your fleet, and grow your transportation business.',
+  },
+]
+---
+
+<section id="features" class="bg-surface py-20 md:py-28">
+  <div class="mx-auto max-w-6xl px-4">
+    <div class="text-center">
+      <h2 class="fade-up text-3xl font-bold tracking-tight md:text-4xl">
+        Built for Everyone in the Chain
+      </h2>
+      <p class="fade-up fade-up-delay-1 text-muted mx-auto mt-4 max-w-lg">
+        Whether you're shipping cargo or hauling freight, Mekapal has you
+        covered.
+      </p>
+    </div>
+
+    <div class="mt-16 grid gap-12 lg:grid-cols-2">
+      <!-- Clients -->
+      <div>
+        <h3 class="fade-up text-center text-xl font-semibold lg:text-left">
+          For Clients
+        </h3>
+        <div class="mt-6 grid gap-6">
+          {
+            clientFeatures.map(({ icon, title, description }, i) => (
+              <div
+                class={`fade-up fade-up-delay-${i + 1} flex gap-4 rounded-xl bg-white p-5 shadow-sm`}
+              >
+                <span class="text-2xl" aria-hidden="true">
+                  {icon}
+                </span>
+                <div>
+                  <h4 class="font-semibold">{title}</h4>
+                  <p class="text-muted mt-1 text-sm">{description}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Transporters -->
+      <div>
+        <h3 class="fade-up text-center text-xl font-semibold lg:text-left">
+          For Transporters
+        </h3>
+        <div class="mt-6 grid gap-6">
+          {
+            transporterFeatures.map(({ icon, title, description }, i) => (
+              <div
+                class={`fade-up fade-up-delay-${i + 1} flex gap-4 rounded-xl bg-white p-5 shadow-sm`}
+              >
+                <span class="text-2xl" aria-hidden="true">
+                  {icon}
+                </span>
+                <div>
+                  <h4 class="font-semibold">{title}</h4>
+                  <p class="text-muted mt-1 text-sm">{description}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

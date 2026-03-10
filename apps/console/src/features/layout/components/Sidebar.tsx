@@ -1,16 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import {
-  LayoutDashboard,
-  ClipboardCheck,
-  Banknote,
-  AlertTriangle,
-  Percent,
-  MapPin,
-  BarChart3,
-  Users,
-  ChevronsLeft,
-  ChevronsRight,
-} from 'lucide-react'
+import { ChevronsLeft, ChevronsRight } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -20,17 +9,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-
-const navItems = [
-  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/validations', label: 'Validations', icon: ClipboardCheck },
-  { to: '/settlements', label: 'Settlements', icon: Banknote },
-  { to: '/incidents', label: 'Incidents', icon: AlertTriangle },
-  { to: '/commissions', label: 'Commissions', icon: Percent },
-  { to: '/locations', label: 'Locations', icon: MapPin },
-  { to: '/reports', label: 'Reports', icon: BarChart3 },
-  { to: '/users', label: 'Users', icon: Users },
-] as const
+import { usePermissions } from '@/features/auth/hooks/usePermissions'
+import { navItems } from '../config/navigation'
 
 interface SidebarProps {
   collapsed: boolean
@@ -39,6 +19,9 @@ interface SidebarProps {
 
 export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const location = useLocation()
+  const { canAccess } = usePermissions()
+
+  const visibleItems = navItems.filter((item) => canAccess(item.module))
 
   return (
     <aside
@@ -62,7 +45,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
       <Separator />
 
       <nav className="flex-1 space-y-1 p-2">
-        {navItems.map(({ to, label, icon: Icon }) => {
+        {visibleItems.map(({ to, label, icon: Icon }) => {
           const isActive = location.pathname.startsWith(to)
           const link = (
             <Link

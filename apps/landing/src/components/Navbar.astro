@@ -1,0 +1,137 @@
+---
+const links = [
+  { href: '#how-it-works', label: 'How It Works' },
+  { href: '#features', label: 'Features' },
+  { href: '#pricing', label: 'Pricing' },
+  { href: '#faq', label: 'FAQ' },
+  { href: '#contact', label: 'Contact' },
+]
+---
+
+<header
+  id="navbar"
+  class="fixed top-0 right-0 left-0 z-50 transition-colors duration-300"
+>
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+    <a href="/" class="text-xl font-bold tracking-tight">Mekapal</a>
+
+    <!-- Desktop links -->
+    <ul class="hidden items-center gap-6 md:flex">
+      {
+        links.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              class="text-sm font-medium text-gray-600 transition-colors hover:text-gray-900"
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a
+          href="#contact"
+          class="bg-primary text-primary-foreground rounded-lg px-4 py-2 text-sm font-medium transition-opacity hover:opacity-90"
+        >
+          Get Started
+        </a>
+      </li>
+    </ul>
+
+    <!-- Mobile hamburger -->
+    <button
+      id="menu-toggle"
+      class="flex size-10 items-center justify-center rounded-lg md:hidden"
+      aria-label="Toggle menu"
+    >
+      <svg
+        id="menu-icon"
+        class="size-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+      <svg
+        id="close-icon"
+        class="hidden size-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden border-t bg-white md:hidden">
+    <ul class="flex flex-col gap-1 px-4 py-3">
+      {
+        links.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              class="mobile-link block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900"
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="pt-1">
+        <a
+          href="#contact"
+          class="mobile-link bg-primary text-primary-foreground block rounded-lg px-3 py-2 text-center text-sm font-medium"
+        >
+          Get Started
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle')!
+  const menu = document.getElementById('mobile-menu')!
+  const menuIcon = document.getElementById('menu-icon')!
+  const closeIcon = document.getElementById('close-icon')!
+  const navbar = document.getElementById('navbar')!
+
+  toggle.addEventListener('click', () => {
+    const open = menu.classList.toggle('hidden')
+    menuIcon.classList.toggle('hidden', !open)
+    closeIcon.classList.toggle('hidden', open)
+  })
+
+  // Close mobile menu on link click
+  menu.querySelectorAll('.mobile-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      menu.classList.add('hidden')
+      menuIcon.classList.remove('hidden')
+      closeIcon.classList.add('hidden')
+    })
+  })
+
+  // Background on scroll
+  function updateNavbar() {
+    if (window.scrollY > 20) {
+      navbar.classList.add('bg-white/95', 'shadow-sm', 'backdrop-blur-sm')
+    } else {
+      navbar.classList.remove('bg-white/95', 'shadow-sm', 'backdrop-blur-sm')
+    }
+  }
+
+  window.addEventListener('scroll', updateNavbar, { passive: true })
+  updateNavbar()
+</script>
