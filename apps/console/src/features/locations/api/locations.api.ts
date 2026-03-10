@@ -111,7 +111,9 @@ export async function deleteMunicipality(id: string): Promise<void> {
   await apiClient.delete(`/locations/municipalities/${id}`)
 }
 
-export async function getZones(municipalityId: string): Promise<LocationItem[]> {
+export async function getZones(
+  municipalityId: string,
+): Promise<LocationItem[]> {
   const { data } = await apiClient.get<LocationItem[]>(
     `/locations/municipalities/${municipalityId}/zones`,
   )

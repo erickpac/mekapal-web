@@ -1,5 +1,9 @@
 import { apiClient } from '@/shared/api/client'
-import type { PaginatedQuery, TransporterStatus, UserRole } from '@/shared/types'
+import type {
+  PaginatedQuery,
+  TransporterStatus,
+  UserRole,
+} from '@/shared/types'
 
 export interface UserItem {
   id: string

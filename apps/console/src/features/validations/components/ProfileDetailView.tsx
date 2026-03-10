@@ -87,9 +87,7 @@ export function ProfileDetailView({ id, onDone }: ProfileDetailViewProps) {
 
       {data.status === 'PENDING_REVIEW' && (
         <ApprovalForm
-          onApprove={() =>
-            approve.mutate({ id }, { onSuccess: onDone })
-          }
+          onApprove={() => approve.mutate({ id }, { onSuccess: onDone })}
           onReject={(payload) =>
             reject.mutate({ id, payload }, { onSuccess: onDone })
           }

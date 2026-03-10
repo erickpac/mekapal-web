@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -26,15 +25,10 @@ import type { IncidentResolution, UserAction } from '@/shared/types'
 import type { ResolveIncidentData } from '../api/incidents.api'
 
 const resolveSchema = z.object({
-  resolution: z.enum([
-    'RESOLVED_SATISFACTORILY',
-    'CLOSED_WITHOUT_RESOLUTION',
-  ]),
+  resolution: z.enum(['RESOLVED_SATISFACTORILY', 'CLOSED_WITHOUT_RESOLUTION']),
   resolutionNotes: z.string().min(100, 'Minimum 100 characters required'),
   refundAmount: z.number().min(0).optional(),
-  userAction: z
-    .enum(['NONE', 'WARNING', 'SUSPENSION', 'BAN'])
-    .optional(),
+  userAction: z.enum(['NONE', 'WARNING', 'SUSPENSION', 'BAN']).optional(),
 })
 
 type ResolveFormValues = z.infer<typeof resolveSchema>

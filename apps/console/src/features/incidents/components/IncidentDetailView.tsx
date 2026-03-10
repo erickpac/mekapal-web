@@ -1,5 +1,4 @@
 import { useState } from 'react'
-
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -88,9 +87,7 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
                 </>
               )}
               <dt className="text-muted-foreground">Created</dt>
-              <dd>
-                {new Date(data.createdAt).toLocaleDateString('es-GT')}
-              </dd>
+              <dd>{new Date(data.createdAt).toLocaleDateString('es-GT')}</dd>
             </dl>
           </CardContent>
         </Card>

@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-
 import type { CreateAdminUserData, UserFilters } from '../api/users.api'
 import * as api from '../api/users.api'
 

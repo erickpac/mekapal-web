@@ -7,7 +7,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { TopTransporter } from '../api/dashboard.api'

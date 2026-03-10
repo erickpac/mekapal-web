@@ -92,7 +92,9 @@ export function ValidationsTable({
 function formatSummary(item: ValidationItem): string {
   const s = item.summary
   if (item.type === 'VEHICLE') {
-    return [s.brand, s.model, s.year, s.licensePlate].filter(Boolean).join(' · ')
+    return [s.brand, s.model, s.year, s.licensePlate]
+      .filter(Boolean)
+      .join(' · ')
   }
   return [s.licenseNumber, s.city, s.state].filter(Boolean).join(' · ')
 }

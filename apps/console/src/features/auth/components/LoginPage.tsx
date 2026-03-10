@@ -1,5 +1,4 @@
 import { useNavigate } from '@tanstack/react-router'
-
 import {
   Card,
   CardContent,

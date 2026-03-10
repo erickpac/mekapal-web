@@ -1,5 +1,4 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
-
 import { AppShell } from '@/features/layout/components/AppShell'
 
 export const Route = createFileRoute('/_authenticated')({

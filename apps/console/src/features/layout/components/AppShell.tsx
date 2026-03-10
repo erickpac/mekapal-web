@@ -1,5 +1,4 @@
 import { type ReactNode, useCallback, useState } from 'react'
-
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { MobileSidebar } from './MobileSidebar'
 import { Sidebar } from './Sidebar'

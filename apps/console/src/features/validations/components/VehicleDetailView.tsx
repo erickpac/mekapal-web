@@ -49,9 +49,7 @@ export function VehicleDetailView({ id, onDone }: VehicleDetailViewProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">
-          Vehicle: {data.licensePlate}
-        </h2>
+        <h2 className="text-lg font-semibold">Vehicle: {data.licensePlate}</h2>
         <Badge variant="secondary">{data.status}</Badge>
       </div>
 
@@ -103,9 +101,7 @@ export function VehicleDetailView({ id, onDone }: VehicleDetailViewProps) {
 
       {data.status === 'PENDING_REVIEW' && (
         <ApprovalForm
-          onApprove={() =>
-            approve.mutate({ id }, { onSuccess: onDone })
-          }
+          onApprove={() => approve.mutate({ id }, { onSuccess: onDone })}
           onReject={(payload) =>
             reject.mutate({ id, payload }, { onSuccess: onDone })
           }

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { CheckCircle, XCircle } from 'lucide-react'
-
 import { Button } from '@/components/ui/button'
 import { RejectDialog } from './RejectDialog'
 import type { RejectValidationData } from '../api/validations.api'

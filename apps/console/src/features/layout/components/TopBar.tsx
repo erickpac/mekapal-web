@@ -1,5 +1,4 @@
 import { Menu, LogOut } from 'lucide-react'
-
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/features/auth/hooks/useAuth'

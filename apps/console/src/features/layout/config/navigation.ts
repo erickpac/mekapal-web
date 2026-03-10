@@ -8,7 +8,6 @@ import {
   BarChart3,
   Users,
 } from 'lucide-react'
-
 import type { AppModule } from '@/features/auth/hooks/usePermissions'
 
 export interface NavItem {

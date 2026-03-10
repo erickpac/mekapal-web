@@ -1,5 +1,4 @@
 import { useCallback, useSyncExternalStore } from 'react'
-
 import type { AuthResponse, AuthUser, ChallengeResponse } from '../api/auth.api'
 import * as authApi from '../api/auth.api'
 

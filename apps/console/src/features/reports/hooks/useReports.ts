@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query'
-
 import * as api from '../api/reports.api'
 
 export function useFinancialSummary(startDate: string, endDate: string) {

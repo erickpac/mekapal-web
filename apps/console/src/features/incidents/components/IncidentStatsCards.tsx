@@ -1,5 +1,4 @@
 import { AlertTriangle, Archive, CheckCircle, Eye } from 'lucide-react'
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { IncidentStats } from '../api/incidents.api'
