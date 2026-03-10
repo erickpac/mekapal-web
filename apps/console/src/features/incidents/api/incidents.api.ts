@@ -1,73 +1,81 @@
 import { apiClient } from '@/shared/api/client'
 import type {
+  IncidentResolution,
   IncidentSeverity,
   IncidentStatus,
   IncidentType,
-  PaginatedQuery,
   UserAction,
 } from '@/shared/types'
 
-export interface IncidentItem {
+export interface Incident {
   id: string
+  incidentNumber: string
   type: IncidentType
   severity: IncidentSeverity
   status: IncidentStatus
   description: string
-  reportedBy: string
-  date: string
-}
-
-export interface TimelineEntry {
-  id: string
-  status: IncidentStatus
-  note: string
-  createdAt: string
-  createdBy: string
-}
-
-export interface IncidentDetail extends IncidentItem {
+  evidenceUrls: string[]
+  internalNotes: string | null
+  resolution: IncidentResolution | null
+  resolutionNotes: string | null
+  refundAmount: number | null
+  userAction: UserAction
+  resolvedAt: string | null
+  reportedById: string
+  reportedAgainstId: string
   orderId: string
-  orderDescription: string
-  reporterEmail: string
-  reporterPhone: string
-  evidence: string[]
-  timeline: TimelineEntry[]
+  assignedToId: string | null
+  createdAt: string
+  updatedAt: string
 }
 
 export interface IncidentStats {
+  total: number
   open: number
   investigating: number
   resolved: number
+  closed: number
 }
 
-export interface IncidentFilters extends PaginatedQuery {
+export interface IncidentFilters {
   status?: IncidentStatus
   severity?: IncidentSeverity
   type?: IncidentType
+  reportedById?: string
+  reportedAgainstId?: string
+  assignedToId?: string
+  orderId?: string
+  fromDate?: string
+  toDate?: string
+  limit?: number
+  offset?: number
 }
 
 export interface UpdateIncidentData {
   status?: IncidentStatus
-  notes?: string
+  severity?: IncidentSeverity
+  internalNotes?: string
+  assignedToId?: string
 }
 
 export interface ResolveIncidentData {
+  resolution: IncidentResolution
   resolutionNotes: string
   refundAmount?: number
-  userAction: UserAction
+  userAction?: UserAction
 }
 
 export async function getIncidents(
   filters: IncidentFilters,
-): Promise<IncidentItem[]> {
-  const { data } = await apiClient.get<IncidentItem[]>('/incidents', {
+): Promise<Incident[]> {
+  const { data } = await apiClient.get<Incident[]>('/incidents', {
     params: filters,
   })
   return data
 }
 
-export async function getIncident(id: string): Promise<IncidentDetail> {
-  const { data } = await apiClient.get<IncidentDetail>(`/incidents/${id}`)
+export async function getIncident(id: string): Promise<Incident> {
+  const { data } = await apiClient.get<Incident>(`/incidents/${id}`)
   return data
 }
 

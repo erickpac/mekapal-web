@@ -6,13 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import { DocumentViewer } from '@/features/validations/components/DocumentViewer'
-import type { IncidentSeverity } from '../api/incidents.api'
+import type { IncidentSeverity } from '@/shared/types'
 import {
   useIncident,
   useResolveIncident,
   useUpdateIncident,
 } from '../hooks/useIncidents'
-import { IncidentTimeline } from './IncidentTimeline'
 import { ResolveIncidentForm } from './ResolveIncidentForm'
 
 const severityColors: Record<IncidentSeverity, string> = {
@@ -44,14 +43,12 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
     )
   }
 
-  const isResolved = data.status === 'RESOLVED'
+  const canResolve = data.status === 'OPEN' || data.status === 'INVESTIGATING'
 
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <h2 className="text-lg font-semibold capitalize">
-          {data.type.toLowerCase()} Incident
-        </h2>
+        <h2 className="text-lg font-semibold">{data.incidentNumber}</h2>
         <span
           className={cn(
             'inline-flex rounded-md px-2 py-0.5 text-xs font-medium',
@@ -66,35 +63,77 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Reporter</CardTitle>
+            <CardTitle>Incident Info</CardTitle>
           </CardHeader>
           <CardContent>
             <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-              <dt className="text-muted-foreground">Name</dt>
-              <dd>{data.reportedBy}</dd>
-              <dt className="text-muted-foreground">Email</dt>
-              <dd>{data.reporterEmail}</dd>
-              <dt className="text-muted-foreground">Phone</dt>
-              <dd>{data.reporterPhone}</dd>
-              <dt className="text-muted-foreground">Date</dt>
-              <dd>{new Date(data.date).toLocaleDateString('es-GT')}</dd>
+              <dt className="text-muted-foreground">Type</dt>
+              <dd className="capitalize">{data.type.toLowerCase()}</dd>
+              <dt className="text-muted-foreground">Order ID</dt>
+              <dd className="font-mono text-xs">{data.orderId}</dd>
+              <dt className="text-muted-foreground">Reported By</dt>
+              <dd className="font-mono text-xs">
+                {data.reportedById.slice(0, 8)}…
+              </dd>
+              <dt className="text-muted-foreground">Reported Against</dt>
+              <dd className="font-mono text-xs">
+                {data.reportedAgainstId.slice(0, 8)}…
+              </dd>
+              {data.assignedToId && (
+                <>
+                  <dt className="text-muted-foreground">Assigned To</dt>
+                  <dd className="font-mono text-xs">
+                    {data.assignedToId.slice(0, 8)}…
+                  </dd>
+                </>
+              )}
+              <dt className="text-muted-foreground">Created</dt>
+              <dd>
+                {new Date(data.createdAt).toLocaleDateString('es-GT')}
+              </dd>
             </dl>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Order</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-              <dt className="text-muted-foreground">Order ID</dt>
-              <dd className="font-mono text-xs">{data.orderId}</dd>
-              <dt className="text-muted-foreground">Description</dt>
-              <dd>{data.orderDescription}</dd>
-            </dl>
-          </CardContent>
-        </Card>
+        {data.resolution && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Resolution</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                <dt className="text-muted-foreground">Resolution</dt>
+                <dd>{data.resolution}</dd>
+                <dt className="text-muted-foreground">User Action</dt>
+                <dd>{data.userAction}</dd>
+                {data.refundAmount != null && (
+                  <>
+                    <dt className="text-muted-foreground">Refund Amount</dt>
+                    <dd>
+                      Q
+                      {data.refundAmount.toLocaleString('es-GT', {
+                        minimumFractionDigits: 2,
+                      })}
+                    </dd>
+                  </>
+                )}
+                {data.resolvedAt && (
+                  <>
+                    <dt className="text-muted-foreground">Resolved At</dt>
+                    <dd>
+                      {new Date(data.resolvedAt).toLocaleDateString('es-GT')}
+                    </dd>
+                  </>
+                )}
+              </dl>
+              {data.resolutionNotes && (
+                <p className="text-muted-foreground mt-3 text-sm">
+                  {data.resolutionNotes}
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       <Card>
@@ -106,16 +145,25 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
         </CardContent>
       </Card>
 
-      {data.evidence.length > 0 && (
+      {data.internalNotes && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Internal Notes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm">{data.internalNotes}</p>
+          </CardContent>
+        </Card>
+      )}
+
+      {data.evidenceUrls.length > 0 && (
         <div>
           <h3 className="mb-2 text-sm font-semibold">Evidence</h3>
-          <DocumentViewer images={data.evidence} />
+          <DocumentViewer images={data.evidenceUrls} />
         </div>
       )}
 
-      <IncidentTimeline entries={data.timeline} />
-
-      {!isResolved && (
+      {canResolve && (
         <div className="flex gap-2">
           {data.status === 'OPEN' && (
             <Button
@@ -123,10 +171,7 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
               onClick={() =>
                 updateIncident.mutate({
                   id,
-                  data: {
-                    status: 'INVESTIGATING',
-                    notes: 'Started investigation',
-                  },
+                  data: { status: 'INVESTIGATING' },
                 })
               }
               disabled={updateIncident.isPending}

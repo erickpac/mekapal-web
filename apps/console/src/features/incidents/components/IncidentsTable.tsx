@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
 import type { IncidentSeverity, IncidentStatus } from '@/shared/types'
-import type { IncidentItem } from '../api/incidents.api'
+import type { Incident } from '../api/incidents.api'
 
 const severityColors: Record<IncidentSeverity, string> = {
   LOW: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
@@ -22,17 +22,18 @@ const severityColors: Record<IncidentSeverity, string> = {
 
 const statusVariant: Record<
   IncidentStatus,
-  'default' | 'secondary' | 'outline'
+  'default' | 'secondary' | 'outline' | 'destructive'
 > = {
   OPEN: 'secondary',
   INVESTIGATING: 'outline',
   RESOLVED: 'default',
+  CLOSED: 'destructive',
 }
 
 interface IncidentsTableProps {
-  data: IncidentItem[]
+  data: Incident[]
   loading?: boolean
-  onRowClick: (item: IncidentItem) => void
+  onRowClick: (item: Incident) => void
 }
 
 export function IncidentsTable({
@@ -44,11 +45,11 @@ export function IncidentsTable({
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead>Incident #</TableHead>
           <TableHead>Severity</TableHead>
           <TableHead>Type</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Description</TableHead>
-          <TableHead>Reported By</TableHead>
           <TableHead>Date</TableHead>
         </TableRow>
       </TableHeader>
@@ -69,6 +70,9 @@ export function IncidentsTable({
                 className="cursor-pointer"
                 onClick={() => onRowClick(item)}
               >
+                <TableCell className="font-mono text-xs">
+                  {item.incidentNumber}
+                </TableCell>
                 <TableCell>
                   <span
                     className={cn(
@@ -90,9 +94,8 @@ export function IncidentsTable({
                 <TableCell className="max-w-48 truncate">
                   {item.description}
                 </TableCell>
-                <TableCell>{item.reportedBy}</TableCell>
                 <TableCell>
-                  {new Date(item.date).toLocaleDateString('es-GT')}
+                  {new Date(item.createdAt).toLocaleDateString('es-GT')}
                 </TableCell>
               </TableRow>
             ))}

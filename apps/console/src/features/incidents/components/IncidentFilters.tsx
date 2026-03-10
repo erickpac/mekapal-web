@@ -44,6 +44,7 @@ export function IncidentFilters({
           <SelectItem value="OPEN">Open</SelectItem>
           <SelectItem value="INVESTIGATING">Investigating</SelectItem>
           <SelectItem value="RESOLVED">Resolved</SelectItem>
+          <SelectItem value="CLOSED">Closed</SelectItem>
         </SelectContent>
       </Select>
 

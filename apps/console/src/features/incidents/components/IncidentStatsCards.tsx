@@ -1,4 +1,4 @@
-import { AlertTriangle, Eye, CheckCircle } from 'lucide-react'
+import { AlertTriangle, Archive, CheckCircle, Eye } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -32,10 +32,16 @@ export function IncidentStatsCards({
       icon: CheckCircle,
       color: 'text-emerald-600',
     },
+    {
+      label: 'Closed',
+      value: stats?.closed ?? 0,
+      icon: Archive,
+      color: 'text-gray-600',
+    },
   ]
 
   return (
-    <div className="grid gap-4 sm:grid-cols-3">
+    <div className="grid gap-4 sm:grid-cols-4">
       {items.map(({ label, value, icon: Icon, color }) => (
         <Card key={label}>
           <CardHeader className="flex-row items-center justify-between pb-2">

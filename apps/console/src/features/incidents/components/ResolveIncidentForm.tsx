@@ -21,18 +21,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import type { UserAction } from '@/shared/types'
+import { Textarea } from '@/components/ui/textarea'
+import type { IncidentResolution, UserAction } from '@/shared/types'
 import type { ResolveIncidentData } from '../api/incidents.api'
 
 const resolveSchema = z.object({
-  resolutionNotes: z.string().min(1, 'Resolution notes are required'),
-  refundAmount: z.number().positive().optional(),
-  userAction: z.enum(['WARNING', 'SUSPENSION', 'BAN']),
+  resolution: z.enum([
+    'RESOLVED_SATISFACTORILY',
+    'CLOSED_WITHOUT_RESOLUTION',
+  ]),
+  resolutionNotes: z.string().min(100, 'Minimum 100 characters required'),
+  refundAmount: z.number().min(0).optional(),
+  userAction: z
+    .enum(['NONE', 'WARNING', 'SUSPENSION', 'BAN'])
+    .optional(),
 })
 
 type ResolveFormValues = z.infer<typeof resolveSchema>
 
+const RESOLUTIONS: { value: IncidentResolution; label: string }[] = [
+  { value: 'RESOLVED_SATISFACTORILY', label: 'Resolved satisfactorily' },
+  { value: 'CLOSED_WITHOUT_RESOLUTION', label: 'Closed without resolution' },
+]
+
 const USER_ACTIONS: { value: UserAction; label: string }[] = [
+  { value: 'NONE', label: 'None' },
   { value: 'WARNING', label: 'Warning' },
   { value: 'SUSPENSION', label: 'Suspension' },
   { value: 'BAN', label: 'Ban' },
@@ -62,10 +75,16 @@ export function ResolveIncidentForm({
     resolver: zodResolver(resolveSchema),
   })
 
+  const resolution = watch('resolution')
   const userAction = watch('userAction')
 
   const handleFormSubmit = (values: ResolveFormValues) => {
-    onSubmit(values)
+    onSubmit({
+      resolution: values.resolution,
+      resolutionNotes: values.resolutionNotes,
+      refundAmount: values.refundAmount,
+      userAction: values.userAction,
+    })
     reset()
   }
 
@@ -84,10 +103,37 @@ export function ResolveIncidentForm({
           className="grid gap-4 py-2"
         >
           <div className="grid gap-2">
+            <Label>Resolution</Label>
+            <Select
+              value={resolution}
+              onValueChange={(v) =>
+                setValue('resolution', v as IncidentResolution)
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select resolution..." />
+              </SelectTrigger>
+              <SelectContent>
+                {RESOLUTIONS.map((r) => (
+                  <SelectItem key={r.value} value={r.value}>
+                    {r.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {errors.resolution && (
+              <p className="text-destructive text-sm">
+                {errors.resolution.message}
+              </p>
+            )}
+          </div>
+
+          <div className="grid gap-2">
             <Label htmlFor="resolutionNotes">Resolution Notes</Label>
-            <Input
+            <Textarea
               id="resolutionNotes"
-              placeholder="Describe the resolution..."
+              placeholder="Describe the resolution in detail..."
+              rows={4}
               {...register('resolutionNotes')}
             />
             {errors.resolutionNotes && (
@@ -114,7 +160,7 @@ export function ResolveIncidentForm({
           </div>
 
           <div className="grid gap-2">
-            <Label>User Action</Label>
+            <Label>User Action (optional)</Label>
             <Select
               value={userAction}
               onValueChange={(v) => setValue('userAction', v as UserAction)}
@@ -130,11 +176,6 @@ export function ResolveIncidentForm({
                 ))}
               </SelectContent>
             </Select>
-            {errors.userAction && (
-              <p className="text-destructive text-sm">
-                {errors.userAction.message}
-              </p>
-            )}
           </div>
 
           <DialogFooter>

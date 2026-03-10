@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import type { IncidentSeverity, IncidentStatus, IncidentType } from '@/shared/types'
-import type { IncidentItem } from '@/features/incidents/api/incidents.api'
+import type { Incident } from '@/features/incidents/api/incidents.api'
 import { IncidentDetailView } from '@/features/incidents/components/IncidentDetailView'
 import { IncidentFilters } from '@/features/incidents/components/IncidentFilters'
 import { IncidentStatsCards } from '@/features/incidents/components/IncidentStatsCards'
@@ -27,7 +27,7 @@ function IncidentsPage() {
   const [type, setType] = useState<IncidentType>()
   const [offset, setOffset] = useState(0)
 
-  const [selected, setSelected] = useState<IncidentItem | null>(null)
+  const [selected, setSelected] = useState<Incident | null>(null)
 
   const { data: stats, isLoading: statsLoading } = useIncidentStats()
   const { data, isLoading } = useIncidents({
