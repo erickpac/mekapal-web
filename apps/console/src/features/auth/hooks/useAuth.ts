@@ -89,6 +89,7 @@ export function useAuth() {
     localStorage.removeItem(REFRESH_TOKEN_KEY)
     localStorage.removeItem(USER_KEY)
     emitChange()
+    window.location.href = '/login'
   }, [])
 
   return {

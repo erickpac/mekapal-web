@@ -15,11 +15,16 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import type { LocationItem } from '../api/locations.api'
 
+const optionalNumber = z.preprocess(
+  (v) => (v === '' || v === undefined ? undefined : Number(v)),
+  z.number().optional(),
+)
+
 const locationSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   code: z.string().min(1, 'Code is required'),
-  latitude: z.number().optional(),
-  longitude: z.number().optional(),
+  latitude: optionalNumber,
+  longitude: optionalNumber,
 })
 
 type LocationFormValues = z.infer<typeof locationSchema>
