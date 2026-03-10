@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { apiClient } from '@/shared/api/client'
 import type { UserRole } from '@/shared/types'
 
@@ -22,26 +23,39 @@ export interface AuthResponse {
 }
 
 export interface ChallengeResponse {
-  challengeName: 'NEW_PASSWORD_REQUIRED'
   session: string
   email: string
-}
-
-export type SignInResult = AuthResponse | ChallengeResponse
-
-export function isChallenge(result: SignInResult): result is ChallengeResponse {
-  return 'challengeName' in result
 }
 
 export async function signIn(
   email: string,
   password: string,
-): Promise<SignInResult> {
-  const { data } = await apiClient.post<SignInResult>('/auth/admin/sign-in', {
-    email,
-    password,
-  })
-  return data
+): Promise<AuthResponse | ChallengeResponse> {
+  try {
+    const { data } = await apiClient.post<AuthResponse>(
+      '/auth/admin/sign-in',
+      { email, password },
+    )
+    return data
+  } catch (error) {
+    if (
+      error instanceof AxiosError &&
+      error.response?.status === 400 &&
+      error.response.data?.error === 'NEW_PASSWORD_REQUIRED'
+    ) {
+      return {
+        session: error.response.data.session as string,
+        email,
+      }
+    }
+    throw error
+  }
+}
+
+export function isChallenge(
+  result: AuthResponse | ChallengeResponse,
+): result is ChallengeResponse {
+  return 'session' in result && !('accessToken' in result)
 }
 
 export async function completeNewPassword(
