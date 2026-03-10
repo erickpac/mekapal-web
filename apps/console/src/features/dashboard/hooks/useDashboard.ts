@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { getDashboard } from '../api/dashboard.api'
 
-export function useDashboard(startDate: string, endDate: string) {
+export function useDashboard(fromDate: string, toDate: string) {
   return useQuery({
-    queryKey: ['dashboard', startDate, endDate],
-    queryFn: () => getDashboard(startDate, endDate),
+    queryKey: ['dashboard', fromDate, toDate],
+    queryFn: () => getDashboard(fromDate, toDate),
   })
 }

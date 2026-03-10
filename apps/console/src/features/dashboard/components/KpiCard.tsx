@@ -1,24 +1,16 @@
 import type { LucideIcon } from 'lucide-react'
-import { TrendingDown, TrendingUp } from 'lucide-react'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { cn } from '@/lib/utils'
 
 interface KpiCardProps {
   title: string
   value: string
-  trend: number
   icon: LucideIcon
   loading?: boolean
 }
 
-export function KpiCard({
-  title,
-  value,
-  trend,
-  icon: Icon,
-  loading,
-}: KpiCardProps) {
+export function KpiCard({ title, value, icon: Icon, loading }: KpiCardProps) {
   if (loading) {
     return (
       <Card>
@@ -27,14 +19,11 @@ export function KpiCard({
           <Skeleton className="size-5" />
         </CardHeader>
         <CardContent>
-          <Skeleton className="mb-1 h-7 w-32" />
-          <Skeleton className="h-4 w-20" />
+          <Skeleton className="h-7 w-32" />
         </CardContent>
       </Card>
     )
   }
-
-  const isPositive = trend >= 0
 
   return (
     <Card>
@@ -46,22 +35,6 @@ export function KpiCard({
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
-        <div
-          className={cn(
-            'mt-1 flex items-center gap-1 text-xs',
-            isPositive ? 'text-emerald-600' : 'text-red-600',
-          )}
-        >
-          {isPositive ? (
-            <TrendingUp className="size-3" />
-          ) : (
-            <TrendingDown className="size-3" />
-          )}
-          <span>
-            {isPositive ? '+' : ''}
-            {trend.toFixed(1)}%
-          </span>
-        </div>
       </CardContent>
     </Card>
   )

@@ -1,44 +1,81 @@
 import { apiClient } from '@/shared/api/client'
-import type { LoadType } from '@/shared/types'
+
+export interface FinancialSummary {
+  totalRevenue: number
+  totalCommissions: number
+  totalTaxes: number
+  completedTransactions: number
+  pendingPayments: number
+  pendingPaymentsCount: number
+}
 
 export interface RevenueByDay {
   date: string
   revenue: number
+  transactions: number
+}
+
+export interface RevenueByLoadType {
+  loadType: string
+  revenue: number
+  percentage: number
 }
 
 export interface TopTransporter {
-  id: string
-  name: string
-  earnings: number
+  transporterId: string
+  transporterName: string
+  totalEarnings: number
+  completedOrders: number
+  averageRating: number
 }
 
-export interface OrdersByLoadType {
-  loadType: LoadType
-  count: number
+export interface OrderStats {
+  total: number
+  confirmed: number
+  inProgress: number
+  delivered: number
+  completed: number
+  cancelled: number
+}
+
+export interface DeliveryRequestStats {
+  total: number
+  draft: number
+  published: number
+  offersReceived: number
+  accepted: number
+  inProgress: number
+  delivered: number
+  cancelled: number
+}
+
+export interface UserStats {
+  totalClients: number
+  totalTransporters: number
+  activeTransporters: number
+  newClientsThisPeriod: number
+  newTransportersThisPeriod: number
 }
 
 export interface DashboardResponse {
-  revenue: number
-  revenueTrend: number
-  commissions: number
-  commissionsTrend: number
-  completedOrders: number
-  completedOrdersTrend: number
-  pendingSettlements: number
-  pendingSettlementsTrend: number
+  financialSummary: FinancialSummary
   revenueByDay: RevenueByDay[]
+  revenueByLoadType: RevenueByLoadType[]
   topTransporters: TopTransporter[]
-  ordersByLoadType: OrdersByLoadType[]
+  orderStats: OrderStats
+  deliveryRequestStats: DeliveryRequestStats
+  userStats: UserStats
+  period: { from: string; to: string }
 }
 
 export async function getDashboard(
-  startDate: string,
-  endDate: string,
+  fromDate: string,
+  toDate: string,
 ): Promise<DashboardResponse> {
   const { data } = await apiClient.get<DashboardResponse>(
     '/reports/dashboard',
     {
-      params: { startDate, endDate },
+      params: { fromDate, toDate },
     },
   )
   return data

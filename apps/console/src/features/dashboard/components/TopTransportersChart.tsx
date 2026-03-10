@@ -36,7 +36,7 @@ export function TopTransportersChart({
               <XAxis type="number" tick={{ fontSize: 12 }} />
               <YAxis
                 type="category"
-                dataKey="name"
+                dataKey="transporterName"
                 width={100}
                 tick={{ fontSize: 12 }}
               />
@@ -47,7 +47,7 @@ export function TopTransportersChart({
                 ]}
               />
               <Bar
-                dataKey="earnings"
+                dataKey="totalEarnings"
                 fill="oklch(var(--chart-2))"
                 radius={[0, 4, 4, 0]}
               />

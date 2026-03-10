@@ -1,7 +1,8 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import type { OrdersByLoadType } from '../api/dashboard.api'
+import type { RevenueByLoadType } from '../api/dashboard.api'
 
 const COLORS = [
   'oklch(var(--chart-1))',
@@ -9,19 +10,19 @@ const COLORS = [
   'oklch(var(--chart-5))',
 ]
 
-interface OrdersByLoadTypeChartProps {
-  data: OrdersByLoadType[]
+interface RevenueByLoadTypeChartProps {
+  data: RevenueByLoadType[]
   loading?: boolean
 }
 
-export function OrdersByLoadTypeChart({
+export function RevenueByLoadTypeChart({
   data,
   loading,
-}: OrdersByLoadTypeChartProps) {
+}: RevenueByLoadTypeChartProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Orders by Load Type</CardTitle>
+        <CardTitle>Revenue by Load Type</CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (
@@ -32,20 +33,25 @@ export function OrdersByLoadTypeChart({
               <PieChart>
                 <Pie
                   data={data}
-                  dataKey="count"
+                  dataKey="revenue"
                   nameKey="loadType"
                   cx="50%"
                   cy="50%"
                   outerRadius={90}
-                  label={({ name, percent }) =>
-                    `${name} ${((percent ?? 0) * 100).toFixed(0)}%`
+                  label={({ name, payload }) =>
+                    `${name} ${(payload.percentage as number).toFixed(0)}%`
                   }
                 >
                   {data.map((_, index) => (
                     <Cell key={index} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value) => [Number(value), 'Orders']} />
+                <Tooltip
+                  formatter={(value) => [
+                    `Q${Number(value).toLocaleString()}`,
+                    'Revenue',
+                  ]}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
