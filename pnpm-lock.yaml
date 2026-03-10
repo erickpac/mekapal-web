@@ -32,7 +32,7 @@ importers:
 
   apps/console:
     dependencies:
-      '@fontsource-variable/geist':
+      '@fontsource-variable/plus-jakarta-sans':
         specifier: ^5.2.8
         version: 5.2.8
       '@hookform/resolvers':
@@ -552,6 +552,9 @@ packages:
 
   '@fontsource-variable/geist@5.2.8':
     resolution: {integrity: sha1-f+e3STS11oAVC6VmTqFHYD1afAw=}
+
+  '@fontsource-variable/plus-jakarta-sans@5.2.8':
+    resolution: {integrity: sha1-HJShW6JPJVPsG6Wb6kQruWyZdcM=}
 
   '@hono/node-server@1.19.11':
     resolution: {integrity: sha1-3EGfCCbdJQTp/IatKJ1WNqBETi8=}
@@ -5132,6 +5135,8 @@ snapshots:
   '@floating-ui/utils@0.2.11': {}
 
   '@fontsource-variable/geist@5.2.8': {}
+
+  '@fontsource-variable/plus-jakarta-sans@5.2.8': {}
 
   '@hono/node-server@1.19.11(hono@4.12.7)':
     dependencies:
