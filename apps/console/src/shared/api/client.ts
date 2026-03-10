@@ -51,7 +51,7 @@ apiClient.interceptors.response.use(
 
 async function refreshAccessToken(): Promise<string> {
   const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
-  const { data } = await axios.post(`${env.API_URL}/api/auth/refresh`, {
+  const { data } = await axios.post(`${env.API_URL}/auth/refresh`, {
     refreshToken,
   })
   localStorage.setItem(TOKEN_KEY, data.accessToken)
