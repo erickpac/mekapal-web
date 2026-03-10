@@ -10,7 +10,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -19,19 +18,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import type { RejectionReason } from '../api/validations.api'
+import { Textarea } from '@/components/ui/textarea'
+import type {
+  RejectionCategory,
+  RejectValidationData,
+} from '../api/validations.api'
 
-const REJECTION_CATEGORIES = [
-  { value: 'poor_quality_photo', label: 'Poor quality photo' },
-  { value: 'expired_document', label: 'Expired document' },
-  { value: 'info_mismatch', label: 'Information mismatch' },
-  { value: 'other', label: 'Other' },
-] as const
+const REJECTION_CATEGORIES: { value: RejectionCategory; label: string }[] = [
+  { value: 'POOR_QUALITY_PHOTOS', label: 'Poor quality photos' },
+  { value: 'EXPIRED_DOCUMENTS', label: 'Expired documents' },
+  { value: 'INFORMATION_MISMATCH', label: 'Information mismatch' },
+  {
+    value: 'ADDITIONAL_DOCUMENTATION_REQUIRED',
+    label: 'Additional documentation required',
+  },
+  { value: 'OTHER', label: 'Other' },
+]
+
+const MIN_DETAILS_LENGTH = 50
 
 interface RejectDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSubmit: (reason: RejectionReason) => void
+  onSubmit: (payload: RejectValidationData) => void
   isSubmitting?: boolean
 }
 
@@ -41,14 +50,16 @@ export function RejectDialog({
   onSubmit,
   isSubmitting,
 }: RejectDialogProps) {
-  const [category, setCategory] = useState<RejectionReason['category']>()
-  const [notes, setNotes] = useState('')
+  const [category, setCategory] = useState<RejectionCategory>()
+  const [details, setDetails] = useState('')
+
+  const isValid = category && details.trim().length >= MIN_DETAILS_LENGTH
 
   const handleSubmit = () => {
-    if (!category) return
-    onSubmit({ category, notes: notes.trim() || undefined })
+    if (!category || !isValid) return
+    onSubmit({ category, details: details.trim() })
     setCategory(undefined)
-    setNotes('')
+    setDetails('')
   }
 
   return (
@@ -57,7 +68,7 @@ export function RejectDialog({
         <DialogHeader>
           <DialogTitle>Reject Validation</DialogTitle>
           <DialogDescription>
-            Select a reason for rejecting this validation.
+            Select a reason and provide details for rejecting this validation.
           </DialogDescription>
         </DialogHeader>
 
@@ -66,9 +77,7 @@ export function RejectDialog({
             <Label>Reason</Label>
             <Select
               value={category}
-              onValueChange={(v) =>
-                setCategory(v as RejectionReason['category'])
-              }
+              onValueChange={(v) => setCategory(v as RejectionCategory)}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select a reason..." />
@@ -84,12 +93,16 @@ export function RejectDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label>Notes (optional)</Label>
-            <Input
-              placeholder="Additional details..."
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
+            <Label>Details</Label>
+            <Textarea
+              placeholder="Provide detailed information about the rejection reason..."
+              value={details}
+              onChange={(e) => setDetails(e.target.value)}
+              rows={3}
             />
+            <p className="text-muted-foreground text-xs">
+              {details.trim().length}/{MIN_DETAILS_LENGTH} characters minimum
+            </p>
           </div>
         </div>
 
@@ -100,7 +113,7 @@ export function RejectDialog({
           <Button
             variant="destructive"
             onClick={handleSubmit}
-            disabled={!category || isSubmitting}
+            disabled={!isValid || isSubmitting}
           >
             {isSubmitting && <Loader2 className="animate-spin" />}
             Reject

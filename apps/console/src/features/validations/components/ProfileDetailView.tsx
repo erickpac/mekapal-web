@@ -14,6 +14,18 @@ interface ProfileDetailViewProps {
   onDone: () => void
 }
 
+function collectDocuments(data: {
+  licenseFrontPhotoUrl: string | null
+  licenseBackPhotoUrl: string | null
+  idPhotoUrl: string | null
+}): string[] {
+  return [
+    data.licenseFrontPhotoUrl,
+    data.licenseBackPhotoUrl,
+    data.idPhotoUrl,
+  ].filter((url): url is string => url !== null)
+}
+
 export function ProfileDetailView({ id, onDone }: ProfileDetailViewProps) {
   const { data, isLoading } = useProfileDetail(id)
   const approve = useApproveProfile()
@@ -31,7 +43,9 @@ export function ProfileDetailView({ id, onDone }: ProfileDetailViewProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">{data.name}</h2>
+        <h2 className="text-lg font-semibold">
+          {data.user.firstName} {data.user.lastName}
+        </h2>
         <Badge variant="secondary">{data.status}</Badge>
       </div>
 
@@ -42,24 +56,42 @@ export function ProfileDetailView({ id, onDone }: ProfileDetailViewProps) {
         <CardContent>
           <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
             <dt className="text-muted-foreground">Email</dt>
-            <dd>{data.email}</dd>
+            <dd>{data.user.email}</dd>
             <dt className="text-muted-foreground">Phone</dt>
-            <dd>{data.phone}</dd>
-            <dt className="text-muted-foreground">DPI</dt>
-            <dd>{data.dpi}</dd>
-            <dt className="text-muted-foreground">Submitted</dt>
-            <dd>{new Date(data.submittedAt).toLocaleDateString('es-GT')}</dd>
+            <dd>{data.user.phone ?? '—'}</dd>
+            <dt className="text-muted-foreground">License Number</dt>
+            <dd>{data.licenseNumber}</dd>
+            {data.licenseExpiration && (
+              <>
+                <dt className="text-muted-foreground">License Expiration</dt>
+                <dd>
+                  {new Date(data.licenseExpiration).toLocaleDateString('es-GT')}
+                </dd>
+              </>
+            )}
+            <dt className="text-muted-foreground">City</dt>
+            <dd>{data.city}</dd>
+            <dt className="text-muted-foreground">State</dt>
+            <dd>{data.state}</dd>
+            {data.address && (
+              <>
+                <dt className="text-muted-foreground">Address</dt>
+                <dd>{data.address}</dd>
+              </>
+            )}
           </dl>
         </CardContent>
       </Card>
 
-      <DocumentViewer images={data.documents} />
+      <DocumentViewer images={collectDocuments(data)} />
 
-      {data.status === 'pending' && (
+      {data.status === 'PENDING_REVIEW' && (
         <ApprovalForm
-          onApprove={() => approve.mutate(id, { onSuccess: onDone })}
-          onReject={(reason) =>
-            reject.mutate({ id, reason }, { onSuccess: onDone })
+          onApprove={() =>
+            approve.mutate({ id }, { onSuccess: onDone })
+          }
+          onReject={(payload) =>
+            reject.mutate({ id, payload }, { onSuccess: onDone })
           }
           isApproving={approve.isPending}
           isRejecting={reject.isPending}

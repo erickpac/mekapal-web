@@ -34,8 +34,8 @@ export function ValidationFilters({
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="all">All types</SelectItem>
-          <SelectItem value="profile">Profile</SelectItem>
-          <SelectItem value="vehicle">Vehicle</SelectItem>
+          <SelectItem value="VEHICLE">Vehicle</SelectItem>
+          <SelectItem value="TRANSPORTER_PROFILE">Profile</SelectItem>
         </SelectContent>
       </Select>
 

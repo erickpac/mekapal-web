@@ -1,97 +1,146 @@
 import { apiClient } from '@/shared/api/client'
-import type { PaginatedQuery } from '@/shared/types'
 
-export type ValidationType = 'profile' | 'vehicle'
-export type ValidationStatus = 'pending' | 'approved' | 'rejected'
+export type ValidationType = 'VEHICLE' | 'TRANSPORTER_PROFILE'
+
+export interface ValidationTransporter {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string | null
+}
 
 export interface ValidationItem {
   id: string
   type: ValidationType
-  name: string
-  submittedAt: string
-  status: ValidationStatus
+  transporter: ValidationTransporter
+  createdAt: string
+  summary: Record<string, unknown>
 }
 
-export interface ValidationFilters extends PaginatedQuery {
+export interface ValidationPagination {
+  page: number
+  limit: number
+  total: number
+  totalPages: number
+}
+
+export interface PaginatedValidations {
+  data: ValidationItem[]
+  pagination: ValidationPagination
+}
+
+export interface ValidationFilters {
   type?: ValidationType
   search?: string
+  sort?: 'recent' | 'oldest' | 'priority'
+  page?: number
+  limit?: number
 }
 
 export interface VehicleDetail {
   id: string
-  plate: string
+  userId: string
   brand: string
   model: string
   year: number
+  licensePlate: string
+  vin: string
   color: string
-  type: string
-  status: ValidationStatus
-  photos: string[]
-  submittedAt: string
-  transporterName: string
+  vehicleType: string
+  loadType: string
+  maxWeightKg: number
+  maxVolumeM3: number
+  frontPhotoUrl: string | null
+  rearPhotoUrl: string | null
+  sidePhotoUrl: string | null
+  interiorPhotoUrl: string | null
+  registrationDocUrl: string | null
+  insuranceDocUrl: string | null
+  insuranceExpiration: string | null
+  status: string
+  user: ValidationTransporter
 }
 
 export interface ProfileDetail {
   id: string
-  name: string
-  email: string
-  phone: string
-  dpi: string
-  status: ValidationStatus
-  documents: string[]
-  submittedAt: string
+  userId: string
+  licenseNumber: string
+  licenseExpiration: string | null
+  licenseFrontPhotoUrl: string | null
+  licenseBackPhotoUrl: string | null
+  idPhotoUrl: string | null
+  address: string | null
+  city: string
+  state: string
+  status: string
+  user: ValidationTransporter
 }
 
-export interface RejectionReason {
-  category:
-    | 'poor_quality_photo'
-    | 'expired_document'
-    | 'info_mismatch'
-    | 'other'
-  notes?: string
+export type RejectionCategory =
+  | 'POOR_QUALITY_PHOTOS'
+  | 'EXPIRED_DOCUMENTS'
+  | 'INFORMATION_MISMATCH'
+  | 'ADDITIONAL_DOCUMENTATION_REQUIRED'
+  | 'OTHER'
+
+export interface RejectValidationData {
+  category: RejectionCategory
+  details: string
+}
+
+export interface ApproveValidationData {
+  checklist?: Record<string, boolean>
 }
 
 export async function getValidations(
   filters: ValidationFilters,
-): Promise<ValidationItem[]> {
-  const { data } = await apiClient.get<ValidationItem[]>('/validations', {
-    params: filters,
-  })
+): Promise<PaginatedValidations> {
+  const { data } = await apiClient.get<PaginatedValidations>(
+    '/backoffice/validations',
+    { params: filters },
+  )
   return data
 }
 
 export async function getVehicleDetail(id: string): Promise<VehicleDetail> {
   const { data } = await apiClient.get<VehicleDetail>(
-    `/validations/vehicles/${id}`,
+    `/backoffice/validations/vehicle/${id}`,
   )
   return data
 }
 
 export async function getProfileDetail(id: string): Promise<ProfileDetail> {
   const { data } = await apiClient.get<ProfileDetail>(
-    `/validations/profiles/${id}`,
+    `/backoffice/validations/profile/${id}`,
   )
   return data
 }
 
-export async function approveVehicle(id: string): Promise<void> {
-  await apiClient.post(`/validations/vehicles/${id}/approve`)
+export async function approveVehicle(
+  id: string,
+  payload?: ApproveValidationData,
+): Promise<void> {
+  await apiClient.post(`/backoffice/validations/vehicle/${id}/approve`, payload)
 }
 
 export async function rejectVehicle(
   id: string,
-  reason: RejectionReason,
+  payload: RejectValidationData,
 ): Promise<void> {
-  await apiClient.post(`/validations/vehicles/${id}/reject`, reason)
+  await apiClient.post(`/backoffice/validations/vehicle/${id}/reject`, payload)
 }
 
-export async function approveProfile(id: string): Promise<void> {
-  await apiClient.post(`/validations/profiles/${id}/approve`)
+export async function approveProfile(
+  id: string,
+  payload?: ApproveValidationData,
+): Promise<void> {
+  await apiClient.post(`/backoffice/validations/profile/${id}/approve`, payload)
 }
 
 export async function rejectProfile(
   id: string,
-  reason: RejectionReason,
+  payload: RejectValidationData,
 ): Promise<void> {
-  await apiClient.post(`/validations/profiles/${id}/reject`, reason)
+  await apiClient.post(`/backoffice/validations/profile/${id}/reject`, payload)
 }

@@ -1,13 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import type {
   ValidationItem,
   ValidationType,
 } from '@/features/validations/api/validations.api'
-import { Pagination } from '@/features/validations/components/Pagination'
 import { ProfileDetailView } from '@/features/validations/components/ProfileDetailView'
 import { ValidationFilters } from '@/features/validations/components/ValidationFilters'
 import { ValidationsTable } from '@/features/validations/components/ValidationsTable'
@@ -23,7 +22,7 @@ const LIMIT = 20
 function ValidationsPage() {
   const [type, setType] = useState<ValidationType>()
   const [search, setSearch] = useState('')
-  const [offset, setOffset] = useState(0)
+  const [page, setPage] = useState(1)
 
   const [selected, setSelected] = useState<ValidationItem | null>(null)
 
@@ -31,8 +30,11 @@ function ValidationsPage() {
     type,
     search: search || undefined,
     limit: LIMIT,
-    offset,
+    page,
   })
+
+  const items = data?.data ?? []
+  const pagination = data?.pagination
 
   if (selected) {
     return (
@@ -42,7 +44,7 @@ function ValidationsPage() {
           Back to list
         </Button>
 
-        {selected.type === 'vehicle' ? (
+        {selected.type === 'VEHICLE' ? (
           <VehicleDetailView
             id={selected.id}
             onDone={() => setSelected(null)}
@@ -66,27 +68,47 @@ function ValidationsPage() {
         search={search}
         onTypeChange={(t) => {
           setType(t)
-          setOffset(0)
+          setPage(1)
         }}
         onSearchChange={(s) => {
           setSearch(s)
-          setOffset(0)
+          setPage(1)
         }}
       />
 
       <ValidationsTable
-        data={data ?? []}
+        data={items}
         loading={isLoading}
         onRowClick={setSelected}
       />
 
-      {data && (
-        <Pagination
-          offset={offset}
-          limit={LIMIT}
-          count={data.length}
-          onOffsetChange={setOffset}
-        />
+      {pagination && (
+        <div className="flex items-center justify-between">
+          <p className="text-muted-foreground text-sm">
+            {pagination.total} result{pagination.total !== 1 ? 's' : ''}
+          </p>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="icon-sm"
+              disabled={page <= 1}
+              onClick={() => setPage((p) => p - 1)}
+            >
+              <ChevronLeft className="size-4" />
+            </Button>
+            <span className="text-sm">
+              Page {page} of {pagination.totalPages}
+            </span>
+            <Button
+              variant="outline"
+              size="icon-sm"
+              disabled={page >= pagination.totalPages}
+              onClick={() => setPage((p) => p + 1)}
+            >
+              <ChevronRight className="size-4" />
+            </Button>
+          </div>
+        </div>
       )}
     </div>
   )

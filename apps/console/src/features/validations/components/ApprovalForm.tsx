@@ -3,11 +3,11 @@ import { CheckCircle, XCircle } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { RejectDialog } from './RejectDialog'
-import type { RejectionReason } from '../api/validations.api'
+import type { RejectValidationData } from '../api/validations.api'
 
 interface ApprovalFormProps {
   onApprove: () => void
-  onReject: (reason: RejectionReason) => void
+  onReject: (payload: RejectValidationData) => void
   isApproving?: boolean
   isRejecting?: boolean
 }
@@ -42,8 +42,8 @@ export function ApprovalForm({
       <RejectDialog
         open={rejectOpen}
         onOpenChange={setRejectOpen}
-        onSubmit={(reason) => {
-          onReject(reason)
+        onSubmit={(payload) => {
+          onReject(payload)
           setRejectOpen(false)
         }}
         isSubmitting={isRejecting}

@@ -8,15 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import type { ValidationItem, ValidationStatus } from '../api/validations.api'
+import type { ValidationItem, ValidationType } from '../api/validations.api'
 
-const statusVariant: Record<
-  ValidationStatus,
-  'default' | 'secondary' | 'destructive' | 'outline'
-> = {
-  pending: 'secondary',
-  approved: 'default',
-  rejected: 'destructive',
+const typeLabels: Record<ValidationType, string> = {
+  VEHICLE: 'Vehicle',
+  TRANSPORTER_PROFILE: 'Profile',
 }
 
 interface ValidationsTableProps {
@@ -35,9 +31,9 @@ export function ValidationsTable({
       <TableHeader>
         <TableRow>
           <TableHead>Type</TableHead>
-          <TableHead>Name</TableHead>
+          <TableHead>Transporter</TableHead>
+          <TableHead>Summary</TableHead>
           <TableHead>Date Submitted</TableHead>
-          <TableHead>Status</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -51,10 +47,10 @@ export function ValidationsTable({
                   <Skeleton className="h-4 w-32" />
                 </TableCell>
                 <TableCell>
-                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-4 w-40" />
                 </TableCell>
                 <TableCell>
-                  <Skeleton className="h-4 w-20" />
+                  <Skeleton className="h-4 w-24" />
                 </TableCell>
               </TableRow>
             ))
@@ -65,18 +61,16 @@ export function ValidationsTable({
                 onClick={() => onRowClick(item)}
               >
                 <TableCell>
-                  <Badge variant="outline" className="capitalize">
-                    {item.type}
-                  </Badge>
+                  <Badge variant="outline">{typeLabels[item.type]}</Badge>
                 </TableCell>
-                <TableCell className="font-medium">{item.name}</TableCell>
-                <TableCell>
-                  {new Date(item.submittedAt).toLocaleDateString('es-GT')}
+                <TableCell className="font-medium">
+                  {item.transporter.firstName} {item.transporter.lastName}
+                </TableCell>
+                <TableCell className="text-muted-foreground text-sm">
+                  {formatSummary(item)}
                 </TableCell>
                 <TableCell>
-                  <Badge variant={statusVariant[item.status]}>
-                    {item.status}
-                  </Badge>
+                  {new Date(item.createdAt).toLocaleDateString('es-GT')}
                 </TableCell>
               </TableRow>
             ))}
@@ -93,4 +87,12 @@ export function ValidationsTable({
       </TableBody>
     </Table>
   )
+}
+
+function formatSummary(item: ValidationItem): string {
+  const s = item.summary
+  if (item.type === 'VEHICLE') {
+    return [s.brand, s.model, s.year, s.licensePlate].filter(Boolean).join(' · ')
+  }
+  return [s.licenseNumber, s.city, s.state].filter(Boolean).join(' · ')
 }
