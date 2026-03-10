@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { formatDate } from '@/shared/utils/format'
 import type { UserListItem } from '../api/users.api'
 
 interface UsersTableProps {
@@ -65,7 +66,7 @@ export function UsersTable({ data, loading }: UsersTableProps) {
                 </TableCell>
                 <TableCell>{user.companyName ?? '—'}</TableCell>
                 <TableCell>
-                  {new Date(user.createdAt).toLocaleDateString('es-GT')}
+                  {formatDate(user.createdAt)}
                 </TableCell>
               </TableRow>
             ))}

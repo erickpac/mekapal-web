@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { formatDate } from '@/shared/utils/format'
 import type { ValidationItem, ValidationType } from '../api/validations.api'
 
 const typeLabels: Record<ValidationType, string> = {
@@ -70,7 +71,7 @@ export function ValidationsTable({
                   {formatSummary(item)}
                 </TableCell>
                 <TableCell>
-                  {new Date(item.createdAt).toLocaleDateString('es-GT')}
+                  {formatDate(item.createdAt)}
                 </TableCell>
               </TableRow>
             ))}

@@ -6,6 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import { DocumentViewer } from '@/features/validations/components/DocumentViewer'
 import type { IncidentSeverity } from '@/shared/types'
+import { formatCurrency, formatDate } from '@/shared/utils/format'
 import {
   useIncident,
   useResolveIncident,
@@ -87,7 +88,7 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
                 </>
               )}
               <dt className="text-muted-foreground">Created</dt>
-              <dd>{new Date(data.createdAt).toLocaleDateString('es-GT')}</dd>
+              <dd>{formatDate(data.createdAt)}</dd>
             </dl>
           </CardContent>
         </Card>
@@ -106,19 +107,14 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
                 {data.refundAmount != null && (
                   <>
                     <dt className="text-muted-foreground">Refund Amount</dt>
-                    <dd>
-                      Q
-                      {data.refundAmount.toLocaleString('es-GT', {
-                        minimumFractionDigits: 2,
-                      })}
-                    </dd>
+                    <dd>{formatCurrency(data.refundAmount)}</dd>
                   </>
                 )}
                 {data.resolvedAt && (
                   <>
                     <dt className="text-muted-foreground">Resolved At</dt>
                     <dd>
-                      {new Date(data.resolvedAt).toLocaleDateString('es-GT')}
+                      {formatDate(data.resolvedAt)}
                     </dd>
                   </>
                 )}

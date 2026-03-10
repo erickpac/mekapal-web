@@ -1,9 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { formatCurrency, formatNumber } from '@/shared/utils/format'
 import type { FinancialSummary } from '../api/reports.api'
-
-const Q = (v: number) =>
-  v.toLocaleString('es-GT', { style: 'currency', currency: 'GTQ' })
 
 interface FinancialSummaryCardsProps {
   data?: FinancialSummary
@@ -15,20 +13,29 @@ export function FinancialSummaryCards({
   loading,
 }: FinancialSummaryCardsProps) {
   const cards = [
-    { title: 'Total Revenue', value: data ? Q(data.totalRevenue) : '' },
-    { title: 'Total Commissions', value: data ? Q(data.totalCommissions) : '' },
-    { title: 'Total Taxes', value: data ? Q(data.totalTaxes) : '' },
+    {
+      title: 'Total Revenue',
+      value: data ? formatCurrency(data.totalRevenue) : '',
+    },
+    {
+      title: 'Total Commissions',
+      value: data ? formatCurrency(data.totalCommissions) : '',
+    },
+    {
+      title: 'Total Taxes',
+      value: data ? formatCurrency(data.totalTaxes) : '',
+    },
     {
       title: 'Completed Transactions',
-      value: data?.completedTransactions.toLocaleString('es-GT'),
+      value: data ? formatNumber(data.completedTransactions) : undefined,
     },
     {
       title: 'Pending Payments',
-      value: data ? Q(data.pendingPayments) : '',
+      value: data ? formatCurrency(data.pendingPayments) : '',
     },
     {
       title: 'Pending Payments Count',
-      value: data?.pendingPaymentsCount.toLocaleString('es-GT'),
+      value: data ? formatNumber(data.pendingPaymentsCount) : undefined,
     },
   ]
 

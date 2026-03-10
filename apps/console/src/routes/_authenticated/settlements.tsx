@@ -16,14 +16,11 @@ import {
   useSettlement,
   useSettlements,
 } from '@/features/settlements/hooks/useSettlements'
+import { formatCurrency, formatDate } from '@/shared/utils/format'
 
 export const Route = createFileRoute('/_authenticated/settlements')({
   component: SettlementsPage,
 })
-
-function formatQ(value: number) {
-  return `Q${value.toLocaleString('es-GT', { minimumFractionDigits: 2 })}`
-}
 
 function SettlementsPage() {
   const [status, setStatus] = useState<SettlementStatus>()
@@ -111,11 +108,9 @@ function SettlementDetailView({
                 <dt className="text-muted-foreground">Transporter ID</dt>
                 <dd className="font-mono text-xs">{data.transporterId}</dd>
                 <dt className="text-muted-foreground">Amount</dt>
-                <dd className="font-medium">{formatQ(data.amount)}</dd>
+                <dd className="font-medium">{formatCurrency(data.amount)}</dd>
                 <dt className="text-muted-foreground">Created</dt>
-                <dd>
-                  {new Date(data.createdAt).toLocaleDateString('es-GT')}
-                </dd>
+                <dd>{formatDate(data.createdAt)}</dd>
               </dl>
             </CardContent>
           </Card>
@@ -130,11 +125,7 @@ function SettlementDetailView({
                   {data.transferDate && (
                     <>
                       <dt className="text-muted-foreground">Transfer Date</dt>
-                      <dd>
-                        {new Date(data.transferDate).toLocaleDateString(
-                          'es-GT',
-                        )}
-                      </dd>
+                      <dd>{formatDate(data.transferDate)}</dd>
                     </>
                   )}
                   {data.transactionNumber && (
@@ -157,7 +148,7 @@ function SettlementDetailView({
                     <>
                       <dt className="text-muted-foreground">Paid At</dt>
                       <dd>
-                        {new Date(data.paidAt).toLocaleDateString('es-GT')}
+                        {formatDate(data.paidAt)}
                       </dd>
                     </>
                   )}

@@ -8,11 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { formatCurrency, formatDate } from '@/shared/utils/format'
 import type { Settlement } from '../api/settlements.api'
-
-function formatQ(value: number) {
-  return `Q${value.toLocaleString('es-GT', { minimumFractionDigits: 2 })}`
-}
 
 interface SettlementsTableProps {
   data: Settlement[]
@@ -60,7 +57,7 @@ export function SettlementsTable({
                   {item.orderId.slice(0, 8)}…
                 </TableCell>
                 <TableCell className="text-right font-medium">
-                  {formatQ(item.amount)}
+                  {formatCurrency(item.amount)}
                 </TableCell>
                 <TableCell>
                   <Badge
@@ -70,7 +67,7 @@ export function SettlementsTable({
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  {new Date(item.createdAt).toLocaleDateString('es-GT')}
+                  {formatDate(item.createdAt)}
                 </TableCell>
               </TableRow>
             ))}

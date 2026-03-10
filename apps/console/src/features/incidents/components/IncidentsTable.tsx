@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
 import type { IncidentSeverity, IncidentStatus } from '@/shared/types'
+import { formatDate } from '@/shared/utils/format'
 import type { Incident } from '../api/incidents.api'
 
 const severityColors: Record<IncidentSeverity, string> = {
@@ -95,7 +96,7 @@ export function IncidentsTable({
                   {item.description}
                 </TableCell>
                 <TableCell>
-                  {new Date(item.createdAt).toLocaleDateString('es-GT')}
+                  {formatDate(item.createdAt)}
                 </TableCell>
               </TableRow>
             ))}

@@ -9,6 +9,7 @@ import {
 } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { formatCurrency, formatDate } from '@/shared/utils/format'
 import type { RevenueByDay } from '../api/dashboard.api'
 
 interface RevenueChartProps {
@@ -33,21 +34,16 @@ export function RevenueChart({ data, loading }: RevenueChartProps) {
                 dataKey="date"
                 tick={{ fontSize: 12 }}
                 tickFormatter={(v: string) =>
-                  new Date(v).toLocaleDateString('es-GT', {
-                    day: '2-digit',
-                    month: 'short',
-                  })
+                  formatDate(v, { day: '2-digit', month: 'short' })
                 }
               />
               <YAxis tick={{ fontSize: 12 }} />
               <Tooltip
                 formatter={(value) => [
-                  `Q${Number(value).toLocaleString()}`,
+                  formatCurrency(Number(value)),
                   'Revenue',
                 ]}
-                labelFormatter={(label) =>
-                  new Date(String(label)).toLocaleDateString('es-GT')
-                }
+                labelFormatter={(label) => formatDate(String(label))}
               />
               <Line
                 type="monotone"

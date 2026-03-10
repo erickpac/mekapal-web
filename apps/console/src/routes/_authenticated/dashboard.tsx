@@ -9,6 +9,7 @@ import {
   Users,
 } from 'lucide-react'
 
+import { formatCurrency } from '@/shared/utils/format'
 import { DateRangePicker } from '@/features/dashboard/components/DateRangePicker'
 import { KpiCard } from '@/features/dashboard/components/KpiCard'
 import { RevenueByLoadTypeChart } from '@/features/dashboard/components/OrdersByLoadTypeChart'
@@ -28,10 +29,6 @@ function getDefaultDateRange() {
     start: start.toISOString().split('T')[0],
     end: end.toISOString().split('T')[0],
   }
-}
-
-function formatCurrency(value: number) {
-  return `Q${value.toLocaleString('es-GT', { minimumFractionDigits: 2 })}`
 }
 
 function DashboardPage() {

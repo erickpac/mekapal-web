@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { formatDate } from '@/shared/utils/format'
 import { ApprovalForm } from './ApprovalForm'
 import { DocumentViewer } from './DocumentViewer'
 import {
@@ -87,9 +88,7 @@ export function VehicleDetailView({ id, onDone }: VehicleDetailViewProps) {
               <>
                 <dt className="text-muted-foreground">Insurance Expiration</dt>
                 <dd>
-                  {new Date(data.insuranceExpiration).toLocaleDateString(
-                    'es-GT',
-                  )}
+                  {formatDate(data.insuranceExpiration)}
                 </dd>
               </>
             )}
