@@ -24,21 +24,21 @@ import type {
   LocationItem,
   LocationLevel,
 } from '@/features/locations/api/locations.api'
-import { DeleteLocationDialog } from '@/features/locations/components/DeleteLocationDialog'
 import { LocationFormDialog } from '@/features/locations/components/LocationFormDialog'
 import { LocationTable } from '@/features/locations/components/LocationTable'
+import { ToggleStatusDialog } from '@/features/locations/components/ToggleStatusDialog'
 import {
   useCountries,
   useCreateCountry,
   useCreateMunicipality,
   useCreateState,
   useCreateZone,
-  useDeleteCountry,
-  useDeleteMunicipality,
-  useDeleteState,
-  useDeleteZone,
   useMunicipalities,
   useStates,
+  useToggleCountryStatus,
+  useToggleMunicipalityStatus,
+  useToggleStateStatus,
+  useToggleZoneStatus,
   useUpdateCountry,
   useUpdateMunicipality,
   useUpdateState,
@@ -75,7 +75,7 @@ function LocationsPage() {
   const [path, setPath] = useState<BreadcrumbEntry[]>([])
   const [formOpen, setFormOpen] = useState(false)
   const [editItem, setEditItem] = useState<LocationItem | null>(null)
-  const [deleteTarget, setDeleteTarget] = useState<LocationItem | null>(null)
+  const [toggleTarget, setToggleTarget] = useState<LocationItem | null>(null)
 
   const currentLevel = getCurrentLevel(path)
   const parentId = path.length > 0 ? path[path.length - 1].id : ''
@@ -87,16 +87,16 @@ function LocationsPage() {
 
   const createCountry = useCreateCountry()
   const updateCountry = useUpdateCountry()
-  const deleteCountry = useDeleteCountry()
+  const toggleCountry = useToggleCountryStatus()
   const createState = useCreateState()
   const updateState = useUpdateState()
-  const deleteState = useDeleteState()
+  const toggleState = useToggleStateStatus()
   const createMunicipality = useCreateMunicipality()
   const updateMunicipality = useUpdateMunicipality()
-  const deleteMunicipality = useDeleteMunicipality()
+  const toggleMunicipality = useToggleMunicipalityStatus()
   const createZone = useCreateZone()
   const updateZone = useUpdateZone()
-  const deleteZone = useDeleteZone()
+  const toggleZone = useToggleZoneStatus()
 
   const { data, isLoading } = getQueryForLevel(currentLevel, {
     countries,
@@ -157,22 +157,22 @@ function LocationsPage() {
     }
   }
 
-  function handleDelete() {
-    if (!deleteTarget) return
-    const onSuccess = () => setDeleteTarget(null)
+  function handleToggleStatus() {
+    if (!toggleTarget) return
+    const onSuccess = () => setToggleTarget(null)
 
     switch (currentLevel) {
       case 'country':
-        deleteCountry.mutate([deleteTarget.id], { onSuccess })
+        toggleCountry.mutate([toggleTarget.id], { onSuccess })
         break
       case 'state':
-        deleteState.mutate([deleteTarget.id], { onSuccess })
+        toggleState.mutate([toggleTarget.id], { onSuccess })
         break
       case 'municipality':
-        deleteMunicipality.mutate([deleteTarget.id], { onSuccess })
+        toggleMunicipality.mutate([toggleTarget.id], { onSuccess })
         break
       case 'zone':
-        deleteZone.mutate([deleteTarget.id], { onSuccess })
+        toggleZone.mutate([toggleTarget.id], { onSuccess })
         break
     }
   }
@@ -187,11 +187,11 @@ function LocationsPage() {
     updateState.isPending ||
     updateMunicipality.isPending ||
     updateZone.isPending
-  const isDeleting =
-    deleteCountry.isPending ||
-    deleteState.isPending ||
-    deleteMunicipality.isPending ||
-    deleteZone.isPending
+  const isToggling =
+    toggleCountry.isPending ||
+    toggleState.isPending ||
+    toggleMunicipality.isPending ||
+    toggleZone.isPending
 
   return (
     <div className="space-y-6">
@@ -261,7 +261,7 @@ function LocationsPage() {
             hasChildren={hasChildren}
             onDrillDown={handleDrillDown}
             onEdit={(item) => setEditItem(item)}
-            onDelete={(item) => setDeleteTarget(item)}
+            onToggleStatus={(item) => setToggleTarget(item)}
           />
         </CardContent>
       </Card>
@@ -270,6 +270,7 @@ function LocationsPage() {
         open={formOpen}
         onOpenChange={setFormOpen}
         levelLabel={LEVEL_LABELS[currentLevel]}
+        showCoordinates={currentLevel === 'zone'}
         onSubmit={handleCreate}
         isSubmitting={isCreating}
       />
@@ -278,18 +279,20 @@ function LocationsPage() {
         open={!!editItem}
         onOpenChange={(open) => !open && setEditItem(null)}
         levelLabel={LEVEL_LABELS[currentLevel]}
+        showCoordinates={currentLevel === 'zone'}
         item={editItem}
         onSubmit={handleUpdate}
         isSubmitting={isUpdating}
       />
 
-      <DeleteLocationDialog
-        open={!!deleteTarget}
-        onOpenChange={(open) => !open && setDeleteTarget(null)}
+      <ToggleStatusDialog
+        open={!!toggleTarget}
+        onOpenChange={(open) => !open && setToggleTarget(null)}
         levelLabel={LEVEL_LABELS[currentLevel]}
-        itemName={deleteTarget?.name ?? ''}
-        onConfirm={handleDelete}
-        isDeleting={isDeleting}
+        itemName={toggleTarget?.name ?? ''}
+        isActive={toggleTarget?.isActive ?? true}
+        onConfirm={handleToggleStatus}
+        isPending={isToggling}
       />
     </div>
   )

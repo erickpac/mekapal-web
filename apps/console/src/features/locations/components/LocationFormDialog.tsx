@@ -17,7 +17,9 @@ import type { LocationItem } from '../api/locations.api'
 
 const locationSchema = z.object({
   name: z.string().min(1, 'Name is required'),
-  active: z.boolean(),
+  code: z.string().min(1, 'Code is required'),
+  latitude: z.coerce.number().optional(),
+  longitude: z.coerce.number().optional(),
 })
 
 type LocationFormValues = z.infer<typeof locationSchema>
@@ -26,6 +28,7 @@ interface LocationFormDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   levelLabel: string
+  showCoordinates?: boolean
   item?: LocationItem | null
   onSubmit: (data: LocationFormValues) => void
   isSubmitting?: boolean
@@ -35,6 +38,7 @@ export function LocationFormDialog({
   open,
   onOpenChange,
   levelLabel,
+  showCoordinates,
   item,
   onSubmit,
   isSubmitting,
@@ -44,22 +48,29 @@ export function LocationFormDialog({
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     reset,
     formState: { errors },
   } = useForm<LocationFormValues>({
     resolver: zodResolver(locationSchema),
-    defaultValues: { name: '', active: true },
+    defaultValues: { name: '', code: '' },
   })
-
-  const active = watch('active')
 
   useEffect(() => {
     if (item) {
-      reset({ name: item.name, active: item.active })
+      reset({
+        name: item.name,
+        code: item.code,
+        latitude:
+          'latitude' in item && item.latitude != null
+            ? (item.latitude as number)
+            : undefined,
+        longitude:
+          'longitude' in item && item.longitude != null
+            ? (item.longitude as number)
+            : undefined,
+      })
     } else {
-      reset({ name: '', active: true })
+      reset({ name: '', code: '' })
     }
   }, [item, reset])
 
@@ -84,24 +95,36 @@ export function LocationFormDialog({
             )}
           </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              role="switch"
-              aria-checked={active}
-              onClick={() => setValue('active', !active)}
-              className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${
-                active ? 'bg-primary' : 'bg-input'
-              }`}
-            >
-              <span
-                className={`pointer-events-none block size-4 rounded-full bg-white shadow-sm transition-transform ${
-                  active ? 'translate-x-4' : 'translate-x-0'
-                }`}
-              />
-            </button>
-            <Label>{active ? 'Active' : 'Inactive'}</Label>
+          <div className="grid gap-2">
+            <Label htmlFor="loc-code">Code</Label>
+            <Input id="loc-code" {...register('code')} />
+            {errors.code && (
+              <p className="text-destructive text-sm">{errors.code.message}</p>
+            )}
           </div>
+
+          {showCoordinates && (
+            <>
+              <div className="grid gap-2">
+                <Label htmlFor="loc-lat">Latitude</Label>
+                <Input
+                  id="loc-lat"
+                  type="number"
+                  step="any"
+                  {...register('latitude')}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="loc-lng">Longitude</Label>
+                <Input
+                  id="loc-lng"
+                  type="number"
+                  step="any"
+                  {...register('longitude')}
+                />
+              </div>
+            </>
+          )}
 
           <DialogFooter>
             <Button

@@ -9,31 +9,37 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 
-interface DeleteLocationDialogProps {
+interface ToggleStatusDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   levelLabel: string
   itemName: string
+  isActive: boolean
   onConfirm: () => void
-  isDeleting?: boolean
+  isPending?: boolean
 }
 
-export function DeleteLocationDialog({
+export function ToggleStatusDialog({
   open,
   onOpenChange,
   levelLabel,
   itemName,
+  isActive,
   onConfirm,
-  isDeleting,
-}: DeleteLocationDialogProps) {
+  isPending,
+}: ToggleStatusDialogProps) {
+  const action = isActive ? 'Deactivate' : 'Activate'
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>Delete {levelLabel}</DialogTitle>
+          <DialogTitle>
+            {action} {levelLabel}
+          </DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete <strong>{itemName}</strong>? This
-            action cannot be undone.
+            Are you sure you want to {action.toLowerCase()}{' '}
+            <strong>{itemName}</strong>?
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -41,12 +47,12 @@ export function DeleteLocationDialog({
             Cancel
           </Button>
           <Button
-            variant="destructive"
+            variant={isActive ? 'destructive' : 'default'}
             onClick={onConfirm}
-            disabled={isDeleting}
+            disabled={isPending}
           >
-            {isDeleting && <Loader2 className="animate-spin" />}
-            Delete
+            {isPending && <Loader2 className="animate-spin" />}
+            {action}
           </Button>
         </DialogFooter>
       </DialogContent>

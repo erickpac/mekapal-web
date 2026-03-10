@@ -6,7 +6,7 @@ import * as api from '../api/locations.api'
 export function useCountries() {
   return useQuery({
     queryKey: ['locations', 'countries'],
-    queryFn: api.getCountries,
+    queryFn: () => api.getCountries(),
   })
 }
 
@@ -52,6 +52,8 @@ function useLocationMutation<TArgs extends unknown[]>(
   })
 }
 
+// --- Countries ---
+
 export function useCreateCountry() {
   return useLocationMutation(
     (data: LocationFormData) => api.createCountry(data),
@@ -68,18 +70,20 @@ export function useUpdateCountry() {
   )
 }
 
-export function useDeleteCountry() {
+export function useToggleCountryStatus() {
   return useLocationMutation(
-    (id: string) => api.deleteCountry(id),
-    'Country deleted',
-    'Failed to delete country',
+    (id: string) => api.toggleCountryStatus(id),
+    'Country status updated',
+    'Failed to update country status',
   )
 }
+
+// --- States ---
 
 export function useCreateState() {
   return useLocationMutation(
     (countryId: string, data: LocationFormData) =>
-      api.createState(countryId, data),
+      api.createState({ ...data, countryId }),
     'State created',
     'Failed to create state',
   )
@@ -93,18 +97,20 @@ export function useUpdateState() {
   )
 }
 
-export function useDeleteState() {
+export function useToggleStateStatus() {
   return useLocationMutation(
-    (id: string) => api.deleteState(id),
-    'State deleted',
-    'Failed to delete state',
+    (id: string) => api.toggleStateStatus(id),
+    'State status updated',
+    'Failed to update state status',
   )
 }
+
+// --- Municipalities ---
 
 export function useCreateMunicipality() {
   return useLocationMutation(
     (stateId: string, data: LocationFormData) =>
-      api.createMunicipality(stateId, data),
+      api.createMunicipality({ ...data, stateId }),
     'Municipality created',
     'Failed to create municipality',
   )
@@ -118,18 +124,20 @@ export function useUpdateMunicipality() {
   )
 }
 
-export function useDeleteMunicipality() {
+export function useToggleMunicipalityStatus() {
   return useLocationMutation(
-    (id: string) => api.deleteMunicipality(id),
-    'Municipality deleted',
-    'Failed to delete municipality',
+    (id: string) => api.toggleMunicipalityStatus(id),
+    'Municipality status updated',
+    'Failed to update municipality status',
   )
 }
+
+// --- Zones ---
 
 export function useCreateZone() {
   return useLocationMutation(
     (municipalityId: string, data: LocationFormData) =>
-      api.createZone(municipalityId, data),
+      api.createZone({ ...data, municipalityId }),
     'Zone created',
     'Failed to create zone',
   )
@@ -143,10 +151,10 @@ export function useUpdateZone() {
   )
 }
 
-export function useDeleteZone() {
+export function useToggleZoneStatus() {
   return useLocationMutation(
-    (id: string) => api.deleteZone(id),
-    'Zone deleted',
-    'Failed to delete zone',
+    (id: string) => api.toggleZoneStatus(id),
+    'Zone status updated',
+    'Failed to update zone status',
   )
 }

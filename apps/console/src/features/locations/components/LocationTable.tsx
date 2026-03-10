@@ -1,4 +1,4 @@
-import { ChevronRight, Pencil, Trash2 } from 'lucide-react'
+import { ChevronRight, Pencil, Power } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -18,7 +18,7 @@ interface LocationTableProps {
   hasChildren?: boolean
   onDrillDown?: (item: LocationItem) => void
   onEdit: (item: LocationItem) => void
-  onDelete: (item: LocationItem) => void
+  onToggleStatus: (item: LocationItem) => void
 }
 
 export function LocationTable({
@@ -27,13 +27,14 @@ export function LocationTable({
   hasChildren,
   onDrillDown,
   onEdit,
-  onDelete,
+  onToggleStatus,
 }: LocationTableProps) {
   return (
     <Table>
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
+          <TableHead>Code</TableHead>
           <TableHead>Status</TableHead>
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
@@ -42,7 +43,7 @@ export function LocationTable({
         {loading
           ? Array.from({ length: 3 }).map((_, i) => (
               <TableRow key={i}>
-                {Array.from({ length: 3 }).map((_, j) => (
+                {Array.from({ length: 4 }).map((_, j) => (
                   <TableCell key={j}>
                     <Skeleton className="h-4 w-20" />
                   </TableCell>
@@ -56,9 +57,12 @@ export function LocationTable({
                 onClick={() => hasChildren && onDrillDown?.(item)}
               >
                 <TableCell className="font-medium">{item.name}</TableCell>
+                <TableCell className="text-muted-foreground">
+                  {item.code}
+                </TableCell>
                 <TableCell>
-                  <Badge variant={item.active ? 'default' : 'secondary'}>
-                    {item.active ? 'Active' : 'Inactive'}
+                  <Badge variant={item.isActive ? 'default' : 'secondary'}>
+                    {item.isActive ? 'Active' : 'Inactive'}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
@@ -78,10 +82,10 @@ export function LocationTable({
                       size="icon-sm"
                       onClick={(e) => {
                         e.stopPropagation()
-                        onDelete(item)
+                        onToggleStatus(item)
                       }}
                     >
-                      <Trash2 className="size-3.5" />
+                      <Power className="size-3.5" />
                     </Button>
                     {hasChildren && (
                       <ChevronRight className="text-muted-foreground ml-1 size-4 self-center" />
@@ -93,7 +97,7 @@ export function LocationTable({
         {!loading && data.length === 0 && (
           <TableRow>
             <TableCell
-              colSpan={3}
+              colSpan={4}
               className="text-muted-foreground text-center"
             >
               No items found.
