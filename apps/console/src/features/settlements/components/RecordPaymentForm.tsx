@@ -14,21 +14,17 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import type { BankAccount, RecordPaymentData } from '../api/settlements.api'
+import type { RecordPaymentData } from '../api/settlements.api'
 
 const paymentSchema = z.object({
   transferDate: z.string().min(1, 'Transfer date is required'),
-  transferAmount: z.number().positive('Amount must be positive'),
-  transactionNumber: z.string().min(1, 'Transaction number is required'),
-  bankAccountId: z.string().min(1, 'Bank account is required'),
-  comments: z.string().optional(),
+  transactionNumber: z
+    .string()
+    .min(1, 'Transaction number is required')
+    .max(100),
+  comment: z.string().max(500).optional(),
+  screenshotUrl: z.string().url().optional().or(z.literal('')),
+  bankAccountId: z.string().optional(),
 })
 
 type PaymentFormValues = z.infer<typeof paymentSchema>
@@ -36,7 +32,6 @@ type PaymentFormValues = z.infer<typeof paymentSchema>
 interface RecordPaymentFormProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  bankAccounts: BankAccount[]
   onSubmit: (data: RecordPaymentData) => void
   isSubmitting?: boolean
 }
@@ -44,27 +39,25 @@ interface RecordPaymentFormProps {
 export function RecordPaymentForm({
   open,
   onOpenChange,
-  bankAccounts,
   onSubmit,
   isSubmitting,
 }: RecordPaymentFormProps) {
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     reset,
     formState: { errors },
   } = useForm<PaymentFormValues>({
     resolver: zodResolver(paymentSchema),
   })
 
-  const bankAccountId = watch('bankAccountId')
-
   const handleFormSubmit = (values: PaymentFormValues) => {
     onSubmit({
-      ...values,
-      comments: values.comments?.trim() || undefined,
+      transferDate: values.transferDate,
+      transactionNumber: values.transactionNumber,
+      comment: values.comment?.trim() || undefined,
+      screenshotUrl: values.screenshotUrl?.trim() || undefined,
+      bankAccountId: values.bankAccountId?.trim() || undefined,
     })
     reset()
   }
@@ -98,21 +91,6 @@ export function RecordPaymentForm({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="transferAmount">Transfer Amount (Q)</Label>
-            <Input
-              id="transferAmount"
-              type="number"
-              step="0.01"
-              {...register('transferAmount', { valueAsNumber: true })}
-            />
-            {errors.transferAmount && (
-              <p className="text-destructive text-sm">
-                {errors.transferAmount.message}
-              </p>
-            )}
-          </div>
-
-          <div className="grid gap-2">
             <Label htmlFor="transactionNumber">Transaction Number</Label>
             <Input
               id="transactionNumber"
@@ -127,35 +105,34 @@ export function RecordPaymentForm({
           </div>
 
           <div className="grid gap-2">
-            <Label>Bank Account</Label>
-            <Select
-              value={bankAccountId}
-              onValueChange={(v) => setValue('bankAccountId', v)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select account..." />
-              </SelectTrigger>
-              <SelectContent>
-                {bankAccounts.map((account) => (
-                  <SelectItem key={account.id} value={account.id}>
-                    {account.bankName} — {account.accountNumber}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors.bankAccountId && (
+            <Label htmlFor="bankAccountId">Bank Account ID (optional)</Label>
+            <Input
+              id="bankAccountId"
+              placeholder="UUID of bank account"
+              {...register('bankAccountId')}
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="screenshotUrl">Screenshot URL (optional)</Label>
+            <Input
+              id="screenshotUrl"
+              placeholder="https://..."
+              {...register('screenshotUrl')}
+            />
+            {errors.screenshotUrl && (
               <p className="text-destructive text-sm">
-                {errors.bankAccountId.message}
+                {errors.screenshotUrl.message}
               </p>
             )}
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="comments">Comments (optional)</Label>
+            <Label htmlFor="comment">Comment (optional)</Label>
             <Input
-              id="comments"
+              id="comment"
               placeholder="Additional notes..."
-              {...register('comments')}
+              {...register('comment')}
             />
           </div>
 

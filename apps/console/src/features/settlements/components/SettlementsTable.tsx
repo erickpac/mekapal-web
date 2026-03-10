@@ -8,16 +8,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import type { SettlementItem } from '../api/settlements.api'
+import type { Settlement } from '../api/settlements.api'
 
 function formatQ(value: number) {
   return `Q${value.toLocaleString('es-GT', { minimumFractionDigits: 2 })}`
 }
 
 interface SettlementsTableProps {
-  data: SettlementItem[]
+  data: Settlement[]
   loading?: boolean
-  onRowClick: (item: SettlementItem) => void
+  onRowClick: (item: Settlement) => void
 }
 
 export function SettlementsTable({
@@ -29,20 +29,18 @@ export function SettlementsTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Transporter</TableHead>
+          <TableHead>Transporter ID</TableHead>
           <TableHead>Order ID</TableHead>
           <TableHead className="text-right">Amount</TableHead>
-          <TableHead className="text-right">Commission</TableHead>
-          <TableHead className="text-right">Net Amount</TableHead>
           <TableHead>Status</TableHead>
-          <TableHead>Date</TableHead>
+          <TableHead>Created</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {loading
           ? Array.from({ length: 5 }).map((_, i) => (
               <TableRow key={i}>
-                {Array.from({ length: 7 }).map((_, j) => (
+                {Array.from({ length: 5 }).map((_, j) => (
                   <TableCell key={j}>
                     <Skeleton className="h-4 w-20" />
                   </TableCell>
@@ -55,20 +53,14 @@ export function SettlementsTable({
                 className="cursor-pointer"
                 onClick={() => onRowClick(item)}
               >
-                <TableCell className="font-medium">
-                  {item.transporterName}
+                <TableCell className="font-mono text-xs">
+                  {item.transporterId.slice(0, 8)}…
                 </TableCell>
                 <TableCell className="font-mono text-xs">
-                  {item.orderId}
-                </TableCell>
-                <TableCell className="text-right">
-                  {formatQ(item.amount)}
-                </TableCell>
-                <TableCell className="text-right">
-                  {formatQ(item.commission)}
+                  {item.orderId.slice(0, 8)}…
                 </TableCell>
                 <TableCell className="text-right font-medium">
-                  {formatQ(item.netAmount)}
+                  {formatQ(item.amount)}
                 </TableCell>
                 <TableCell>
                   <Badge
@@ -78,14 +70,14 @@ export function SettlementsTable({
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  {new Date(item.date).toLocaleDateString('es-GT')}
+                  {new Date(item.createdAt).toLocaleDateString('es-GT')}
                 </TableCell>
               </TableRow>
             ))}
         {!loading && data.length === 0 && (
           <TableRow>
             <TableCell
-              colSpan={7}
+              colSpan={5}
               className="text-muted-foreground text-center"
             >
               No settlements found.

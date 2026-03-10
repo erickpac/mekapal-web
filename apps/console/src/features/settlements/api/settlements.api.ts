@@ -1,68 +1,64 @@
 import { apiClient } from '@/shared/api/client'
-import type { PaginatedQuery, SettlementStatus } from '@/shared/types'
+import type { SettlementStatus } from '@/shared/types'
 
-export interface SettlementItem {
+export interface Settlement {
   id: string
-  transporterName: string
-  orderId: string
   amount: number
-  commission: number
-  netAmount: number
   status: SettlementStatus
-  date: string
+  transferDate: string | null
+  transactionNumber: string | null
+  comment: string | null
+  screenshotUrl: string | null
+  paidAt: string | null
+  orderId: string
+  transporterId: string
+  bankAccountId: string | null
+  registeredBy: string | null
+  createdAt: string
+  updatedAt: string
 }
 
-export interface SettlementDetail extends SettlementItem {
-  bankAccounts: BankAccount[]
-  paymentInfo?: PaymentInfo
-}
-
-export interface BankAccount {
-  id: string
-  bankName: string
-  accountNumber: string
-}
-
-export interface PaymentInfo {
-  transferDate: string
-  transferAmount: number
-  transactionNumber: string
-  bankAccountId: string
-  comments?: string
-}
-
-export interface SettlementFilters extends PaginatedQuery {
+export interface SettlementFilters {
   status?: SettlementStatus
-  startDate?: string
-  endDate?: string
-  search?: string
+  transporterId?: string
+  fromDate?: string
+  toDate?: string
 }
 
 export interface RecordPaymentData {
   transferDate: string
-  transferAmount: number
   transactionNumber: string
-  bankAccountId: string
-  comments?: string
+  comment?: string
+  screenshotUrl?: string
+  bankAccountId?: string
 }
 
 export async function getSettlements(
   filters: SettlementFilters,
-): Promise<SettlementItem[]> {
-  const { data } = await apiClient.get<SettlementItem[]>('/settlements', {
+): Promise<Settlement[]> {
+  const { data } = await apiClient.get<Settlement[]>('/settlements', {
     params: filters,
   })
   return data
 }
 
-export async function getSettlement(id: string): Promise<SettlementDetail> {
-  const { data } = await apiClient.get<SettlementDetail>(`/settlements/${id}`)
+export async function getPendingSettlements(): Promise<Settlement[]> {
+  const { data } = await apiClient.get<Settlement[]>('/settlements/pending')
+  return data
+}
+
+export async function getSettlement(id: string): Promise<Settlement> {
+  const { data } = await apiClient.get<Settlement>(`/settlements/${id}`)
   return data
 }
 
 export async function recordPayment(
   id: string,
   payload: RecordPaymentData,
-): Promise<void> {
-  await apiClient.post(`/settlements/${id}/pay`, payload)
+): Promise<Settlement> {
+  const { data } = await apiClient.post<Settlement>(
+    `/settlements/${id}/pay`,
+    payload,
+  )
+  return data
 }

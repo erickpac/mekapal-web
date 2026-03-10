@@ -11,22 +11,18 @@ import type { SettlementStatus } from '@/shared/types'
 
 interface SettlementFiltersProps {
   status: SettlementStatus | undefined
-  startDate: string
-  endDate: string
-  search: string
+  fromDate: string
+  toDate: string
   onStatusChange: (status: SettlementStatus | undefined) => void
-  onDateChange: (start: string, end: string) => void
-  onSearchChange: (search: string) => void
+  onDateChange: (fromDate: string, toDate: string) => void
 }
 
 export function SettlementFilters({
   status,
-  startDate,
-  endDate,
-  search,
+  fromDate,
+  toDate,
   onStatusChange,
   onDateChange,
-  onSearchChange,
 }: SettlementFiltersProps) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
@@ -47,34 +43,27 @@ export function SettlementFilters({
       </Select>
 
       <div className="grid gap-1">
-        <Label htmlFor="settle-start" className="text-xs">
+        <Label htmlFor="settle-from" className="text-xs">
           From
         </Label>
         <Input
-          id="settle-start"
+          id="settle-from"
           type="date"
-          value={startDate}
-          onChange={(e) => onDateChange(e.target.value, endDate)}
+          value={fromDate}
+          onChange={(e) => onDateChange(e.target.value, toDate)}
         />
       </div>
       <div className="grid gap-1">
-        <Label htmlFor="settle-end" className="text-xs">
+        <Label htmlFor="settle-to" className="text-xs">
           To
         </Label>
         <Input
-          id="settle-end"
+          id="settle-to"
           type="date"
-          value={endDate}
-          onChange={(e) => onDateChange(startDate, e.target.value)}
+          value={toDate}
+          onChange={(e) => onDateChange(fromDate, e.target.value)}
         />
       </div>
-
-      <Input
-        placeholder="Search transporter..."
-        value={search}
-        onChange={(e) => onSearchChange(e.target.value)}
-        className="max-w-xs"
-      />
     </div>
   )
 }
