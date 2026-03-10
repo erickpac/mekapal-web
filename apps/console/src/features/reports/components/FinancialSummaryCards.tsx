@@ -14,27 +14,27 @@ export function FinancialSummaryCards({
 }: FinancialSummaryCardsProps) {
   const cards = [
     {
-      title: 'Total Revenue',
+      title: 'Ingresos totales',
       value: data ? formatCurrency(data.totalRevenue) : '',
     },
     {
-      title: 'Total Commissions',
+      title: 'Comisiones totales',
       value: data ? formatCurrency(data.totalCommissions) : '',
     },
     {
-      title: 'Total Taxes',
+      title: 'Impuestos totales',
       value: data ? formatCurrency(data.totalTaxes) : '',
     },
     {
-      title: 'Completed Transactions',
+      title: 'Transacciones completadas',
       value: data ? formatNumber(data.completedTransactions) : undefined,
     },
     {
-      title: 'Pending Payments',
+      title: 'Pagos pendientes',
       value: data ? formatCurrency(data.pendingPayments) : '',
     },
     {
-      title: 'Pending Payments Count',
+      title: 'Cantidad de pagos pendientes',
       value: data ? formatNumber(data.pendingPaymentsCount) : undefined,
     },
   ]

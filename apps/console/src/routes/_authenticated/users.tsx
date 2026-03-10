@@ -91,26 +91,26 @@ function UsersPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Users</h1>
+          <h1 className="text-2xl font-bold">Usuarios</h1>
           <p className="text-muted-foreground">
-            Manage users and create admin accounts.
+            Administra usuarios y crea cuentas de administrador.
           </p>
         </div>
         {canCreate && (
           <Button size="sm" onClick={() => setCreateOpen(true)}>
             <UserPlus className="size-4" />
-            Create User
+            Crear usuario
           </Button>
         )}
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>All Users</CardTitle>
+          <CardTitle>Todos los usuarios</CardTitle>
           <CardDescription>
             {isLoading
-              ? 'Loading...'
-              : `${pagination?.total ?? 0} users total`}
+              ? 'Cargando...'
+              : `${pagination?.total ?? 0} usuarios en total`}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -132,7 +132,7 @@ function UsersPage() {
           {pagination && pagination.totalPages > 1 && (
             <div className="flex items-center justify-between">
               <p className="text-muted-foreground text-sm">
-                Page {pagination.page} of {pagination.totalPages}
+                Página {pagination.page} de {pagination.totalPages}
               </p>
               <div className="flex gap-2">
                 <Button
@@ -141,7 +141,7 @@ function UsersPage() {
                   disabled={pagination.page <= 1}
                   onClick={() => setSearchParam({ page: page - 1 })}
                 >
-                  Previous
+                  Anterior
                 </Button>
                 <Button
                   variant="outline"
@@ -149,7 +149,7 @@ function UsersPage() {
                   disabled={pagination.page >= pagination.totalPages}
                   onClick={() => setSearchParam({ page: page + 1 })}
                 >
-                  Next
+                  Siguiente
                 </Button>
               </div>
             </div>

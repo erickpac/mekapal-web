@@ -12,8 +12,8 @@ import { formatDate } from '@/shared/utils/format'
 import type { ValidationItem, ValidationType } from '../api/validations.api'
 
 const typeLabels: Record<ValidationType, string> = {
-  VEHICLE: 'Vehicle',
-  TRANSPORTER_PROFILE: 'Profile',
+  VEHICLE: 'Vehículo',
+  TRANSPORTER_PROFILE: 'Perfil',
 }
 
 interface ValidationsTableProps {
@@ -31,10 +31,10 @@ export function ValidationsTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Type</TableHead>
-          <TableHead>Transporter</TableHead>
-          <TableHead>Summary</TableHead>
-          <TableHead>Date Submitted</TableHead>
+          <TableHead>Tipo</TableHead>
+          <TableHead>Transportista</TableHead>
+          <TableHead>Resumen</TableHead>
+          <TableHead>Fecha de envío</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -81,7 +81,7 @@ export function ValidationsTable({
               colSpan={4}
               className="text-muted-foreground text-center"
             >
-              No validations found.
+              No se encontraron validaciones.
             </TableCell>
           </TableRow>
         )}

@@ -52,31 +52,31 @@ export function ProfileDetailView({ id, onDone }: ProfileDetailViewProps) {
 
       <Card>
         <CardHeader>
-          <CardTitle>Details</CardTitle>
+          <CardTitle>Detalles</CardTitle>
         </CardHeader>
         <CardContent>
           <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-            <dt className="text-muted-foreground">Email</dt>
+            <dt className="text-muted-foreground">Correo</dt>
             <dd>{data.user.email}</dd>
-            <dt className="text-muted-foreground">Phone</dt>
+            <dt className="text-muted-foreground">Teléfono</dt>
             <dd>{data.user.phone ?? '—'}</dd>
-            <dt className="text-muted-foreground">License Number</dt>
+            <dt className="text-muted-foreground">Número de licencia</dt>
             <dd>{data.licenseNumber}</dd>
             {data.licenseExpiration && (
               <>
-                <dt className="text-muted-foreground">License Expiration</dt>
+                <dt className="text-muted-foreground">Vencimiento de licencia</dt>
                 <dd>
                   {formatDate(data.licenseExpiration)}
                 </dd>
               </>
             )}
-            <dt className="text-muted-foreground">City</dt>
+            <dt className="text-muted-foreground">Ciudad</dt>
             <dd>{data.city}</dd>
-            <dt className="text-muted-foreground">State</dt>
+            <dt className="text-muted-foreground">Departamento</dt>
             <dd>{data.state}</dd>
             {data.address && (
               <>
-                <dt className="text-muted-foreground">Address</dt>
+                <dt className="text-muted-foreground">Dirección</dt>
                 <dd>{data.address}</dd>
               </>
             )}

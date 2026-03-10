@@ -90,7 +90,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
           ) : (
             <ChevronsLeft className="size-4" />
           )}
-          {!collapsed && <span className="ml-2 text-sm">Collapse</span>}
+          {!collapsed && <span className="ml-2 text-sm">Contraer</span>}
         </Button>
       </div>
     </aside>

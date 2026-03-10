@@ -63,31 +63,31 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Incident Info</CardTitle>
+            <CardTitle>Info del incidente</CardTitle>
           </CardHeader>
           <CardContent>
             <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-              <dt className="text-muted-foreground">Type</dt>
+              <dt className="text-muted-foreground">Tipo</dt>
               <dd className="capitalize">{data.type.toLowerCase()}</dd>
-              <dt className="text-muted-foreground">Order ID</dt>
+              <dt className="text-muted-foreground">ID de orden</dt>
               <dd className="font-mono text-xs">{data.orderId}</dd>
-              <dt className="text-muted-foreground">Reported By</dt>
+              <dt className="text-muted-foreground">Reportado por</dt>
               <dd className="font-mono text-xs">
                 {data.reportedById.slice(0, 8)}…
               </dd>
-              <dt className="text-muted-foreground">Reported Against</dt>
+              <dt className="text-muted-foreground">Reportado contra</dt>
               <dd className="font-mono text-xs">
                 {data.reportedAgainstId.slice(0, 8)}…
               </dd>
               {data.assignedToId && (
                 <>
-                  <dt className="text-muted-foreground">Assigned To</dt>
+                  <dt className="text-muted-foreground">Asignado a</dt>
                   <dd className="font-mono text-xs">
                     {data.assignedToId.slice(0, 8)}…
                   </dd>
                 </>
               )}
-              <dt className="text-muted-foreground">Created</dt>
+              <dt className="text-muted-foreground">Creado</dt>
               <dd>{formatDate(data.createdAt)}</dd>
             </dl>
           </CardContent>
@@ -96,23 +96,23 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
         {data.resolution && (
           <Card>
             <CardHeader>
-              <CardTitle>Resolution</CardTitle>
+              <CardTitle>Resolución</CardTitle>
             </CardHeader>
             <CardContent>
               <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                <dt className="text-muted-foreground">Resolution</dt>
+                <dt className="text-muted-foreground">Resolución</dt>
                 <dd>{data.resolution}</dd>
-                <dt className="text-muted-foreground">User Action</dt>
+                <dt className="text-muted-foreground">Acción del usuario</dt>
                 <dd>{data.userAction}</dd>
                 {data.refundAmount != null && (
                   <>
-                    <dt className="text-muted-foreground">Refund Amount</dt>
+                    <dt className="text-muted-foreground">Monto de reembolso</dt>
                     <dd>{formatCurrency(data.refundAmount)}</dd>
                   </>
                 )}
                 {data.resolvedAt && (
                   <>
-                    <dt className="text-muted-foreground">Resolved At</dt>
+                    <dt className="text-muted-foreground">Resuelto el</dt>
                     <dd>
                       {formatDate(data.resolvedAt)}
                     </dd>
@@ -131,7 +131,7 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
 
       <Card>
         <CardHeader>
-          <CardTitle>Description</CardTitle>
+          <CardTitle>Descripción</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm">{data.description}</p>
@@ -141,7 +141,7 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
       {data.internalNotes && (
         <Card>
           <CardHeader>
-            <CardTitle>Internal Notes</CardTitle>
+            <CardTitle>Notas internas</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm">{data.internalNotes}</p>
@@ -151,7 +151,7 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
 
       {data.evidenceUrls.length > 0 && (
         <div>
-          <h3 className="mb-2 text-sm font-semibold">Evidence</h3>
+          <h3 className="mb-2 text-sm font-semibold">Evidencia</h3>
           <DocumentViewer images={data.evidenceUrls} />
         </div>
       )}
@@ -169,14 +169,14 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
               }
               disabled={updateIncident.isPending}
             >
-              Start Investigation
+              Iniciar investigación
             </Button>
           )}
           <Button
             onClick={() => setResolveOpen(true)}
             disabled={resolveIncident.isPending}
           >
-            Resolve
+            Resolver
           </Button>
           <ResolveIncidentForm
             open={resolveOpen}

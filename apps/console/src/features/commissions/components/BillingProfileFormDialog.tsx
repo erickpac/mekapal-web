@@ -28,10 +28,10 @@ import type {
 } from '../api/commissions.api'
 
 const profileSchema = z.object({
-  name: z.string().min(1, 'Name is required').max(100),
+  name: z.string().min(1, 'El nombre es obligatorio').max(100),
   description: z.string().max(500).optional(),
   commissionType: z.enum(['PERCENTAGE', 'FIXED_AMOUNT']),
-  commissionValue: z.number().min(0, 'Value must be non-negative'),
+  commissionValue: z.number().min(0, 'El valor debe ser positivo'),
   commissionMinimum: z.number().min(0).optional(),
   commissionMaximum: z.number().min(0).optional(),
   isCommissionExempt: z.boolean().optional(),
@@ -114,7 +114,7 @@ export function BillingProfileFormDialog({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? 'Edit Billing Profile' : 'Create Billing Profile'}
+            {isEditing ? 'Editar perfil de facturación' : 'Crear perfil de facturación'}
           </DialogTitle>
         </DialogHeader>
 
@@ -123,7 +123,7 @@ export function BillingProfileFormDialog({
           className="grid gap-4 py-2"
         >
           <div className="grid gap-2">
-            <Label htmlFor="bp-name">Name</Label>
+            <Label htmlFor="bp-name">Nombre</Label>
             <Input id="bp-name" {...register('name')} />
             {errors.name && (
               <p className="text-destructive text-sm">{errors.name.message}</p>
@@ -131,12 +131,12 @@ export function BillingProfileFormDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="bp-desc">Description (optional)</Label>
+            <Label htmlFor="bp-desc">Descripción (opcional)</Label>
             <Input id="bp-desc" {...register('description')} />
           </div>
 
           <div className="grid gap-2">
-            <Label>Commission Type</Label>
+            <Label>Tipo de comisión</Label>
             <Select
               value={commissionType}
               onValueChange={(v) =>
@@ -147,15 +147,15 @@ export function BillingProfileFormDialog({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="PERCENTAGE">Percentage</SelectItem>
-                <SelectItem value="FIXED_AMOUNT">Fixed Amount</SelectItem>
+                <SelectItem value="PERCENTAGE">Porcentaje</SelectItem>
+                <SelectItem value="FIXED_AMOUNT">Monto fijo</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="grid gap-2">
             <Label htmlFor="bp-value">
-              Value {commissionType === 'PERCENTAGE' ? '(%)' : '(Q)'}
+              Valor {commissionType === 'PERCENTAGE' ? '(%)' : '(Q)'}
             </Label>
             <Input
               id="bp-value"
@@ -173,22 +173,22 @@ export function BillingProfileFormDialog({
           {commissionType === 'PERCENTAGE' && (
             <div className="grid grid-cols-2 gap-3">
               <div className="grid gap-2">
-                <Label htmlFor="bp-min">Min Amount (Q)</Label>
+                <Label htmlFor="bp-min">Monto mínimo (Q)</Label>
                 <Input
                   id="bp-min"
                   type="number"
                   step="0.01"
-                  placeholder="Optional"
+                  placeholder="Opcional"
                   {...register('commissionMinimum', { valueAsNumber: true })}
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="bp-max">Max Amount (Q)</Label>
+                <Label htmlFor="bp-max">Monto máximo (Q)</Label>
                 <Input
                   id="bp-max"
                   type="number"
                   step="0.01"
-                  placeholder="Optional"
+                  placeholder="Opcional"
                   {...register('commissionMaximum', { valueAsNumber: true })}
                 />
               </div>
@@ -196,7 +196,7 @@ export function BillingProfileFormDialog({
           )}
 
           <div className="grid gap-2">
-            <Label htmlFor="bp-tax">Tax Percent (%)</Label>
+            <Label htmlFor="bp-tax">Porcentaje de impuesto (%)</Label>
             <Input
               id="bp-tax"
               type="number"
@@ -217,7 +217,7 @@ export function BillingProfileFormDialog({
                 {...register('isCommissionExempt')}
                 className="size-4"
               />
-              Commission exempt
+              Exento de comisión
             </label>
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -225,7 +225,7 @@ export function BillingProfileFormDialog({
                 {...register('isTaxExempt')}
                 className="size-4"
               />
-              Tax exempt
+              Exento de impuesto
             </label>
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -233,13 +233,13 @@ export function BillingProfileFormDialog({
                 {...register('isDefault')}
                 className="size-4"
               />
-              Default profile
+              Perfil predeterminado
             </label>
           </div>
 
           {isEditing && (
             <p className="text-muted-foreground text-xs">
-              Status: {isActive ? 'Active' : 'Inactive'}
+              Estado: {isActive ? 'Activo' : 'Inactivo'}
             </p>
           )}
 
@@ -249,11 +249,11 @@ export function BillingProfileFormDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              Cancelar
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && <Loader2 className="animate-spin" />}
-              {isEditing ? 'Save' : 'Create'}
+              {isEditing ? 'Guardar' : 'Crear'}
             </Button>
           </DialogFooter>
         </form>

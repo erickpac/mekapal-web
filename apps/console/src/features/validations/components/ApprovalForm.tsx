@@ -27,7 +27,7 @@ export function ApprovalForm({
         disabled={isApproving || isRejecting}
       >
         <CheckCircle className="size-4" />
-        Approve
+        Aprobar
       </Button>
       <Button
         variant="destructive"
@@ -35,7 +35,7 @@ export function ApprovalForm({
         disabled={isApproving || isRejecting}
       >
         <XCircle className="size-4" />
-        Reject
+        Rechazar
       </Button>
 
       <RejectDialog

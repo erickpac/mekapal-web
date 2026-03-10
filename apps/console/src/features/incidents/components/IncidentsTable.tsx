@@ -46,12 +46,12 @@ export function IncidentsTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Incident #</TableHead>
-          <TableHead>Severity</TableHead>
-          <TableHead>Type</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Description</TableHead>
-          <TableHead>Date</TableHead>
+          <TableHead>Incidente #</TableHead>
+          <TableHead>Severidad</TableHead>
+          <TableHead>Tipo</TableHead>
+          <TableHead>Estado</TableHead>
+          <TableHead>Descripción</TableHead>
+          <TableHead>Fecha</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -106,7 +106,7 @@ export function IncidentsTable({
               colSpan={6}
               className="text-muted-foreground text-center"
             >
-              No incidents found.
+              No se encontraron incidentes.
             </TableCell>
           </TableRow>
         )}

@@ -34,14 +34,14 @@ export function UserFilters({
         }
       >
         <SelectTrigger className="w-40">
-          <SelectValue placeholder="All roles" />
+          <SelectValue placeholder="Todos los roles" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All roles</SelectItem>
+          <SelectItem value="all">Todos los roles</SelectItem>
           <SelectItem value="ADMIN">Admin</SelectItem>
           <SelectItem value="BACKOFFICE">Backoffice</SelectItem>
-          <SelectItem value="CLIENT">Client</SelectItem>
-          <SelectItem value="TRANSPORTER">Transporter</SelectItem>
+          <SelectItem value="CLIENT">Cliente</SelectItem>
+          <SelectItem value="TRANSPORTER">Transportista</SelectItem>
         </SelectContent>
       </Select>
 
@@ -50,13 +50,13 @@ export function UserFilters({
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="recent">Recent</SelectItem>
-          <SelectItem value="oldest">Oldest</SelectItem>
+          <SelectItem value="recent">Recientes</SelectItem>
+          <SelectItem value="oldest">Antiguos</SelectItem>
         </SelectContent>
       </Select>
 
       <Input
-        placeholder="Search by name or email..."
+        placeholder="Buscar por nombre o correo..."
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
         className="max-w-xs"

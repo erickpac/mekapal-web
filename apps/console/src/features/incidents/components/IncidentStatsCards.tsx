@@ -14,25 +14,25 @@ export function IncidentStatsCards({
 }: IncidentStatsCardsProps) {
   const items = [
     {
-      label: 'Open',
+      label: 'Abiertos',
       value: stats?.open ?? 0,
       icon: AlertTriangle,
       color: 'text-red-600',
     },
     {
-      label: 'Investigating',
+      label: 'En investigación',
       value: stats?.investigating ?? 0,
       icon: Eye,
       color: 'text-yellow-600',
     },
     {
-      label: 'Resolved',
+      label: 'Resueltos',
       value: stats?.resolved ?? 0,
       icon: CheckCircle,
       color: 'text-emerald-600',
     },
     {
-      label: 'Closed',
+      label: 'Cerrados',
       value: stats?.closed ?? 0,
       icon: Archive,
       color: 'text-gray-600',

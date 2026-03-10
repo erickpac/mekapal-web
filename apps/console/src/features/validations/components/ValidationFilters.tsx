@@ -30,17 +30,17 @@ export function ValidationFilters({
         }
       >
         <SelectTrigger className="w-40">
-          <SelectValue placeholder="All types" />
+          <SelectValue placeholder="Todos los tipos" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All types</SelectItem>
-          <SelectItem value="VEHICLE">Vehicle</SelectItem>
-          <SelectItem value="TRANSPORTER_PROFILE">Profile</SelectItem>
+          <SelectItem value="all">Todos los tipos</SelectItem>
+          <SelectItem value="VEHICLE">Vehículo</SelectItem>
+          <SelectItem value="TRANSPORTER_PROFILE">Perfil</SelectItem>
         </SelectContent>
       </Select>
 
       <Input
-        placeholder="Search by name..."
+        placeholder="Buscar por nombre..."
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
         className="max-w-xs"

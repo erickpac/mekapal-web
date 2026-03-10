@@ -18,7 +18,7 @@ export function LoginPage() {
           <CardTitle className="text-2xl font-bold tracking-tight">
             Mekapal
           </CardTitle>
-          <CardDescription>Sign in to your account</CardDescription>
+          <CardDescription>Inicia sesión en tu cuenta</CardDescription>
         </CardHeader>
         <CardContent>
           <LoginForm onSuccess={() => navigate({ to: '/dashboard' })} />

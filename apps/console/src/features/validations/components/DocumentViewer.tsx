@@ -30,7 +30,7 @@ export function DocumentViewer({ images, className }: DocumentViewerProps) {
           className,
         )}
       >
-        No documents available
+        No hay documentos disponibles
       </div>
     )
   }
@@ -97,7 +97,7 @@ export function DocumentViewer({ images, className }: DocumentViewerProps) {
 
         <img
           src={images[currentIndex]}
-          alt={`Document ${currentIndex + 1}`}
+          alt={`Documento ${currentIndex + 1}`}
           className="max-h-full max-w-full object-contain transition-transform"
           style={{
             transform: `scale(${zoom}) rotate(${rotation}deg)`,

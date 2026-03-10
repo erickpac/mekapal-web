@@ -16,7 +16,7 @@ export function DateRangePicker({
     <div className="flex items-end gap-3">
       <div className="grid gap-1">
         <Label htmlFor="start-date" className="text-xs">
-          From
+          Desde
         </Label>
         <Input
           id="start-date"
@@ -27,7 +27,7 @@ export function DateRangePicker({
       </div>
       <div className="grid gap-1">
         <Label htmlFor="end-date" className="text-xs">
-          To
+          Hasta
         </Label>
         <Input
           id="end-date"

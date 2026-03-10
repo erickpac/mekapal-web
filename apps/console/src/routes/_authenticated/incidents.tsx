@@ -43,7 +43,7 @@ function IncidentsPage() {
       <div className="space-y-4">
         <Button variant="ghost" size="sm" onClick={() => setSelected(null)}>
           <ArrowLeft className="size-4" />
-          Back to list
+          Volver a la lista
         </Button>
         <IncidentDetailView id={selected.id} onDone={() => setSelected(null)} />
       </div>
@@ -52,7 +52,7 @@ function IncidentsPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Incidents</h1>
+      <h1 className="text-2xl font-bold">Incidentes</h1>
 
       <IncidentStatsCards stats={stats} loading={statsLoading} />
 

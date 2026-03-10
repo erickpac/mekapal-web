@@ -26,11 +26,11 @@ export function SettlementsTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Transporter ID</TableHead>
-          <TableHead>Order ID</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Created</TableHead>
+          <TableHead>ID del transportista</TableHead>
+          <TableHead>ID de orden</TableHead>
+          <TableHead className="text-right">Monto</TableHead>
+          <TableHead>Estado</TableHead>
+          <TableHead>Creado</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -77,7 +77,7 @@ export function SettlementsTable({
               colSpan={5}
               className="text-muted-foreground text-center"
             >
-              No settlements found.
+              No se encontraron liquidaciones.
             </TableCell>
           </TableRow>
         )}

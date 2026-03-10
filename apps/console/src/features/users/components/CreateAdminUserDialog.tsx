@@ -23,12 +23,12 @@ import {
 import type { CreateAdminUserData } from '../api/users.api'
 
 const createUserSchema = z.object({
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  email: z.string().email('Invalid email'),
+  firstName: z.string().min(1, 'El nombre es obligatorio'),
+  lastName: z.string().min(1, 'El apellido es obligatorio'),
+  email: z.string().email('Correo electrónico inválido'),
   role: z.enum(['ADMIN', 'BACKOFFICE']),
   phone: z.string().optional(),
-  temporaryPassword: z.string().min(8, 'Minimum 8 characters').optional().or(z.literal('')),
+  temporaryPassword: z.string().min(8, 'Mínimo 8 caracteres').optional().or(z.literal('')),
 })
 
 type CreateUserFormValues = z.infer<typeof createUserSchema>
@@ -88,10 +88,10 @@ export function CreateAdminUserDialog({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Create User</DialogTitle>
+          <DialogTitle>Crear usuario</DialogTitle>
           <DialogDescription>
-            Create an admin or backoffice user. They will receive a temporary
-            password via email if not provided.
+            Crea un usuario admin o backoffice. Recibirán una contraseña
+            temporal por correo si no se proporciona.
           </DialogDescription>
         </DialogHeader>
 
@@ -101,7 +101,7 @@ export function CreateAdminUserDialog({
         >
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="user-first-name">First Name</Label>
+              <Label htmlFor="user-first-name">Nombre</Label>
               <Input id="user-first-name" {...register('firstName')} />
               {errors.firstName && (
                 <p className="text-destructive text-sm">
@@ -110,7 +110,7 @@ export function CreateAdminUserDialog({
               )}
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="user-last-name">Last Name</Label>
+              <Label htmlFor="user-last-name">Apellido</Label>
               <Input id="user-last-name" {...register('lastName')} />
               {errors.lastName && (
                 <p className="text-destructive text-sm">
@@ -121,7 +121,7 @@ export function CreateAdminUserDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="user-email">Email</Label>
+            <Label htmlFor="user-email">Correo electrónico</Label>
             <Input id="user-email" type="email" {...register('email')} />
             {errors.email && (
               <p className="text-destructive text-sm">{errors.email.message}</p>
@@ -129,18 +129,18 @@ export function CreateAdminUserDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="user-phone">Phone (optional)</Label>
+            <Label htmlFor="user-phone">Teléfono (opcional)</Label>
             <Input id="user-phone" type="tel" {...register('phone')} />
           </div>
 
           <div className="grid gap-2">
             <Label htmlFor="user-password">
-              Temporary Password (optional)
+              Contraseña temporal (opcional)
             </Label>
             <Input
               id="user-password"
               type="password"
-              placeholder="Leave empty for auto-generated"
+              placeholder="Dejar vacío para generar automáticamente"
               {...register('temporaryPassword')}
             />
             {errors.temporaryPassword && (
@@ -151,7 +151,7 @@ export function CreateAdminUserDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label>Role</Label>
+            <Label>Rol</Label>
             <Select
               value={role}
               onValueChange={(v) =>
@@ -170,11 +170,11 @@ export function CreateAdminUserDialog({
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={handleClose}>
-              Cancel
+              Cancelar
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && <Loader2 className="animate-spin" />}
-              Create
+              Crear
             </Button>
           </DialogFooter>
         </form>

@@ -31,12 +31,12 @@ export function UsersTable({ data, loading }: UsersTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Name</TableHead>
-          <TableHead>Email</TableHead>
-          <TableHead>Phone</TableHead>
-          <TableHead>Role</TableHead>
-          <TableHead>Company</TableHead>
-          <TableHead>Registered</TableHead>
+          <TableHead>Nombre</TableHead>
+          <TableHead>Correo</TableHead>
+          <TableHead>Teléfono</TableHead>
+          <TableHead>Rol</TableHead>
+          <TableHead>Empresa</TableHead>
+          <TableHead>Registro</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -76,7 +76,7 @@ export function UsersTable({ data, loading }: UsersTableProps) {
               colSpan={6}
               className="text-muted-foreground text-center"
             >
-              No users found.
+              No se encontraron usuarios.
             </TableCell>
           </TableRow>
         )}

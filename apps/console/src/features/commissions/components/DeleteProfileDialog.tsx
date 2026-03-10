@@ -29,15 +29,15 @@ export function DeleteProfileDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>Delete Billing Profile</DialogTitle>
+          <DialogTitle>Eliminar perfil de facturación</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete <strong>{profileName}</strong>? This
-            action cannot be undone.
+            ¿Estás seguro de que deseas eliminar <strong>{profileName}</strong>?
+            Esta acción no se puede deshacer.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            Cancelar
           </Button>
           <Button
             variant="destructive"
@@ -45,7 +45,7 @@ export function DeleteProfileDialog({
             disabled={isDeleting}
           >
             {isDeleting && <Loader2 className="animate-spin" />}
-            Delete
+            Eliminar
           </Button>
         </DialogFooter>
       </DialogContent>

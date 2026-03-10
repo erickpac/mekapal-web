@@ -28,7 +28,7 @@ export function ToggleStatusDialog({
   onConfirm,
   isPending,
 }: ToggleStatusDialogProps) {
-  const action = isActive ? 'Deactivate' : 'Activate'
+  const action = isActive ? 'Desactivar' : 'Activar'
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -38,13 +38,13 @@ export function ToggleStatusDialog({
             {action} {levelLabel}
           </DialogTitle>
           <DialogDescription>
-            Are you sure you want to {action.toLowerCase()}{' '}
+            ¿Estás seguro de que deseas {action.toLowerCase()}{' '}
             <strong>{itemName}</strong>?
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            Cancelar
           </Button>
           <Button
             variant={isActive ? 'destructive' : 'default'}

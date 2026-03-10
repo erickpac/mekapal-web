@@ -11,17 +11,17 @@ import type { ChallengeResponse } from '../api/auth.api'
 import { useAuth } from '../hooks/useAuth'
 
 const loginSchema = z.object({
-  email: z.email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
+  email: z.email('Correo electrónico inválido'),
+  password: z.string().min(1, 'La contraseña es obligatoria'),
 })
 
 const newPasswordSchema = z
   .object({
-    newPassword: z.string().min(8, 'Minimum 8 characters'),
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
+    newPassword: z.string().min(8, 'Mínimo 8 caracteres'),
+    confirmPassword: z.string().min(1, 'Confirma tu contraseña'),
   })
   .refine((d) => d.newPassword === d.confirmPassword, {
-    message: 'Passwords do not match',
+    message: 'Las contraseñas no coinciden',
     path: ['confirmPassword'],
   })
 
@@ -57,10 +57,10 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     } catch (error) {
       if (error instanceof AxiosError) {
         setApiError(
-          error.response?.data?.message ?? 'Invalid email or password',
+          error.response?.data?.message ?? 'Correo o contraseña inválidos',
         )
       } else {
-        setApiError('An unexpected error occurred')
+        setApiError('Ocurrió un error inesperado')
       }
     }
   }
@@ -78,10 +78,10 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     } catch (error) {
       if (error instanceof AxiosError) {
         setApiError(
-          error.response?.data?.message ?? 'Failed to set new password',
+          error.response?.data?.message ?? 'Error al establecer la nueva contraseña',
         )
       } else {
-        setApiError('An unexpected error occurred')
+        setApiError('Ocurrió un error inesperado')
       }
     }
   }
@@ -93,11 +93,11 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         className="grid gap-4"
       >
         <p className="text-muted-foreground text-sm">
-          You must set a new password before continuing.
+          Debes establecer una nueva contraseña antes de continuar.
         </p>
 
         <div className="grid gap-2">
-          <Label htmlFor="new-password">New Password</Label>
+          <Label htmlFor="new-password">Nueva contraseña</Label>
           <Input
             id="new-password"
             type="password"
@@ -112,7 +112,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="confirm-password">Confirm Password</Label>
+          <Label htmlFor="confirm-password">Confirmar contraseña</Label>
           <Input
             id="confirm-password"
             type="password"
@@ -132,7 +132,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           {passwordForm.formState.isSubmitting && (
             <Loader2 className="animate-spin" />
           )}
-          Set Password
+          Establecer contraseña
         </Button>
       </form>
     )
@@ -144,7 +144,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       className="grid gap-4"
     >
       <div className="grid gap-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">Correo electrónico</Label>
         <Input
           id="email"
           type="email"
@@ -160,7 +160,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       </div>
 
       <div className="grid gap-2">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">Contraseña</Label>
         <Input
           id="password"
           type="password"
@@ -180,7 +180,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         {loginForm.formState.isSubmitting && (
           <Loader2 className="animate-spin" />
         )}
-        Sign in
+        Iniciar sesión
       </Button>
     </form>
   )

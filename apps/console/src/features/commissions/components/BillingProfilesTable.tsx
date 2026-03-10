@@ -32,14 +32,14 @@ export function BillingProfilesTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Name</TableHead>
-          <TableHead>Type</TableHead>
-          <TableHead className="text-right">Value</TableHead>
-          <TableHead className="text-right">Min</TableHead>
-          <TableHead className="text-right">Max</TableHead>
-          <TableHead className="text-right">Tax %</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
+          <TableHead>Nombre</TableHead>
+          <TableHead>Tipo</TableHead>
+          <TableHead className="text-right">Valor</TableHead>
+          <TableHead className="text-right">Mín</TableHead>
+          <TableHead className="text-right">Máx</TableHead>
+          <TableHead className="text-right">Imp. %</TableHead>
+          <TableHead>Estado</TableHead>
+          <TableHead className="text-right">Acciones</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -63,7 +63,7 @@ export function BillingProfilesTable({
                   {profile.name}
                   {profile.isDefault && (
                     <Badge variant="outline" className="ml-2">
-                      Default
+                      Predeterminado
                     </Badge>
                   )}
                 </TableCell>
@@ -92,7 +92,7 @@ export function BillingProfilesTable({
                   <Badge
                     variant={profile.isActive ? 'default' : 'secondary'}
                   >
-                    {profile.isActive ? 'Active' : 'Inactive'}
+                    {profile.isActive ? 'Activo' : 'Inactivo'}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
@@ -127,7 +127,7 @@ export function BillingProfilesTable({
               colSpan={8}
               className="text-muted-foreground text-center"
             >
-              No billing profiles found.
+              No se encontraron perfiles de facturación.
             </TableCell>
           </TableRow>
         )}

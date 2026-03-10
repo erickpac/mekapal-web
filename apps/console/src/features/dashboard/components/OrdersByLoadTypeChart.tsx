@@ -1,6 +1,7 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { formatCurrency } from '@/shared/utils/format'
 import type { RevenueByLoadType } from '../api/dashboard.api'
 
 const COLORS = [
@@ -21,7 +22,7 @@ export function RevenueByLoadTypeChart({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Revenue by Load Type</CardTitle>
+        <CardTitle>Ingresos por tipo de carga</CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (
@@ -47,8 +48,8 @@ export function RevenueByLoadTypeChart({
                 </Pie>
                 <Tooltip
                   formatter={(value) => [
-                    `Q${Number(value).toLocaleString()}`,
-                    'Revenue',
+                    formatCurrency(Number(value)),
+                    'Ingresos',
                   ]}
                 />
               </PieChart>

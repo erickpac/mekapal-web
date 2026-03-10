@@ -9,6 +9,7 @@ import {
 } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { formatCurrency } from '@/shared/utils/format'
 import type { TopTransporter } from '../api/dashboard.api'
 
 interface TopTransportersChartProps {
@@ -23,7 +24,7 @@ export function TopTransportersChart({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Top 10 Transporters</CardTitle>
+        <CardTitle>Top 10 transportistas</CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (
@@ -41,8 +42,8 @@ export function TopTransportersChart({
               />
               <Tooltip
                 formatter={(value) => [
-                  `Q${Number(value).toLocaleString()}`,
-                  'Earnings',
+                  formatCurrency(Number(value)),
+                  'Ganancias',
                 ]}
               />
               <Bar

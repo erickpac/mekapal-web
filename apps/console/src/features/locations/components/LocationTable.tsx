@@ -33,10 +33,10 @@ export function LocationTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Name</TableHead>
-          <TableHead>Code</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
+          <TableHead>Nombre</TableHead>
+          <TableHead>Código</TableHead>
+          <TableHead>Estado</TableHead>
+          <TableHead className="text-right">Acciones</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -62,7 +62,7 @@ export function LocationTable({
                 </TableCell>
                 <TableCell>
                   <Badge variant={item.isActive ? 'default' : 'secondary'}>
-                    {item.isActive ? 'Active' : 'Inactive'}
+                    {item.isActive ? 'Activo' : 'Inactivo'}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
@@ -100,7 +100,7 @@ export function LocationTable({
               colSpan={4}
               className="text-muted-foreground text-center"
             >
-              No items found.
+              No se encontraron elementos.
             </TableCell>
           </TableRow>
         )}

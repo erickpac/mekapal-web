@@ -24,14 +24,14 @@ import type {
 } from '../api/validations.api'
 
 const REJECTION_CATEGORIES: { value: RejectionCategory; label: string }[] = [
-  { value: 'POOR_QUALITY_PHOTOS', label: 'Poor quality photos' },
-  { value: 'EXPIRED_DOCUMENTS', label: 'Expired documents' },
-  { value: 'INFORMATION_MISMATCH', label: 'Information mismatch' },
+  { value: 'POOR_QUALITY_PHOTOS', label: 'Fotos de mala calidad' },
+  { value: 'EXPIRED_DOCUMENTS', label: 'Documentos vencidos' },
+  { value: 'INFORMATION_MISMATCH', label: 'Información no coincide' },
   {
     value: 'ADDITIONAL_DOCUMENTATION_REQUIRED',
-    label: 'Additional documentation required',
+    label: 'Documentación adicional requerida',
   },
-  { value: 'OTHER', label: 'Other' },
+  { value: 'OTHER', label: 'Otro' },
 ]
 
 const MIN_DETAILS_LENGTH = 50
@@ -65,21 +65,22 @@ export function RejectDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Reject Validation</DialogTitle>
+          <DialogTitle>Rechazar validación</DialogTitle>
           <DialogDescription>
-            Select a reason and provide details for rejecting this validation.
+            Selecciona un motivo y proporciona detalles para rechazar esta
+            validación.
           </DialogDescription>
         </DialogHeader>
 
         <div className="grid gap-4 py-2">
           <div className="grid gap-2">
-            <Label>Reason</Label>
+            <Label>Motivo</Label>
             <Select
               value={category}
               onValueChange={(v) => setCategory(v as RejectionCategory)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select a reason..." />
+                <SelectValue placeholder="Seleccionar motivo..." />
               </SelectTrigger>
               <SelectContent>
                 {REJECTION_CATEGORIES.map((cat) => (
@@ -92,22 +93,22 @@ export function RejectDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label>Details</Label>
+            <Label>Detalles</Label>
             <Textarea
-              placeholder="Provide detailed information about the rejection reason..."
+              placeholder="Proporciona información detallada sobre el motivo del rechazo..."
               value={details}
               onChange={(e) => setDetails(e.target.value)}
               rows={3}
             />
             <p className="text-muted-foreground text-xs">
-              {details.trim().length}/{MIN_DETAILS_LENGTH} characters minimum
+              {details.trim().length}/{MIN_DETAILS_LENGTH} caracteres mínimo
             </p>
           </div>
         </div>
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            Cancelar
           </Button>
           <Button
             variant="destructive"
@@ -115,7 +116,7 @@ export function RejectDialog({
             disabled={!isValid || isSubmitting}
           >
             {isSubmitting && <Loader2 className="animate-spin" />}
-            Reject
+            Rechazar
           </Button>
         </DialogFooter>
       </DialogContent>

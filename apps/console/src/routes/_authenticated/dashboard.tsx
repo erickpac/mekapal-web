@@ -55,37 +55,37 @@ function DashboardPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <KpiCard
-          title="Total Revenue"
+          title="Ingresos totales"
           value={formatCurrency(summary?.totalRevenue ?? 0)}
           icon={DollarSign}
           loading={isLoading}
         />
         <KpiCard
-          title="Total Commissions"
+          title="Comisiones totales"
           value={formatCurrency(summary?.totalCommissions ?? 0)}
           icon={Banknote}
           loading={isLoading}
         />
         <KpiCard
-          title="Total Taxes"
+          title="Impuestos totales"
           value={formatCurrency(summary?.totalTaxes ?? 0)}
           icon={Receipt}
           loading={isLoading}
         />
         <KpiCard
-          title="Completed Transactions"
+          title="Transacciones completadas"
           value={String(summary?.completedTransactions ?? 0)}
           icon={CheckCircle}
           loading={isLoading}
         />
         <KpiCard
-          title="Pending Payments"
+          title="Pagos pendientes"
           value={formatCurrency(summary?.pendingPayments ?? 0)}
           icon={Hourglass}
           loading={isLoading}
         />
         <KpiCard
-          title="Active Transporters"
+          title="Transportistas activos"
           value={String(data?.userStats?.activeTransporters ?? 0)}
           icon={Users}
           loading={isLoading}

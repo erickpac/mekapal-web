@@ -61,7 +61,7 @@ function ValidationsPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Validations</h1>
+      <h1 className="text-2xl font-bold">Validaciones</h1>
 
       <ValidationFilters
         type={type}

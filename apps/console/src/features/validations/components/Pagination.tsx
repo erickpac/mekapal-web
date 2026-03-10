@@ -20,7 +20,7 @@ export function Pagination({
   return (
     <div className="flex items-center justify-between">
       <p className="text-muted-foreground text-sm">
-        Showing {count} result{count !== 1 ? 's' : ''}
+        Mostrando {count} resultado{count !== 1 ? 's' : ''}
       </p>
       <div className="flex items-center gap-2">
         <Button
@@ -31,7 +31,7 @@ export function Pagination({
         >
           <ChevronLeft className="size-4" />
         </Button>
-        <span className="text-sm">Page {page}</span>
+        <span className="text-sm">Página {page}</span>
         <Button
           variant="outline"
           size="icon-sm"

@@ -43,7 +43,7 @@ function SettlementsPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Settlements</h1>
+      <h1 className="text-2xl font-bold">Liquidaciones</h1>
 
       <SettlementFilters
         status={status}
@@ -80,7 +80,7 @@ function SettlementDetailView({
     <div className="space-y-4">
       <Button variant="ghost" size="sm" onClick={onBack}>
         <ArrowLeft className="size-4" />
-        Back to list
+        Volver a la lista
       </Button>
 
       {isLoading || !data ? (
@@ -91,7 +91,7 @@ function SettlementDetailView({
       ) : (
         <>
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Settlement Details</h2>
+            <h2 className="text-lg font-semibold">Detalles de liquidación</h2>
             <Badge variant={data.status === 'PAID' ? 'default' : 'secondary'}>
               {data.status}
             </Badge>
@@ -99,17 +99,17 @@ function SettlementDetailView({
 
           <Card>
             <CardHeader>
-              <CardTitle>Details</CardTitle>
+              <CardTitle>Detalles</CardTitle>
             </CardHeader>
             <CardContent>
               <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                <dt className="text-muted-foreground">Order ID</dt>
+                <dt className="text-muted-foreground">ID de orden</dt>
                 <dd className="font-mono text-xs">{data.orderId}</dd>
-                <dt className="text-muted-foreground">Transporter ID</dt>
+                <dt className="text-muted-foreground">ID del transportista</dt>
                 <dd className="font-mono text-xs">{data.transporterId}</dd>
-                <dt className="text-muted-foreground">Amount</dt>
+                <dt className="text-muted-foreground">Monto</dt>
                 <dd className="font-medium">{formatCurrency(data.amount)}</dd>
-                <dt className="text-muted-foreground">Created</dt>
+                <dt className="text-muted-foreground">Creado</dt>
                 <dd>{formatDate(data.createdAt)}</dd>
               </dl>
             </CardContent>
@@ -118,19 +118,19 @@ function SettlementDetailView({
           {data.status === 'PAID' && (
             <Card>
               <CardHeader>
-                <CardTitle>Payment Info</CardTitle>
+                <CardTitle>Info de pago</CardTitle>
               </CardHeader>
               <CardContent>
                 <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                   {data.transferDate && (
                     <>
-                      <dt className="text-muted-foreground">Transfer Date</dt>
+                      <dt className="text-muted-foreground">Fecha de transferencia</dt>
                       <dd>{formatDate(data.transferDate)}</dd>
                     </>
                   )}
                   {data.transactionNumber && (
                     <>
-                      <dt className="text-muted-foreground">Transaction #</dt>
+                      <dt className="text-muted-foreground">Transacción #</dt>
                       <dd className="font-mono text-xs">
                         {data.transactionNumber}
                       </dd>
@@ -138,7 +138,7 @@ function SettlementDetailView({
                   )}
                   {data.bankAccountId && (
                     <>
-                      <dt className="text-muted-foreground">Bank Account</dt>
+                      <dt className="text-muted-foreground">Cuenta bancaria</dt>
                       <dd className="font-mono text-xs">
                         {data.bankAccountId}
                       </dd>
@@ -146,7 +146,7 @@ function SettlementDetailView({
                   )}
                   {data.paidAt && (
                     <>
-                      <dt className="text-muted-foreground">Paid At</dt>
+                      <dt className="text-muted-foreground">Pagado el</dt>
                       <dd>
                         {formatDate(data.paidAt)}
                       </dd>
@@ -154,13 +154,13 @@ function SettlementDetailView({
                   )}
                   {data.comment && (
                     <>
-                      <dt className="text-muted-foreground">Comment</dt>
+                      <dt className="text-muted-foreground">Comentario</dt>
                       <dd>{data.comment}</dd>
                     </>
                   )}
                   {data.screenshotUrl && (
                     <>
-                      <dt className="text-muted-foreground">Screenshot</dt>
+                      <dt className="text-muted-foreground">Captura de pantalla</dt>
                       <dd>
                         <a
                           href={data.screenshotUrl}
@@ -168,7 +168,7 @@ function SettlementDetailView({
                           rel="noopener noreferrer"
                           className="text-primary underline"
                         >
-                          View
+                          Ver
                         </a>
                       </dd>
                     </>
@@ -181,7 +181,7 @@ function SettlementDetailView({
           {data.status === 'PENDING' && (
             <>
               <Button onClick={() => setPaymentOpen(true)}>
-                Record Payment
+                Registrar pago
               </Button>
               <RecordPaymentForm
                 open={paymentOpen}

@@ -16,10 +16,10 @@ import { Label } from '@/components/ui/label'
 import type { RecordPaymentData } from '../api/settlements.api'
 
 const paymentSchema = z.object({
-  transferDate: z.string().min(1, 'Transfer date is required'),
+  transferDate: z.string().min(1, 'La fecha de transferencia es obligatoria'),
   transactionNumber: z
     .string()
-    .min(1, 'Transaction number is required')
+    .min(1, 'El número de transacción es obligatorio')
     .max(100),
   comment: z.string().max(500).optional(),
   screenshotUrl: z.string().url().optional().or(z.literal('')),
@@ -65,9 +65,9 @@ export function RecordPaymentForm({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Record Payment</DialogTitle>
+          <DialogTitle>Registrar pago</DialogTitle>
           <DialogDescription>
-            Enter the transfer details for this settlement.
+            Ingresa los detalles de la transferencia para esta liquidación.
           </DialogDescription>
         </DialogHeader>
 
@@ -76,7 +76,7 @@ export function RecordPaymentForm({
           className="grid gap-4 py-2"
         >
           <div className="grid gap-2">
-            <Label htmlFor="transferDate">Transfer Date</Label>
+            <Label htmlFor="transferDate">Fecha de transferencia</Label>
             <Input
               id="transferDate"
               type="date"
@@ -90,10 +90,10 @@ export function RecordPaymentForm({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="transactionNumber">Transaction Number</Label>
+            <Label htmlFor="transactionNumber">Número de transacción</Label>
             <Input
               id="transactionNumber"
-              placeholder="e.g. TXN-123456"
+              placeholder="ej. TXN-123456"
               {...register('transactionNumber')}
             />
             {errors.transactionNumber && (
@@ -104,16 +104,16 @@ export function RecordPaymentForm({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="bankAccountId">Bank Account ID (optional)</Label>
+            <Label htmlFor="bankAccountId">ID de cuenta bancaria (opcional)</Label>
             <Input
               id="bankAccountId"
-              placeholder="UUID of bank account"
+              placeholder="UUID de la cuenta bancaria"
               {...register('bankAccountId')}
             />
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="screenshotUrl">Screenshot URL (optional)</Label>
+            <Label htmlFor="screenshotUrl">URL de captura (opcional)</Label>
             <Input
               id="screenshotUrl"
               placeholder="https://..."
@@ -127,10 +127,10 @@ export function RecordPaymentForm({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="comment">Comment (optional)</Label>
+            <Label htmlFor="comment">Comentario (opcional)</Label>
             <Input
               id="comment"
-              placeholder="Additional notes..."
+              placeholder="Notas adicionales..."
               {...register('comment')}
             />
           </div>
@@ -141,11 +141,11 @@ export function RecordPaymentForm({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              Cancelar
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && <Loader2 className="animate-spin" />}
-              Record Payment
+              Registrar pago
             </Button>
           </DialogFooter>
         </form>

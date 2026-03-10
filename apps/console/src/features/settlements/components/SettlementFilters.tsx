@@ -33,18 +33,18 @@ export function SettlementFilters({
         }
       >
         <SelectTrigger className="w-36">
-          <SelectValue placeholder="All statuses" />
+          <SelectValue placeholder="Todos los estados" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All statuses</SelectItem>
-          <SelectItem value="PENDING">Pending</SelectItem>
-          <SelectItem value="PAID">Paid</SelectItem>
+          <SelectItem value="all">Todos los estados</SelectItem>
+          <SelectItem value="PENDING">Pendiente</SelectItem>
+          <SelectItem value="PAID">Pagado</SelectItem>
         </SelectContent>
       </Select>
 
       <div className="grid gap-1">
         <Label htmlFor="settle-from" className="text-xs">
-          From
+          Desde
         </Label>
         <Input
           id="settle-from"
@@ -55,7 +55,7 @@ export function SettlementFilters({
       </div>
       <div className="grid gap-1">
         <Label htmlFor="settle-to" className="text-xs">
-          To
+          Hasta
         </Label>
         <Input
           id="settle-to"

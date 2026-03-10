@@ -37,14 +37,14 @@ export function IncidentFilters({
         }
       >
         <SelectTrigger className="w-40">
-          <SelectValue placeholder="All statuses" />
+          <SelectValue placeholder="Todos los estados" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All statuses</SelectItem>
-          <SelectItem value="OPEN">Open</SelectItem>
-          <SelectItem value="INVESTIGATING">Investigating</SelectItem>
-          <SelectItem value="RESOLVED">Resolved</SelectItem>
-          <SelectItem value="CLOSED">Closed</SelectItem>
+          <SelectItem value="all">Todos los estados</SelectItem>
+          <SelectItem value="OPEN">Abierto</SelectItem>
+          <SelectItem value="INVESTIGATING">En investigación</SelectItem>
+          <SelectItem value="RESOLVED">Resuelto</SelectItem>
+          <SelectItem value="CLOSED">Cerrado</SelectItem>
         </SelectContent>
       </Select>
 
@@ -55,14 +55,14 @@ export function IncidentFilters({
         }
       >
         <SelectTrigger className="w-36">
-          <SelectValue placeholder="All severities" />
+          <SelectValue placeholder="Todas las severidades" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All severities</SelectItem>
-          <SelectItem value="LOW">Low</SelectItem>
-          <SelectItem value="MEDIUM">Medium</SelectItem>
-          <SelectItem value="HIGH">High</SelectItem>
-          <SelectItem value="CRITICAL">Critical</SelectItem>
+          <SelectItem value="all">Todas las severidades</SelectItem>
+          <SelectItem value="LOW">Baja</SelectItem>
+          <SelectItem value="MEDIUM">Media</SelectItem>
+          <SelectItem value="HIGH">Alta</SelectItem>
+          <SelectItem value="CRITICAL">Crítica</SelectItem>
         </SelectContent>
       </Select>
 
@@ -73,15 +73,15 @@ export function IncidentFilters({
         }
       >
         <SelectTrigger className="w-36">
-          <SelectValue placeholder="All types" />
+          <SelectValue placeholder="Todos los tipos" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All types</SelectItem>
-          <SelectItem value="DAMAGE">Damage</SelectItem>
-          <SelectItem value="DELAY">Delay</SelectItem>
-          <SelectItem value="LOSS">Loss</SelectItem>
-          <SelectItem value="FRAUD">Fraud</SelectItem>
-          <SelectItem value="OTHER">Other</SelectItem>
+          <SelectItem value="all">Todos los tipos</SelectItem>
+          <SelectItem value="DAMAGE">Daño</SelectItem>
+          <SelectItem value="DELAY">Retraso</SelectItem>
+          <SelectItem value="LOSS">Pérdida</SelectItem>
+          <SelectItem value="FRAUD">Fraude</SelectItem>
+          <SelectItem value="OTHER">Otro</SelectItem>
         </SelectContent>
       </Select>
     </div>

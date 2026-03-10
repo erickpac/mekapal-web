@@ -51,20 +51,20 @@ export function AssignedClientsTab({ profileId }: AssignedClientsTabProps) {
   return (
     <div className="space-y-4">
       <p className="text-muted-foreground text-sm">
-        Assign or remove clients from this billing profile by entering their
-        client ID.
+        Asigna o elimina clientes de este perfil de facturación ingresando su
+        ID de cliente.
       </p>
 
       <div className="flex gap-2">
         <Button size="sm" onClick={() => setAssignOpen(true)}>
-          Assign Client
+          Asignar cliente
         </Button>
         <Button
           size="sm"
           variant="outline"
           onClick={() => setUnassignOpen(true)}
         >
-          Remove Client
+          Eliminar cliente
         </Button>
       </div>
 
@@ -77,30 +77,30 @@ export function AssignedClientsTab({ profileId }: AssignedClientsTabProps) {
       >
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
-            <DialogTitle>Assign Client</DialogTitle>
+            <DialogTitle>Asignar cliente</DialogTitle>
             <DialogDescription>
-              Enter the client ID to assign to this billing profile.
+              Ingresa el ID del cliente para asignar a este perfil de facturación.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-2">
-            <Label htmlFor="assign-client-id">Client ID</Label>
+            <Label htmlFor="assign-client-id">ID del cliente</Label>
             <Input
               id="assign-client-id"
-              placeholder="Client UUID"
+              placeholder="UUID del cliente"
               value={clientId}
               onChange={(e) => setClientId(e.target.value)}
             />
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setAssignOpen(false)}>
-              Cancel
+              Cancelar
             </Button>
             <Button
               onClick={handleAssign}
               disabled={!clientId.trim() || assign.isPending}
             >
               {assign.isPending && <Loader2 className="animate-spin" />}
-              Assign
+              Asignar
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -115,23 +115,23 @@ export function AssignedClientsTab({ profileId }: AssignedClientsTabProps) {
       >
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
-            <DialogTitle>Remove Client</DialogTitle>
+            <DialogTitle>Eliminar cliente</DialogTitle>
             <DialogDescription>
-              Enter the client ID to remove their billing profile assignment.
+              Ingresa el ID del cliente para eliminar su asignación de perfil de facturación.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-2">
-            <Label htmlFor="unassign-client-id">Client ID</Label>
+            <Label htmlFor="unassign-client-id">ID del cliente</Label>
             <Input
               id="unassign-client-id"
-              placeholder="Client UUID"
+              placeholder="UUID del cliente"
               value={clientId}
               onChange={(e) => setClientId(e.target.value)}
             />
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setUnassignOpen(false)}>
-              Cancel
+              Cancelar
             </Button>
             <Button
               variant="destructive"
@@ -139,7 +139,7 @@ export function AssignedClientsTab({ profileId }: AssignedClientsTabProps) {
               disabled={!clientId.trim() || unassign.isPending}
             >
               {unassign.isPending && <Loader2 className="animate-spin" />}
-              Remove
+              Eliminar
             </Button>
           </DialogFooter>
         </DialogContent>

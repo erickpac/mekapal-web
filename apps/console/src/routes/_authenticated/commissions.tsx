@@ -38,49 +38,49 @@ function CommissionsPage() {
       <div className="space-y-4">
         <Button variant="ghost" size="sm" onClick={() => setSelected(null)}>
           <ArrowLeft className="size-4" />
-          Back to list
+          Volver a la lista
         </Button>
 
         <h2 className="text-lg font-semibold">{selected.name}</h2>
 
         <Tabs defaultValue="details">
           <TabsList>
-            <TabsTrigger value="details">Details</TabsTrigger>
-            <TabsTrigger value="clients">Clients</TabsTrigger>
+            <TabsTrigger value="details">Detalles</TabsTrigger>
+            <TabsTrigger value="clients">Clientes</TabsTrigger>
           </TabsList>
 
           <TabsContent value="details" className="mt-4">
             <dl className="grid max-w-md grid-cols-2 gap-x-4 gap-y-2 text-sm">
-              <dt className="text-muted-foreground">Type</dt>
+              <dt className="text-muted-foreground">Tipo</dt>
               <dd>{selected.commissionType}</dd>
-              <dt className="text-muted-foreground">Value</dt>
+              <dt className="text-muted-foreground">Valor</dt>
               <dd>
                 {selected.commissionType === 'PERCENTAGE'
                   ? `${selected.commissionValue}%`
                   : `Q${selected.commissionValue.toFixed(2)}`}
               </dd>
-              <dt className="text-muted-foreground">Min Amount</dt>
+              <dt className="text-muted-foreground">Monto mínimo</dt>
               <dd>
                 {selected.commissionMinimum != null
                   ? `Q${selected.commissionMinimum.toFixed(2)}`
                   : '—'}
               </dd>
-              <dt className="text-muted-foreground">Max Amount</dt>
+              <dt className="text-muted-foreground">Monto máximo</dt>
               <dd>
                 {selected.commissionMaximum != null
                   ? `Q${selected.commissionMaximum.toFixed(2)}`
                   : '—'}
               </dd>
-              <dt className="text-muted-foreground">Tax</dt>
+              <dt className="text-muted-foreground">Impuesto</dt>
               <dd>{selected.taxPercent}%</dd>
-              <dt className="text-muted-foreground">Commission Exempt</dt>
-              <dd>{selected.isCommissionExempt ? 'Yes' : 'No'}</dd>
-              <dt className="text-muted-foreground">Tax Exempt</dt>
-              <dd>{selected.isTaxExempt ? 'Yes' : 'No'}</dd>
-              <dt className="text-muted-foreground">Default</dt>
-              <dd>{selected.isDefault ? 'Yes' : 'No'}</dd>
-              <dt className="text-muted-foreground">Status</dt>
-              <dd>{selected.isActive ? 'Active' : 'Inactive'}</dd>
+              <dt className="text-muted-foreground">Exento de comisión</dt>
+              <dd>{selected.isCommissionExempt ? 'Sí' : 'No'}</dd>
+              <dt className="text-muted-foreground">Exento de impuesto</dt>
+              <dd>{selected.isTaxExempt ? 'Sí' : 'No'}</dd>
+              <dt className="text-muted-foreground">Predeterminado</dt>
+              <dd>{selected.isDefault ? 'Sí' : 'No'}</dd>
+              <dt className="text-muted-foreground">Estado</dt>
+              <dd>{selected.isActive ? 'Activo' : 'Inactivo'}</dd>
             </dl>
           </TabsContent>
 
@@ -95,10 +95,10 @@ function CommissionsPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Commissions</h1>
+        <h1 className="text-2xl font-bold">Comisiones</h1>
         <Button size="sm" onClick={() => setFormOpen(true)}>
           <Plus className="size-4" />
-          New Profile
+          Nuevo perfil
         </Button>
       </div>
 

@@ -43,9 +43,9 @@ function ReportsPage() {
       a.download = `report-${fromDate}-to-${toDate}.csv`
       a.click()
       URL.revokeObjectURL(url)
-      toast.success('Report exported')
+      toast.success('Reporte exportado')
     } catch {
-      toast.error('Failed to export report')
+      toast.error('Error al exportar el reporte')
     } finally {
       setExporting(false)
     }
@@ -55,9 +55,9 @@ function ReportsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Reports</h1>
+          <h1 className="text-2xl font-bold">Reportes</h1>
           <p className="text-muted-foreground">
-            Financial summary for the selected period.
+            Resumen financiero del período seleccionado.
           </p>
         </div>
         <Button size="sm" onClick={handleExport} disabled={exporting}>
@@ -66,7 +66,7 @@ function ReportsPage() {
           ) : (
             <Download className="size-4" />
           )}
-          Export CSV
+          Exportar CSV
         </Button>
       </div>
 

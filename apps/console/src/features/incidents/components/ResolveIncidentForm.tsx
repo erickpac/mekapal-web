@@ -26,7 +26,7 @@ import type { ResolveIncidentData } from '../api/incidents.api'
 
 const resolveSchema = z.object({
   resolution: z.enum(['RESOLVED_SATISFACTORILY', 'CLOSED_WITHOUT_RESOLUTION']),
-  resolutionNotes: z.string().min(100, 'Minimum 100 characters required'),
+  resolutionNotes: z.string().min(100, 'Se requieren mínimo 100 caracteres'),
   refundAmount: z.number().min(0).optional(),
   userAction: z.enum(['NONE', 'WARNING', 'SUSPENSION', 'BAN']).optional(),
 })
@@ -34,15 +34,15 @@ const resolveSchema = z.object({
 type ResolveFormValues = z.infer<typeof resolveSchema>
 
 const RESOLUTIONS: { value: IncidentResolution; label: string }[] = [
-  { value: 'RESOLVED_SATISFACTORILY', label: 'Resolved satisfactorily' },
-  { value: 'CLOSED_WITHOUT_RESOLUTION', label: 'Closed without resolution' },
+  { value: 'RESOLVED_SATISFACTORILY', label: 'Resuelto satisfactoriamente' },
+  { value: 'CLOSED_WITHOUT_RESOLUTION', label: 'Cerrado sin resolución' },
 ]
 
 const USER_ACTIONS: { value: UserAction; label: string }[] = [
-  { value: 'NONE', label: 'None' },
-  { value: 'WARNING', label: 'Warning' },
-  { value: 'SUSPENSION', label: 'Suspension' },
-  { value: 'BAN', label: 'Ban' },
+  { value: 'NONE', label: 'Ninguna' },
+  { value: 'WARNING', label: 'Advertencia' },
+  { value: 'SUSPENSION', label: 'Suspensión' },
+  { value: 'BAN', label: 'Bloqueo' },
 ]
 
 interface ResolveIncidentFormProps {
@@ -86,9 +86,9 @@ export function ResolveIncidentForm({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Resolve Incident</DialogTitle>
+          <DialogTitle>Resolver incidente</DialogTitle>
           <DialogDescription>
-            Provide resolution details and any action to take.
+            Proporciona los detalles de la resolución y cualquier acción a tomar.
           </DialogDescription>
         </DialogHeader>
 
@@ -97,7 +97,7 @@ export function ResolveIncidentForm({
           className="grid gap-4 py-2"
         >
           <div className="grid gap-2">
-            <Label>Resolution</Label>
+            <Label>Resolución</Label>
             <Select
               value={resolution}
               onValueChange={(v) =>
@@ -105,7 +105,7 @@ export function ResolveIncidentForm({
               }
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select resolution..." />
+                <SelectValue placeholder="Seleccionar resolución..." />
               </SelectTrigger>
               <SelectContent>
                 {RESOLUTIONS.map((r) => (
@@ -123,10 +123,10 @@ export function ResolveIncidentForm({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="resolutionNotes">Resolution Notes</Label>
+            <Label htmlFor="resolutionNotes">Notas de resolución</Label>
             <Textarea
               id="resolutionNotes"
-              placeholder="Describe the resolution in detail..."
+              placeholder="Describe la resolución en detalle..."
               rows={4}
               {...register('resolutionNotes')}
             />
@@ -138,7 +138,7 @@ export function ResolveIncidentForm({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="refundAmount">Refund Amount (optional)</Label>
+            <Label htmlFor="refundAmount">Monto de reembolso (opcional)</Label>
             <Input
               id="refundAmount"
               type="number"
@@ -154,13 +154,13 @@ export function ResolveIncidentForm({
           </div>
 
           <div className="grid gap-2">
-            <Label>User Action (optional)</Label>
+            <Label>Acción del usuario (opcional)</Label>
             <Select
               value={userAction}
               onValueChange={(v) => setValue('userAction', v as UserAction)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select action..." />
+                <SelectValue placeholder="Seleccionar acción..." />
               </SelectTrigger>
               <SelectContent>
                 {USER_ACTIONS.map((action) => (
@@ -178,11 +178,11 @@ export function ResolveIncidentForm({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              Cancelar
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && <Loader2 className="animate-spin" />}
-              Resolve
+              Resolver
             </Button>
           </DialogFooter>
         </form>

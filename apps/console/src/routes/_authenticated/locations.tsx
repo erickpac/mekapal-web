@@ -58,17 +58,17 @@ interface BreadcrumbEntry {
 }
 
 const LEVEL_LABELS: Record<LocationLevel, string> = {
-  country: 'Country',
-  state: 'State',
-  municipality: 'Municipality',
-  zone: 'Zone',
+  country: 'País',
+  state: 'Departamento',
+  municipality: 'Municipio',
+  zone: 'Zona',
 }
 
 const LEVEL_PLURAL: Record<LocationLevel, string> = {
-  country: 'Countries',
-  state: 'States',
-  municipality: 'Municipalities',
-  zone: 'Zones',
+  country: 'Países',
+  state: 'Departamentos',
+  municipality: 'Municipios',
+  zone: 'Zonas',
 }
 
 function LocationsPage() {
@@ -197,9 +197,9 @@ function LocationsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Locations</h1>
+          <h1 className="text-2xl font-bold">Ubicaciones</h1>
           <p className="text-muted-foreground">
-            Manage the location hierarchy for your operations.
+            Administra la jerarquía de ubicaciones para tus operaciones.
           </p>
         </div>
       </div>
@@ -211,13 +211,13 @@ function LocationsPage() {
               <CardTitle>{LEVEL_PLURAL[currentLevel]}</CardTitle>
               <CardDescription>
                 {path.length > 0
-                  ? `Under ${path[path.length - 1].name}`
-                  : 'Top-level countries'}
+                  ? `Dentro de ${path[path.length - 1].name}`
+                  : 'Países de nivel superior'}
               </CardDescription>
             </div>
             <Button size="sm" onClick={() => setFormOpen(true)}>
               <Plus className="size-4" />
-              Add {LEVEL_LABELS[currentLevel]}
+              Agregar {LEVEL_LABELS[currentLevel]}
             </Button>
           </div>
 
@@ -229,7 +229,7 @@ function LocationsPage() {
                     className="cursor-pointer"
                     onClick={() => handleBreadcrumbClick(0)}
                   >
-                    Countries
+                    Países
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 {path.map((entry, i) => (

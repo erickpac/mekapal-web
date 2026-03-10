@@ -21,8 +21,8 @@ const optionalNumber = z.preprocess(
 )
 
 const locationSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  code: z.string().min(1, 'Code is required'),
+  name: z.string().min(1, 'El nombre es obligatorio'),
+  code: z.string().min(1, 'El código es obligatorio'),
   latitude: optionalNumber,
   longitude: optionalNumber,
 })
@@ -84,7 +84,7 @@ export function LocationFormDialog({
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? `Edit ${levelLabel}` : `Create ${levelLabel}`}
+            {isEditing ? `Editar ${levelLabel}` : `Crear ${levelLabel}`}
           </DialogTitle>
         </DialogHeader>
 
@@ -93,7 +93,7 @@ export function LocationFormDialog({
           className="grid gap-4 py-2"
         >
           <div className="grid gap-2">
-            <Label htmlFor="loc-name">Name</Label>
+            <Label htmlFor="loc-name">Nombre</Label>
             <Input id="loc-name" {...register('name')} />
             {errors.name && (
               <p className="text-destructive text-sm">{errors.name.message}</p>
@@ -101,7 +101,7 @@ export function LocationFormDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="loc-code">Code</Label>
+            <Label htmlFor="loc-code">Código</Label>
             <Input id="loc-code" {...register('code')} />
             {errors.code && (
               <p className="text-destructive text-sm">{errors.code.message}</p>
@@ -111,7 +111,7 @@ export function LocationFormDialog({
           {showCoordinates && (
             <>
               <div className="grid gap-2">
-                <Label htmlFor="loc-lat">Latitude</Label>
+                <Label htmlFor="loc-lat">Latitud</Label>
                 <Input
                   id="loc-lat"
                   type="number"
@@ -120,7 +120,7 @@ export function LocationFormDialog({
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="loc-lng">Longitude</Label>
+                <Label htmlFor="loc-lng">Longitud</Label>
                 <Input
                   id="loc-lng"
                   type="number"
@@ -137,11 +137,11 @@ export function LocationFormDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              Cancelar
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && <Loader2 className="animate-spin" />}
-              {isEditing ? 'Save' : 'Create'}
+              {isEditing ? 'Guardar' : 'Crear'}
             </Button>
           </DialogFooter>
         </form>

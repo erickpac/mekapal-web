@@ -21,7 +21,7 @@ export function RevenueChart({ data, loading }: RevenueChartProps) {
   return (
     <Card className="col-span-full lg:col-span-2">
       <CardHeader>
-        <CardTitle>Revenue (last 30 days)</CardTitle>
+        <CardTitle>Ingresos (últimos 30 días)</CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (
@@ -41,7 +41,7 @@ export function RevenueChart({ data, loading }: RevenueChartProps) {
               <Tooltip
                 formatter={(value) => [
                   formatCurrency(Number(value)),
-                  'Revenue',
+                  'Ingresos',
                 ]}
                 labelFormatter={(label) => formatDate(String(label))}
               />
