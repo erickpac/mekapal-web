@@ -59,31 +59,40 @@ export function BillingProfilesTable({
                 className="cursor-pointer"
                 onClick={() => onRowClick(profile)}
               >
-                <TableCell className="font-medium">{profile.name}</TableCell>
+                <TableCell className="font-medium">
+                  {profile.name}
+                  {profile.isDefault && (
+                    <Badge variant="outline" className="ml-2">
+                      Default
+                    </Badge>
+                  )}
+                </TableCell>
                 <TableCell>
-                  <Badge variant="outline">{profile.type}</Badge>
+                  <Badge variant="outline">{profile.commissionType}</Badge>
                 </TableCell>
                 <TableCell className="text-right">
-                  {profile.type === 'PERCENTAGE'
-                    ? `${profile.value}%`
-                    : `Q${profile.value.toFixed(2)}`}
+                  {profile.commissionType === 'PERCENTAGE'
+                    ? `${profile.commissionValue}%`
+                    : `Q${profile.commissionValue.toFixed(2)}`}
                 </TableCell>
                 <TableCell className="text-right">
-                  {profile.minAmount != null
-                    ? `Q${profile.minAmount.toFixed(2)}`
+                  {profile.commissionMinimum != null
+                    ? `Q${profile.commissionMinimum.toFixed(2)}`
                     : '—'}
                 </TableCell>
                 <TableCell className="text-right">
-                  {profile.maxAmount != null
-                    ? `Q${profile.maxAmount.toFixed(2)}`
+                  {profile.commissionMaximum != null
+                    ? `Q${profile.commissionMaximum.toFixed(2)}`
                     : '—'}
                 </TableCell>
                 <TableCell className="text-right">
-                  {profile.taxPercentage}%
+                  {profile.taxPercent}%
                 </TableCell>
                 <TableCell>
-                  <Badge variant={profile.active ? 'default' : 'secondary'}>
-                    {profile.active ? 'Active' : 'Inactive'}
+                  <Badge
+                    variant={profile.isActive ? 'default' : 'secondary'}
+                  >
+                    {profile.isActive ? 'Active' : 'Inactive'}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">

@@ -52,29 +52,35 @@ function CommissionsPage() {
           <TabsContent value="details" className="mt-4">
             <dl className="grid max-w-md grid-cols-2 gap-x-4 gap-y-2 text-sm">
               <dt className="text-muted-foreground">Type</dt>
-              <dd>{selected.type}</dd>
+              <dd>{selected.commissionType}</dd>
               <dt className="text-muted-foreground">Value</dt>
               <dd>
-                {selected.type === 'PERCENTAGE'
-                  ? `${selected.value}%`
-                  : `Q${selected.value.toFixed(2)}`}
+                {selected.commissionType === 'PERCENTAGE'
+                  ? `${selected.commissionValue}%`
+                  : `Q${selected.commissionValue.toFixed(2)}`}
               </dd>
               <dt className="text-muted-foreground">Min Amount</dt>
               <dd>
-                {selected.minAmount != null
-                  ? `Q${selected.minAmount.toFixed(2)}`
+                {selected.commissionMinimum != null
+                  ? `Q${selected.commissionMinimum.toFixed(2)}`
                   : '—'}
               </dd>
               <dt className="text-muted-foreground">Max Amount</dt>
               <dd>
-                {selected.maxAmount != null
-                  ? `Q${selected.maxAmount.toFixed(2)}`
+                {selected.commissionMaximum != null
+                  ? `Q${selected.commissionMaximum.toFixed(2)}`
                   : '—'}
               </dd>
               <dt className="text-muted-foreground">Tax</dt>
-              <dd>{selected.taxPercentage}%</dd>
+              <dd>{selected.taxPercent}%</dd>
+              <dt className="text-muted-foreground">Commission Exempt</dt>
+              <dd>{selected.isCommissionExempt ? 'Yes' : 'No'}</dd>
+              <dt className="text-muted-foreground">Tax Exempt</dt>
+              <dd>{selected.isTaxExempt ? 'Yes' : 'No'}</dd>
+              <dt className="text-muted-foreground">Default</dt>
+              <dd>{selected.isDefault ? 'Yes' : 'No'}</dd>
               <dt className="text-muted-foreground">Status</dt>
-              <dd>{selected.active ? 'Active' : 'Inactive'}</dd>
+              <dd>{selected.isActive ? 'Active' : 'Inactive'}</dd>
             </dl>
           </TabsContent>
 

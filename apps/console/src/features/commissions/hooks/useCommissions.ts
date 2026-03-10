@@ -1,7 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
-import type { BillingProfileFormData } from '../api/commissions.api'
+import type {
+  BillingProfileFormData,
+  UpdateBillingProfileData,
+} from '../api/commissions.api'
 import * as api from '../api/commissions.api'
 
 export function useBillingProfiles() {
@@ -37,8 +40,13 @@ export function useCreateBillingProfile() {
 export function useUpdateBillingProfile() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: BillingProfileFormData }) =>
-      api.updateBillingProfile(id, data),
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string
+      data: UpdateBillingProfileData
+    }) => api.updateBillingProfile(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['billing-profiles'] })
       toast.success('Billing profile updated')
@@ -63,22 +71,6 @@ export function useDeleteBillingProfile() {
   })
 }
 
-export function useAssignedClients(profileId: string) {
-  return useQuery({
-    queryKey: ['billing-profiles', profileId, 'clients'],
-    queryFn: () => api.getAssignedClients(profileId),
-    enabled: !!profileId,
-  })
-}
-
-export function useSearchClients(query: string) {
-  return useQuery({
-    queryKey: ['clients', 'search', query],
-    queryFn: () => api.searchClients(query),
-    enabled: query.length >= 2,
-  })
-}
-
 export function useAssignClient() {
   const queryClient = useQueryClient()
   return useMutation({
@@ -90,9 +82,7 @@ export function useAssignClient() {
       profileId: string
     }) => api.assignClient(clientId, profileId),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['billing-profiles'],
-      })
+      queryClient.invalidateQueries({ queryKey: ['billing-profiles'] })
       toast.success('Client assigned')
     },
     onError: () => {
@@ -104,17 +94,9 @@ export function useAssignClient() {
 export function useUnassignClient() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({
-      clientId,
-      profileId,
-    }: {
-      clientId: string
-      profileId: string
-    }) => api.unassignClient(clientId, profileId),
+    mutationFn: (clientId: string) => api.unassignClient(clientId),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['billing-profiles'],
-      })
+      queryClient.invalidateQueries({ queryKey: ['billing-profiles'] })
       toast.success('Client removed')
     },
     onError: () => {

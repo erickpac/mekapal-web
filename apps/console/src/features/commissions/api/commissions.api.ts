@@ -4,35 +4,45 @@ import type { CommissionType } from '@/shared/types'
 export interface BillingProfile {
   id: string
   name: string
-  type: CommissionType
-  value: number
-  minAmount: number | null
-  maxAmount: number | null
-  taxPercentage: number
-  active: boolean
+  description: string | null
+  commissionType: CommissionType
+  commissionValue: number
+  commissionMinimum: number | null
+  commissionMaximum: number | null
+  isCommissionExempt: boolean
+  taxPercent: number
+  isTaxExempt: boolean
+  isDefault: boolean
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
 }
 
 export interface BillingProfileFormData {
   name: string
-  type: CommissionType
-  value: number
-  minAmount?: number | null
-  maxAmount?: number | null
-  taxPercentage: number
-  active: boolean
+  description?: string
+  commissionType: CommissionType
+  commissionValue: number
+  commissionMinimum?: number
+  commissionMaximum?: number
+  isCommissionExempt?: boolean
+  taxPercent: number
+  isTaxExempt?: boolean
+  isDefault?: boolean
 }
 
-export interface AssignedClient {
-  id: string
-  name: string
-  email: string
-  assignedAt: string
-}
-
-export interface ClientSearchResult {
-  id: string
-  name: string
-  email: string
+export interface UpdateBillingProfileData {
+  name?: string
+  description?: string | null
+  commissionType?: CommissionType
+  commissionValue?: number
+  commissionMinimum?: number | null
+  commissionMaximum?: number | null
+  isCommissionExempt?: boolean
+  taxPercent?: number
+  isTaxExempt?: boolean
+  isDefault?: boolean
+  isActive?: boolean
 }
 
 export async function getBillingProfiles(): Promise<BillingProfile[]> {
@@ -61,9 +71,9 @@ export async function createBillingProfile(
 
 export async function updateBillingProfile(
   id: string,
-  payload: BillingProfileFormData,
+  payload: UpdateBillingProfileData,
 ): Promise<BillingProfile> {
-  const { data } = await apiClient.put<BillingProfile>(
+  const { data } = await apiClient.patch<BillingProfile>(
     `/admin/billing-profiles/${id}`,
     payload,
   )
@@ -74,39 +84,15 @@ export async function deleteBillingProfile(id: string): Promise<void> {
   await apiClient.delete(`/admin/billing-profiles/${id}`)
 }
 
-export async function getAssignedClients(
-  profileId: string,
-): Promise<AssignedClient[]> {
-  const { data } = await apiClient.get<AssignedClient[]>(
-    `/admin/billing-profiles/${profileId}/clients`,
-  )
-  return data
-}
-
-export async function searchClients(
-  query: string,
-): Promise<ClientSearchResult[]> {
-  const { data } = await apiClient.get<ClientSearchResult[]>(
-    '/admin/clients/search',
-    { params: { q: query } },
-  )
-  return data
-}
-
 export async function assignClient(
   clientId: string,
   profileId: string,
 ): Promise<void> {
   await apiClient.post(`/admin/billing-profiles/clients/${clientId}/assign`, {
-    billingProfileId: profileId,
+    profileId,
   })
 }
 
-export async function unassignClient(
-  clientId: string,
-  profileId: string,
-): Promise<void> {
-  await apiClient.delete(`/admin/billing-profiles/clients/${clientId}/assign`, {
-    data: { billingProfileId: profileId },
-  })
+export async function unassignClient(clientId: string): Promise<void> {
+  await apiClient.delete(`/admin/billing-profiles/clients/${clientId}/assign`)
 }

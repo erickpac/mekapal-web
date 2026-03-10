@@ -28,13 +28,16 @@ import type {
 } from '../api/commissions.api'
 
 const profileSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  type: z.enum(['PERCENTAGE', 'FIXED_AMOUNT']),
-  value: z.number().positive('Value must be positive'),
-  minAmount: z.number().nonnegative().nullable().optional(),
-  maxAmount: z.number().nonnegative().nullable().optional(),
-  taxPercentage: z.number().min(0).max(100),
-  active: z.boolean(),
+  name: z.string().min(1, 'Name is required').max(100),
+  description: z.string().max(500).optional(),
+  commissionType: z.enum(['PERCENTAGE', 'FIXED_AMOUNT']),
+  commissionValue: z.number().min(0, 'Value must be non-negative'),
+  commissionMinimum: z.number().min(0).optional(),
+  commissionMaximum: z.number().min(0).optional(),
+  isCommissionExempt: z.boolean().optional(),
+  taxPercent: z.number().min(0).max(100),
+  isTaxExempt: z.boolean().optional(),
+  isDefault: z.boolean().optional(),
 })
 
 type ProfileFormValues = z.infer<typeof profileSchema>
@@ -67,38 +70,41 @@ export function BillingProfileFormDialog({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       name: '',
-      type: 'PERCENTAGE',
-      value: 0,
-      minAmount: null,
-      maxAmount: null,
-      taxPercentage: 0,
-      active: true,
+      commissionType: 'PERCENTAGE',
+      commissionValue: 0,
+      taxPercent: 0,
+      isCommissionExempt: false,
+      isTaxExempt: false,
+      isDefault: false,
     },
   })
 
-  const commissionType = watch('type')
-  const active = watch('active')
+  const commissionType = watch('commissionType')
+  const isActive = profile?.isActive ?? true
 
   useEffect(() => {
     if (profile) {
       reset({
         name: profile.name,
-        type: profile.type,
-        value: profile.value,
-        minAmount: profile.minAmount,
-        maxAmount: profile.maxAmount,
-        taxPercentage: profile.taxPercentage,
-        active: profile.active,
+        description: profile.description ?? undefined,
+        commissionType: profile.commissionType,
+        commissionValue: profile.commissionValue,
+        commissionMinimum: profile.commissionMinimum ?? undefined,
+        commissionMaximum: profile.commissionMaximum ?? undefined,
+        isCommissionExempt: profile.isCommissionExempt,
+        taxPercent: profile.taxPercent,
+        isTaxExempt: profile.isTaxExempt,
+        isDefault: profile.isDefault,
       })
     } else {
       reset({
         name: '',
-        type: 'PERCENTAGE',
-        value: 0,
-        minAmount: null,
-        maxAmount: null,
-        taxPercentage: 0,
-        active: true,
+        commissionType: 'PERCENTAGE',
+        commissionValue: 0,
+        taxPercent: 0,
+        isCommissionExempt: false,
+        isTaxExempt: false,
+        isDefault: false,
       })
     }
   }, [profile, reset])
@@ -125,10 +131,17 @@ export function BillingProfileFormDialog({
           </div>
 
           <div className="grid gap-2">
+            <Label htmlFor="bp-desc">Description (optional)</Label>
+            <Input id="bp-desc" {...register('description')} />
+          </div>
+
+          <div className="grid gap-2">
             <Label>Commission Type</Label>
             <Select
               value={commissionType}
-              onValueChange={(v) => setValue('type', v as CommissionType)}
+              onValueChange={(v) =>
+                setValue('commissionType', v as CommissionType)
+              }
             >
               <SelectTrigger>
                 <SelectValue />
@@ -148,69 +161,87 @@ export function BillingProfileFormDialog({
               id="bp-value"
               type="number"
               step="0.01"
-              {...register('value', { valueAsNumber: true })}
+              {...register('commissionValue', { valueAsNumber: true })}
             />
-            {errors.value && (
-              <p className="text-destructive text-sm">{errors.value.message}</p>
-            )}
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div className="grid gap-2">
-              <Label htmlFor="bp-min">Min Amount (Q)</Label>
-              <Input
-                id="bp-min"
-                type="number"
-                step="0.01"
-                placeholder="Optional"
-                {...register('minAmount', { valueAsNumber: true })}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="bp-max">Max Amount (Q)</Label>
-              <Input
-                id="bp-max"
-                type="number"
-                step="0.01"
-                placeholder="Optional"
-                {...register('maxAmount', { valueAsNumber: true })}
-              />
-            </div>
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="bp-tax">Tax Percentage (%)</Label>
-            <Input
-              id="bp-tax"
-              type="number"
-              step="0.01"
-              {...register('taxPercentage', { valueAsNumber: true })}
-            />
-            {errors.taxPercentage && (
+            {errors.commissionValue && (
               <p className="text-destructive text-sm">
-                {errors.taxPercentage.message}
+                {errors.commissionValue.message}
               </p>
             )}
           </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              role="switch"
-              aria-checked={active}
-              onClick={() => setValue('active', !active)}
-              className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${
-                active ? 'bg-primary' : 'bg-input'
-              }`}
-            >
-              <span
-                className={`pointer-events-none block size-4 rounded-full bg-white shadow-sm transition-transform ${
-                  active ? 'translate-x-4' : 'translate-x-0'
-                }`}
-              />
-            </button>
-            <Label>{active ? 'Active' : 'Inactive'}</Label>
+          {commissionType === 'PERCENTAGE' && (
+            <div className="grid grid-cols-2 gap-3">
+              <div className="grid gap-2">
+                <Label htmlFor="bp-min">Min Amount (Q)</Label>
+                <Input
+                  id="bp-min"
+                  type="number"
+                  step="0.01"
+                  placeholder="Optional"
+                  {...register('commissionMinimum', { valueAsNumber: true })}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="bp-max">Max Amount (Q)</Label>
+                <Input
+                  id="bp-max"
+                  type="number"
+                  step="0.01"
+                  placeholder="Optional"
+                  {...register('commissionMaximum', { valueAsNumber: true })}
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="grid gap-2">
+            <Label htmlFor="bp-tax">Tax Percent (%)</Label>
+            <Input
+              id="bp-tax"
+              type="number"
+              step="0.01"
+              {...register('taxPercent', { valueAsNumber: true })}
+            />
+            {errors.taxPercent && (
+              <p className="text-destructive text-sm">
+                {errors.taxPercent.message}
+              </p>
+            )}
           </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                {...register('isCommissionExempt')}
+                className="size-4"
+              />
+              Commission exempt
+            </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                {...register('isTaxExempt')}
+                className="size-4"
+              />
+              Tax exempt
+            </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                {...register('isDefault')}
+                className="size-4"
+              />
+              Default profile
+            </label>
+          </div>
+
+          {isEditing && (
+            <p className="text-muted-foreground text-xs">
+              Status: {isActive ? 'Active' : 'Inactive'}
+            </p>
+          )}
 
           <DialogFooter>
             <Button
