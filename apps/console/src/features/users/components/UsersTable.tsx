@@ -19,10 +19,10 @@ const ROLE_VARIANT: Record<
   string,
   'default' | 'secondary' | 'outline' | 'destructive'
 > = {
-  ADMIN: 'default',
-  BACKOFFICE: 'secondary',
-  CLIENT: 'outline',
-  TRANSPORTER: 'outline',
+  ADMIN: 'outline',
+  BACKOFFICE: 'destructive',
+  CLIENT: 'default',
+  TRANSPORTER: 'secondary',
 }
 
 export function UsersTable({ data, loading }: UsersTableProps) {

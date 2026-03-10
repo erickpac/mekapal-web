@@ -28,8 +28,8 @@ export function TopBar({ onMenuClick }: TopBarProps) {
           <span className="text-sm font-medium">
             {user.firstName} {user.lastName}
           </span>
-          <Badge variant="secondary">{user.role}</Badge>
-          <Button variant="ghost" size="icon" onClick={logout}>
+          <Badge variant="outline">{user.role}</Badge>
+          <Button variant="destructive" size="icon" onClick={logout}>
             <LogOut className="size-4" />
           </Button>
         </div>
