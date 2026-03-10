@@ -1,7 +1,5 @@
 import { apiClient } from '@/shared/api/client'
-import type { PaginatedResponse } from '@/features/validations/api/validations.api'
-
-export type SettlementStatus = 'PENDING' | 'PAID'
+import type { PaginatedQuery, SettlementStatus } from '@/shared/types'
 
 export interface SettlementItem {
   id: string
@@ -33,13 +31,11 @@ export interface PaymentInfo {
   comments?: string
 }
 
-export interface SettlementFilters {
+export interface SettlementFilters extends PaginatedQuery {
   status?: SettlementStatus
   startDate?: string
   endDate?: string
   search?: string
-  page?: number
-  pageSize?: number
 }
 
 export interface RecordPaymentData {
@@ -52,11 +48,10 @@ export interface RecordPaymentData {
 
 export async function getSettlements(
   filters: SettlementFilters,
-): Promise<PaginatedResponse<SettlementItem>> {
-  const { data } = await apiClient.get<PaginatedResponse<SettlementItem>>(
-    '/settlements',
-    { params: filters },
-  )
+): Promise<SettlementItem[]> {
+  const { data } = await apiClient.get<SettlementItem[]>('/settlements', {
+    params: filters,
+  })
   return data
 }
 

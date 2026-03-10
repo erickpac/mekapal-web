@@ -1,6 +1,5 @@
 import { apiClient } from '@/shared/api/client'
-
-export type CommissionType = 'PERCENTAGE' | 'FIXED'
+import type { CommissionType } from '@/shared/types'
 
 export interface BillingProfile {
   id: string

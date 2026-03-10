@@ -9,11 +9,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
-import type {
-  IncidentItem,
-  IncidentSeverity,
-  IncidentStatus,
-} from '../api/incidents.api'
+import type { IncidentSeverity, IncidentStatus } from '@/shared/types'
+import type { IncidentItem } from '../api/incidents.api'
 
 const severityColors: Record<IncidentSeverity, string> = {
   LOW: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',

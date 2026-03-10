@@ -1,7 +1,5 @@
 import { apiClient } from '@/shared/api/client'
-import type { PaginatedResponse } from '@/features/validations/api/validations.api'
-
-export type UserRole = 'CLIENT' | 'TRANSPORTER' | 'ADMIN' | 'BACKOFFICE'
+import type { PaginatedQuery, TransporterStatus, UserRole } from '@/shared/types'
 
 export interface UserItem {
   id: string
@@ -11,12 +9,6 @@ export interface UserItem {
   active: boolean
   createdAt: string
 }
-
-export type TransporterStatus =
-  | 'PENDING_DOCUMENTS'
-  | 'PENDING_REVIEW'
-  | 'ACTIVE'
-  | 'SUSPENDED'
 
 export interface UserDetail extends UserItem {
   phone?: string
@@ -32,20 +24,15 @@ export interface CreateAdminUserData {
   password: string
 }
 
-export interface UserFilters {
+export interface UserFilters extends PaginatedQuery {
   role?: UserRole
   search?: string
-  page?: number
-  limit?: number
 }
 
-export async function getUsers(
-  filters: UserFilters,
-): Promise<PaginatedResponse<UserItem>> {
-  const { data } = await apiClient.get<PaginatedResponse<UserItem>>(
-    '/auth/admin/users',
-    { params: filters },
-  )
+export async function getUsers(filters: UserFilters): Promise<UserItem[]> {
+  const { data } = await apiClient.get<UserItem[]>('/auth/admin/users', {
+    params: filters,
+  })
   return data
 }
 

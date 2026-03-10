@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import type { UserRole } from '../api/users.api'
+import type { UserRole } from '@/shared/types'
 
 interface UserFiltersProps {
   role: UserRole | undefined

@@ -1,3 +1,4 @@
+import { UserRole } from '@/shared/types'
 import { useAuth } from './useAuth'
 
 export type AppModule =
@@ -17,8 +18,8 @@ type RolePermissions = {
   actions: Record<AppModule, AppAction[]>
 }
 
-const PERMISSIONS: Record<string, RolePermissions> = {
-  ADMIN: {
+const PERMISSIONS: Partial<Record<UserRole, RolePermissions>> = {
+  [UserRole.ADMIN]: {
     modules: [
       'dashboard',
       'validations',
@@ -40,7 +41,7 @@ const PERMISSIONS: Record<string, RolePermissions> = {
       users: ['create'],
     },
   },
-  BACKOFFICE: {
+  [UserRole.BACKOFFICE]: {
     modules: ['dashboard', 'validations', 'settlements', 'incidents', 'users'],
     actions: {
       dashboard: [],
@@ -57,8 +58,8 @@ const PERMISSIONS: Record<string, RolePermissions> = {
 
 export function usePermissions() {
   const { user } = useAuth()
-  const role = user?.role ?? ''
-  const perms = PERMISSIONS[role]
+  const role = user?.role
+  const perms = role ? PERMISSIONS[role] : undefined
 
   function canAccess(module: AppModule): boolean {
     if (!perms) return false

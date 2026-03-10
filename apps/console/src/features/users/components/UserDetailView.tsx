@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import type { TransporterStatus } from '../api/users.api'
+import type { TransporterStatus } from '@/shared/types'
 import { useUser } from '../hooks/useUsers'
 
 interface UserDetailViewProps {

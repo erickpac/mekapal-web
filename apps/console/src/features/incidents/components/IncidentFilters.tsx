@@ -9,7 +9,7 @@ import type {
   IncidentSeverity,
   IncidentStatus,
   IncidentType,
-} from '../api/incidents.api'
+} from '@/shared/types'
 
 interface IncidentFiltersProps {
   status: IncidentStatus | undefined

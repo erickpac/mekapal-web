@@ -6,10 +6,8 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import type {
-  SettlementItem,
-  SettlementStatus,
-} from '@/features/settlements/api/settlements.api'
+import type { SettlementStatus } from '@/shared/types'
+import type { SettlementItem } from '@/features/settlements/api/settlements.api'
 import { RecordPaymentForm } from '@/features/settlements/components/RecordPaymentForm'
 import { SettlementFilters } from '@/features/settlements/components/SettlementFilters'
 import { SettlementsTable } from '@/features/settlements/components/SettlementsTable'
@@ -28,13 +26,14 @@ function formatQ(value: number) {
   return `Q${value.toLocaleString('es-GT', { minimumFractionDigits: 2 })}`
 }
 
+const LIMIT = 20
+
 function SettlementsPage() {
   const [status, setStatus] = useState<SettlementStatus>()
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [search, setSearch] = useState('')
-  const [page, setPage] = useState(1)
-  const pageSize = 20
+  const [offset, setOffset] = useState(0)
 
   const [selected, setSelected] = useState<SettlementItem | null>(null)
 
@@ -43,8 +42,8 @@ function SettlementsPage() {
     startDate: startDate || undefined,
     endDate: endDate || undefined,
     search: search || undefined,
-    page,
-    pageSize,
+    limit: LIMIT,
+    offset,
   })
 
   if (selected) {
@@ -64,31 +63,31 @@ function SettlementsPage() {
         search={search}
         onStatusChange={(s) => {
           setStatus(s)
-          setPage(1)
+          setOffset(0)
         }}
         onDateChange={(s, e) => {
           setStartDate(s)
           setEndDate(e)
-          setPage(1)
+          setOffset(0)
         }}
         onSearchChange={(s) => {
           setSearch(s)
-          setPage(1)
+          setOffset(0)
         }}
       />
 
       <SettlementsTable
-        data={data?.data ?? []}
+        data={data ?? []}
         loading={isLoading}
         onRowClick={setSelected}
       />
 
       {data && (
         <Pagination
-          page={page}
-          pageSize={pageSize}
-          total={data.total}
-          onPageChange={setPage}
+          offset={offset}
+          limit={LIMIT}
+          count={data.length}
+          onOffsetChange={setOffset}
         />
       )}
     </div>

@@ -11,10 +11,8 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { usePermissions } from '@/features/auth/hooks/usePermissions'
-import type {
-  CreateAdminUserData,
-  UserRole,
-} from '@/features/users/api/users.api'
+import type { UserRole } from '@/shared/types'
+import type { CreateAdminUserData } from '@/features/users/api/users.api'
 import { CreateAdminUserDialog } from '@/features/users/components/CreateAdminUserDialog'
 import { UserDetailView } from '@/features/users/components/UserDetailView'
 import { UserFilters } from '@/features/users/components/UserFilters'
@@ -26,21 +24,23 @@ export const Route = createFileRoute('/_authenticated/users')({
   component: UsersPage,
 })
 
+const LIMIT = 20
+
 function UsersPage() {
   const { canPerform } = usePermissions()
   const canCreate = canPerform('users', 'create')
 
   const [role, setRole] = useState<UserRole | undefined>()
   const [search, setSearch] = useState('')
-  const [page, setPage] = useState(1)
+  const [offset, setOffset] = useState(0)
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
   const [createOpen, setCreateOpen] = useState(false)
 
   const { data, isLoading } = useUsers({
     role,
     search: search || undefined,
-    page,
-    limit: 10,
+    limit: LIMIT,
+    offset,
   })
   const createUser = useCreateAdminUser()
 
@@ -87,9 +87,7 @@ function UsersPage() {
         <CardHeader>
           <CardTitle>All Users</CardTitle>
           <CardDescription>
-            {data
-              ? `${data.total} user${data.total !== 1 ? 's' : ''} found`
-              : 'Loading...'}
+            {isLoading ? 'Loading...' : `Showing ${data?.length ?? 0} users`}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -98,26 +96,26 @@ function UsersPage() {
             search={search}
             onRoleChange={(r) => {
               setRole(r)
-              setPage(1)
+              setOffset(0)
             }}
             onSearchChange={(s) => {
               setSearch(s)
-              setPage(1)
+              setOffset(0)
             }}
           />
 
           <UsersTable
-            data={data?.data ?? []}
+            data={data ?? []}
             loading={isLoading}
             onRowClick={(u) => setSelectedUserId(u.id)}
           />
 
-          {data && data.total > data.pageSize && (
+          {data && (
             <Pagination
-              page={page}
-              pageSize={data.pageSize}
-              total={data.total}
-              onPageChange={setPage}
+              offset={offset}
+              limit={LIMIT}
+              count={data.length}
+              onOffsetChange={setOffset}
             />
           )}
         </CardContent>

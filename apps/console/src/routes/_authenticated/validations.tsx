@@ -18,19 +18,20 @@ export const Route = createFileRoute('/_authenticated/validations')({
   component: ValidationsPage,
 })
 
+const LIMIT = 20
+
 function ValidationsPage() {
   const [type, setType] = useState<ValidationType>()
   const [search, setSearch] = useState('')
-  const [page, setPage] = useState(1)
-  const pageSize = 20
+  const [offset, setOffset] = useState(0)
 
   const [selected, setSelected] = useState<ValidationItem | null>(null)
 
   const { data, isLoading } = useValidations({
     type,
     search: search || undefined,
-    page,
-    pageSize,
+    limit: LIMIT,
+    offset,
   })
 
   if (selected) {
@@ -65,26 +66,26 @@ function ValidationsPage() {
         search={search}
         onTypeChange={(t) => {
           setType(t)
-          setPage(1)
+          setOffset(0)
         }}
         onSearchChange={(s) => {
           setSearch(s)
-          setPage(1)
+          setOffset(0)
         }}
       />
 
       <ValidationsTable
-        data={data?.data ?? []}
+        data={data ?? []}
         loading={isLoading}
         onRowClick={setSelected}
       />
 
       {data && (
         <Pagination
-          page={page}
-          pageSize={pageSize}
-          total={data.total}
-          onPageChange={setPage}
+          offset={offset}
+          limit={LIMIT}
+          count={data.length}
+          onOffsetChange={setOffset}
         />
       )}
     </div>

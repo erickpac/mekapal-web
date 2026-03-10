@@ -1,6 +1,6 @@
 import { useCallback, useSyncExternalStore } from 'react'
 
-import type { User } from '../api/auth.api'
+import type { AuthResponse, AuthUser, ChallengeResponse } from '../api/auth.api'
 import * as authApi from '../api/auth.api'
 
 const TOKEN_KEY = 'access_token'
@@ -22,11 +22,11 @@ function getToken() {
   return localStorage.getItem(TOKEN_KEY)
 }
 
-function getUser(): User | null {
+function getUser(): AuthUser | null {
   const raw = localStorage.getItem(USER_KEY)
   if (!raw) return null
   try {
-    return JSON.parse(raw) as User
+    return JSON.parse(raw) as AuthUser
   } catch {
     return null
   }
@@ -40,19 +40,45 @@ function getServerSnapshot() {
   return null
 }
 
+function storeAuthResponse(response: AuthResponse) {
+  localStorage.setItem(TOKEN_KEY, response.accessToken)
+  localStorage.setItem(REFRESH_TOKEN_KEY, response.refreshToken)
+  localStorage.setItem(USER_KEY, JSON.stringify(response.user))
+  emitChange()
+}
+
 export function useAuth() {
   const token = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
   const user = token ? getUser() : null
 
-  const login = useCallback(async (email: string, password: string) => {
-    const tokens = await authApi.signIn(email, password)
-    localStorage.setItem(TOKEN_KEY, tokens.accessToken)
-    localStorage.setItem(REFRESH_TOKEN_KEY, tokens.refreshToken)
+  const login = useCallback(
+    async (
+      email: string,
+      password: string,
+    ): Promise<ChallengeResponse | null> => {
+      const result = await authApi.signIn(email, password)
 
-    const me = await authApi.getMe()
-    localStorage.setItem(USER_KEY, JSON.stringify(me))
-    emitChange()
-  }, [])
+      if (authApi.isChallenge(result)) {
+        return result
+      }
+
+      storeAuthResponse(result)
+      return null
+    },
+    [],
+  )
+
+  const completeNewPassword = useCallback(
+    async (email: string, newPassword: string, session: string) => {
+      const response = await authApi.completeNewPassword(
+        email,
+        newPassword,
+        session,
+      )
+      storeAuthResponse(response)
+    },
+    [],
+  )
 
   const logout = useCallback(async () => {
     try {
@@ -71,6 +97,7 @@ export function useAuth() {
     user,
     token,
     login,
+    completeNewPassword,
     logout,
   }
 }

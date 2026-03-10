@@ -1,4 +1,5 @@
 import { apiClient } from '@/shared/api/client'
+import type { LoadType } from '@/shared/types'
 
 export interface RevenueByDay {
   date: string
@@ -12,7 +13,7 @@ export interface TopTransporter {
 }
 
 export interface OrdersByLoadType {
-  loadType: 'LIGHT' | 'HEAVY' | 'BOTH'
+  loadType: LoadType
   count: number
 }
 

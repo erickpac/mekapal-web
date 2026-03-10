@@ -1,10 +1,11 @@
 import { apiClient } from '@/shared/api/client'
-import type { PaginatedResponse } from '@/features/validations/api/validations.api'
-
-export type IncidentStatus = 'OPEN' | 'INVESTIGATING' | 'RESOLVED'
-export type IncidentSeverity = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
-export type IncidentType = 'DAMAGE' | 'DELAY' | 'LOSS' | 'FRAUD' | 'OTHER'
-export type UserAction = 'WARNING' | 'SUSPENSION' | 'BAN'
+import type {
+  IncidentSeverity,
+  IncidentStatus,
+  IncidentType,
+  PaginatedQuery,
+  UserAction,
+} from '@/shared/types'
 
 export interface IncidentItem {
   id: string
@@ -39,12 +40,10 @@ export interface IncidentStats {
   resolved: number
 }
 
-export interface IncidentFilters {
+export interface IncidentFilters extends PaginatedQuery {
   status?: IncidentStatus
   severity?: IncidentSeverity
   type?: IncidentType
-  page?: number
-  pageSize?: number
 }
 
 export interface UpdateIncidentData {
@@ -60,11 +59,10 @@ export interface ResolveIncidentData {
 
 export async function getIncidents(
   filters: IncidentFilters,
-): Promise<PaginatedResponse<IncidentItem>> {
-  const { data } = await apiClient.get<PaginatedResponse<IncidentItem>>(
-    '/incidents',
-    { params: filters },
-  )
+): Promise<IncidentItem[]> {
+  const { data } = await apiClient.get<IncidentItem[]>('/incidents', {
+    params: filters,
+  })
   return data
 }
 

@@ -21,15 +21,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import type { CommissionType } from '@/shared/types'
 import type {
   BillingProfile,
   BillingProfileFormData,
-  CommissionType,
 } from '../api/commissions.api'
 
 const profileSchema = z.object({
   name: z.string().min(1, 'Name is required'),
-  type: z.enum(['PERCENTAGE', 'FIXED']),
+  type: z.enum(['PERCENTAGE', 'FIXED_AMOUNT']),
   value: z.number().positive('Value must be positive'),
   minAmount: z.number().nonnegative().nullable().optional(),
   maxAmount: z.number().nonnegative().nullable().optional(),
@@ -135,7 +135,7 @@ export function BillingProfileFormDialog({
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="PERCENTAGE">Percentage</SelectItem>
-                <SelectItem value="FIXED">Fixed</SelectItem>
+                <SelectItem value="FIXED_AMOUNT">Fixed Amount</SelectItem>
               </SelectContent>
             </Select>
           </div>

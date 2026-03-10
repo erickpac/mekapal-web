@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import type { SettlementStatus } from '../api/settlements.api'
+import type { SettlementStatus } from '@/shared/types'
 
 interface SettlementFiltersProps {
   status: SettlementStatus | undefined

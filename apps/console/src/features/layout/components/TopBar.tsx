@@ -26,7 +26,9 @@ export function TopBar({ onMenuClick }: TopBarProps) {
 
       {user && (
         <div className="flex items-center gap-3">
-          <span className="text-sm font-medium">{user.name}</span>
+          <span className="text-sm font-medium">
+            {user.firstName} {user.lastName}
+          </span>
           <Badge variant="secondary">{user.role}</Badge>
           <Button variant="ghost" size="icon" onClick={logout}>
             <LogOut className="size-4" />

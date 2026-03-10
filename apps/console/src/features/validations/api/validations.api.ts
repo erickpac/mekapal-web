@@ -1,4 +1,5 @@
 import { apiClient } from '@/shared/api/client'
+import type { PaginatedQuery } from '@/shared/types'
 
 export type ValidationType = 'profile' | 'vehicle'
 export type ValidationStatus = 'pending' | 'approved' | 'rejected'
@@ -11,18 +12,9 @@ export interface ValidationItem {
   status: ValidationStatus
 }
 
-export interface PaginatedResponse<T> {
-  data: T[]
-  total: number
-  page: number
-  pageSize: number
-}
-
-export interface ValidationFilters {
+export interface ValidationFilters extends PaginatedQuery {
   type?: ValidationType
   search?: string
-  page?: number
-  pageSize?: number
 }
 
 export interface VehicleDetail {
@@ -61,11 +53,10 @@ export interface RejectionReason {
 
 export async function getValidations(
   filters: ValidationFilters,
-): Promise<PaginatedResponse<ValidationItem>> {
-  const { data } = await apiClient.get<PaginatedResponse<ValidationItem>>(
-    '/validations',
-    { params: filters },
-  )
+): Promise<ValidationItem[]> {
+  const { data } = await apiClient.get<ValidationItem[]>('/validations', {
+    params: filters,
+  })
   return data
 }
 

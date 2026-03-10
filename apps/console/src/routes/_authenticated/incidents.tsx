@@ -3,12 +3,8 @@ import { useState } from 'react'
 import { ArrowLeft } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import type {
-  IncidentItem,
-  IncidentSeverity,
-  IncidentStatus,
-  IncidentType,
-} from '@/features/incidents/api/incidents.api'
+import type { IncidentSeverity, IncidentStatus, IncidentType } from '@/shared/types'
+import type { IncidentItem } from '@/features/incidents/api/incidents.api'
 import { IncidentDetailView } from '@/features/incidents/components/IncidentDetailView'
 import { IncidentFilters } from '@/features/incidents/components/IncidentFilters'
 import { IncidentStatsCards } from '@/features/incidents/components/IncidentStatsCards'
@@ -23,12 +19,13 @@ export const Route = createFileRoute('/_authenticated/incidents')({
   component: IncidentsPage,
 })
 
+const LIMIT = 20
+
 function IncidentsPage() {
   const [status, setStatus] = useState<IncidentStatus>()
   const [severity, setSeverity] = useState<IncidentSeverity>()
   const [type, setType] = useState<IncidentType>()
-  const [page, setPage] = useState(1)
-  const pageSize = 20
+  const [offset, setOffset] = useState(0)
 
   const [selected, setSelected] = useState<IncidentItem | null>(null)
 
@@ -37,8 +34,8 @@ function IncidentsPage() {
     status,
     severity,
     type,
-    page,
-    pageSize,
+    limit: LIMIT,
+    offset,
   })
 
   if (selected) {
@@ -65,30 +62,30 @@ function IncidentsPage() {
         type={type}
         onStatusChange={(v) => {
           setStatus(v)
-          setPage(1)
+          setOffset(0)
         }}
         onSeverityChange={(v) => {
           setSeverity(v)
-          setPage(1)
+          setOffset(0)
         }}
         onTypeChange={(v) => {
           setType(v)
-          setPage(1)
+          setOffset(0)
         }}
       />
 
       <IncidentsTable
-        data={data?.data ?? []}
+        data={data ?? []}
         loading={isLoading}
         onRowClick={setSelected}
       />
 
       {data && (
         <Pagination
-          page={page}
-          pageSize={pageSize}
-          total={data.total}
-          onPageChange={setPage}
+          offset={offset}
+          limit={LIMIT}
+          count={data.length}
+          onOffsetChange={setOffset}
         />
       )}
     </div>

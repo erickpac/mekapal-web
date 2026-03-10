@@ -21,7 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import type { ResolveIncidentData, UserAction } from '../api/incidents.api'
+import type { UserAction } from '@/shared/types'
+import type { ResolveIncidentData } from '../api/incidents.api'
 
 const resolveSchema = z.object({
   resolutionNotes: z.string().min(1, 'Resolution notes are required'),
