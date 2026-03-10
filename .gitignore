@@ -5,6 +5,7 @@ dist
 .vite
 .vercel
 .astro
+.tanstack
 .env
 .env.*
 !.env.example
