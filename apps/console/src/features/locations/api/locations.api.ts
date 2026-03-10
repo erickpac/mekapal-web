@@ -80,7 +80,7 @@ export interface LocationFormData {
 
 // --- Countries ---
 
-export async function getCountries(activeOnly = true): Promise<Country[]> {
+export async function getCountries(activeOnly = false): Promise<Country[]> {
   const { data } = await apiClient.get<Country[]>('/locations/countries', {
     params: { activeOnly },
   })
@@ -119,7 +119,7 @@ export async function toggleCountryStatus(id: string): Promise<Country> {
 
 export async function getStates(
   countryId: string,
-  activeOnly = true,
+  activeOnly = false,
 ): Promise<State[]> {
   const { data } = await apiClient.get<State[]>('/locations/states', {
     params: { countryId, activeOnly },
@@ -154,7 +154,7 @@ export async function toggleStateStatus(id: string): Promise<State> {
 
 export async function getMunicipalities(
   stateId: string,
-  activeOnly = true,
+  activeOnly = false,
 ): Promise<Municipality[]> {
   const { data } = await apiClient.get<Municipality[]>(
     '/locations/municipalities',
@@ -197,7 +197,7 @@ export async function toggleMunicipalityStatus(
 
 export async function getZones(
   municipalityId: string,
-  activeOnly = true,
+  activeOnly = false,
 ): Promise<Zone[]> {
   const { data } = await apiClient.get<Zone[]>(
     '/locations/zones/by-municipality',
@@ -208,7 +208,7 @@ export async function getZones(
 
 export async function searchZones(
   search: string,
-  activeOnly = true,
+  activeOnly = false,
 ): Promise<Zone[]> {
   const { data } = await apiClient.get<Zone[]>('/locations/zones', {
     params: { search, activeOnly },
