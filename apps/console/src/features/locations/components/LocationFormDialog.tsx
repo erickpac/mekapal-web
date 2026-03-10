@@ -18,8 +18,8 @@ import type { LocationItem } from '../api/locations.api'
 const locationSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   code: z.string().min(1, 'Code is required'),
-  latitude: z.coerce.number().optional(),
-  longitude: z.coerce.number().optional(),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
 })
 
 type LocationFormValues = z.infer<typeof locationSchema>
