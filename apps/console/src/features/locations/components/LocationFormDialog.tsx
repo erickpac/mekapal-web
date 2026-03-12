@@ -15,19 +15,19 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import type { LocationItem } from '../api/locations.api'
 
-const optionalNumber = z
-  .union([z.string(), z.number(), z.undefined()])
-  .transform((v) => (v === '' || v === undefined ? undefined : Number(v)))
-  .pipe(z.number().optional())
-
 const locationSchema = z.object({
   name: z.string().min(1, 'El nombre es obligatorio'),
   code: z.string().min(1, 'El código es obligatorio'),
-  latitude: optionalNumber,
-  longitude: optionalNumber,
+  latitude: z.coerce.number().optional(),
+  longitude: z.coerce.number().optional(),
 })
 
-type LocationFormValues = z.infer<typeof locationSchema>
+type LocationFormValues = {
+  name: string
+  code: string
+  latitude?: number
+  longitude?: number
+}
 
 interface LocationFormDialogProps {
   open: boolean
