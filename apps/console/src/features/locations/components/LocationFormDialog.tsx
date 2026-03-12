@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import { useEffect } from 'react'
+import type { Resolver } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
@@ -18,16 +19,11 @@ import type { LocationItem } from '../api/locations.api'
 const locationSchema = z.object({
   name: z.string().min(1, 'El nombre es obligatorio'),
   code: z.string().min(1, 'El código es obligatorio'),
-  latitude: z.coerce.number().optional(),
-  longitude: z.coerce.number().optional(),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
 })
 
-type LocationFormValues = {
-  name: string
-  code: string
-  latitude?: number
-  longitude?: number
-}
+type LocationFormValues = z.infer<typeof locationSchema>
 
 interface LocationFormDialogProps {
   open: boolean
@@ -56,7 +52,7 @@ export function LocationFormDialog({
     reset,
     formState: { errors },
   } = useForm<LocationFormValues>({
-    resolver: zodResolver(locationSchema),
+    resolver: zodResolver(locationSchema) as Resolver<LocationFormValues>,
     defaultValues: { name: '', code: '' },
   })
 
@@ -89,7 +85,7 @@ export function LocationFormDialog({
         </DialogHeader>
 
         <form
-          onSubmit={handleSubmit((v) => onSubmit(v))}
+          onSubmit={handleSubmit((v: LocationFormValues) => onSubmit(v))}
           className="grid gap-4 py-2"
         >
           <div className="grid gap-2">
