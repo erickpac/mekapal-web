@@ -15,10 +15,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import type { LocationItem } from '../api/locations.api'
 
-const optionalNumber = z.preprocess(
-  (v) => (v === '' || v === undefined ? undefined : Number(v)),
-  z.number().optional(),
-)
+const optionalNumber = z
+  .union([z.string(), z.number(), z.undefined()])
+  .transform((v) => (v === '' || v === undefined ? undefined : Number(v)))
+  .pipe(z.number().optional())
 
 const locationSchema = z.object({
   name: z.string().min(1, 'El nombre es obligatorio'),

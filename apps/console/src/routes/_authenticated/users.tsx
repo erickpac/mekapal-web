@@ -12,7 +12,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { usePermissions } from '@/features/auth/hooks/usePermissions'
-import type { UserRole } from '@/shared/types'
 import type { CreateAdminUserData } from '@/features/users/api/users.api'
 import { CreateAdminUserDialog } from '@/features/users/components/CreateAdminUserDialog'
 import { UserFilters } from '@/features/users/components/UserFilters'
