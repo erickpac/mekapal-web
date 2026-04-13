@@ -7,7 +7,7 @@ Sync frontend API types with the backend for the specified module.
 ## Instructions
 
 1. **Read the backend** for the `$ARGUMENTS` module:
-   - Find the backend project by looking for `mecapal-api` in sibling directories relative to this monorepo
+   - Find the backend project by looking for `mekapal-api` in sibling directories relative to this monorepo
    - Read the controller(s) in `src/modules/$ARGUMENTS/infrastructure/controllers/`
    - Read the DTOs in `src/modules/$ARGUMENTS/application/dtos/`
    - Read the entity in `src/modules/$ARGUMENTS/domain/entities/`
