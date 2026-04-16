@@ -1,106 +1,108 @@
 ---
-const clientFeatures = [
-  {
-    icon: '📦',
-    title: 'Instant Quotes',
-    description:
-      'Get competitive quotes from verified transporters within minutes.',
-  },
-  {
-    icon: '📍',
-    title: 'Real-Time Tracking',
-    description: 'Follow your shipment from pickup to delivery on a live map.',
-  },
-  {
-    icon: '🔒',
-    title: 'Secure Payments',
-    description:
-      'Pay through the platform with escrow protection until delivery is confirmed.',
-  },
-]
+import { Image } from 'astro:assets'
+import expressIcon from '../assets/icons/express-service.svg'
+import lightIcon from '../assets/icons/light-service.svg'
+import heavyIcon from '../assets/icons/heavy-service.svg'
 
-const transporterFeatures = [
+const services = [
   {
-    icon: '🚛',
-    title: 'Find Loads Fast',
+    icon: expressIcon,
+    title: 'Envíos Express',
+    subtitle: 'Rápidos y eficientes en Ciudad de Guatemala',
     description:
-      'Browse available shipments that match your vehicle type and route.',
+      'Servicio ideal para paquetes pequeños y entregas urgentes en zonas aledañas de la ciudad. Perfecto para documentos, productos ligeros y envíos que no pueden esperar.',
+    bullets: [
+      'Entregas el mismo día o en tiempos reducidos',
+      'Atención ágil y personalizada',
+      'Cobertura en áreas estratégicas de la ciudad',
+    ],
   },
   {
-    icon: '💰',
-    title: 'Fast Settlements',
+    icon: lightIcon,
+    title: 'Carga Liviana',
+    subtitle: 'Ciudad de Guatemala y a toda la república',
     description:
-      'Receive payment within days of completing a delivery, not weeks.',
+      'Pensado para mercancía de mayor volumen que requiere un traslado cuidadoso y eficiente dentro de la ciudad o hacia otras zonas del país.',
+    bullets: [
+      'Manejo responsable de la carga',
+      'Tiempos de entrega confiables',
+      'Ideal para negocios y particulares',
+    ],
   },
   {
-    icon: '📊',
-    title: 'Business Dashboard',
+    icon: heavyIcon,
+    title: 'Carga Pesada',
+    subtitle: 'Ciudad de Guatemala y a toda la república',
     description:
-      'Track earnings, manage your fleet, and grow your transportation business.',
+      'Servicio especializado para el traslado de muebles, electrodomésticos y objetos grandes o pesados, tanto en Ciudad de Guatemala como en el interior de la República.',
+    bullets: [
+      'Personal capacitado para cargas pesadas',
+      'Transporte seguro y adecuado',
+      'Ideal para mudanzas y traslados especiales',
+    ],
   },
 ]
 ---
 
-<section id="features" class="bg-surface py-20 md:py-28">
-  <div class="mx-auto max-w-6xl px-4">
-    <div class="text-center">
-      <h2 class="fade-up text-3xl font-bold tracking-tight md:text-4xl">
-        Built for Everyone in the Chain
+<section
+  id="servicios"
+  class="bg-primary-50 py-16 md:py-24 lg:py-28"
+  aria-label="Nuestros servicios"
+>
+  <div class="container-main">
+    <div>
+      <h2
+        class="fade-up text-text-active text-3xl font-extrabold tracking-tight md:text-4xl lg:text-5xl"
+      >
+        Nuestros servicios
       </h2>
-      <p class="fade-up fade-up-delay-1 text-muted mx-auto mt-4 max-w-lg">
-        Whether you're shipping cargo or hauling freight, Mekapal has you
-        covered.
+      <p
+        class="fade-up fade-up-delay-1 text-text-idle mt-4 max-w-2xl text-base md:text-lg"
+      >
+        Conoce los diferentes tipos de envíos que ofrecemos a través de nuestros
+        transportistas afiliados.
       </p>
     </div>
 
-    <div class="mt-16 grid gap-12 lg:grid-cols-2">
-      <!-- Clients -->
-      <div>
-        <h3 class="fade-up text-center text-xl font-semibold lg:text-left">
-          For Clients
-        </h3>
-        <div class="mt-6 grid gap-6">
-          {
-            clientFeatures.map(({ icon, title, description }, i) => (
-              <div
-                class={`fade-up fade-up-delay-${i + 1} flex gap-4 rounded-xl bg-white p-5 shadow-sm`}
-              >
-                <span class="text-2xl" aria-hidden="true">
-                  {icon}
-                </span>
-                <div>
-                  <h4 class="font-semibold">{title}</h4>
-                  <p class="text-muted mt-1 text-sm">{description}</p>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </div>
+    <div class="mt-12 grid gap-6 md:mt-16 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+      {
+        services.map(({ icon, title, subtitle, description, bullets }, i) => (
+          <article
+            class={`fade-up fade-up-delay-${(i % 3) + 1} flex flex-col rounded-3xl bg-white p-6 shadow-sm md:p-8`}
+          >
+            <Image
+              src={icon}
+              alt=""
+              aria-hidden="true"
+              class="mx-auto h-24 w-auto md:h-28"
+              loading="lazy"
+            />
+            <h3 class="text-text-active mt-4 text-center text-xl font-bold md:text-2xl">
+              {title}
+            </h3>
+            <p class="text-text-active mt-2 text-center text-sm font-medium">
+              {subtitle}
+            </p>
+            <p class="text-text-idle mt-4 text-sm leading-relaxed">
+              {description}
+            </p>
+            <ul class="text-text-idle mt-5 list-disc space-y-2 pl-5 text-sm leading-relaxed marker:text-text-active">
+              {bullets.map((b) => (
+                <li>{b}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
 
-      <!-- Transporters -->
-      <div>
-        <h3 class="fade-up text-center text-xl font-semibold lg:text-left">
-          For Transporters
-        </h3>
-        <div class="mt-6 grid gap-6">
-          {
-            transporterFeatures.map(({ icon, title, description }, i) => (
-              <div
-                class={`fade-up fade-up-delay-${i + 1} flex gap-4 rounded-xl bg-white p-5 shadow-sm`}
-              >
-                <span class="text-2xl" aria-hidden="true">
-                  {icon}
-                </span>
-                <div>
-                  <h4 class="font-semibold">{title}</h4>
-                  <p class="text-muted mt-1 text-sm">{description}</p>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </div>
+    <div class="fade-up mt-12 flex justify-center md:mt-16">
+      <a
+        href="#inicio"
+        class="bg-secondary-500 hover:bg-secondary-600 inline-flex items-center justify-center rounded-full px-8 py-3.5 text-base font-semibold text-white shadow-md transition-colors"
+      >
+        Descarga la App
+      </a>
     </div>
   </div>
 </section>

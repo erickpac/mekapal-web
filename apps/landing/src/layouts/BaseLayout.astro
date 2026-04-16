@@ -1,13 +1,21 @@
 ---
+import '@fontsource-variable/plus-jakarta-sans'
+import '../styles/global.css'
+
 interface Props {
   title?: string
   description?: string
+  canonical?: string
 }
 
 const {
-  title = 'Mekapal — Logistics & Transportation Management',
-  description = 'Connect with trusted transporters, manage shipments, and streamline your logistics operations in Guatemala.',
+  title = 'Mekapal — Movemos tus chivas por ti',
+  description = 'Mekapal es el marketplace logístico de Guatemala. Conectamos clientes con transportistas independientes para envíos express, carga liviana y carga pesada en todo el país.',
+  canonical = 'https://mekapal.com/',
 } = Astro.props
+
+// TODO: og-image.png pending from designer
+const ogImage = '/og-image.png'
 ---
 
 <!doctype html>
@@ -16,25 +24,31 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#3b5ccc" />
+    <meta name="theme-color" content="#ef6e30" />
+
+    <link rel="canonical" href={canonical} />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content="Mekapal" />
+    <meta property="og:locale" content="es_GT" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="bg-white text-gray-900 antialiased">
+  <body class="bg-white text-text-active antialiased">
     <slot />
 
     <script>

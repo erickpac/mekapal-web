@@ -1,67 +1,90 @@
 ---
+// TODO: real FAQ answers pending
+const placeholder =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+
 const faqs = [
+  { q: '¿Puedo ser cliente y transportista a la vez?', a: placeholder },
   {
-    q: 'How does Mekapal verify transporters?',
-    a: 'Every transporter goes through a verification process that includes document review, vehicle inspection, and background checks before they can accept shipments.',
+    q: '¿Cuál es la diferencia entre carga liviana y carga pesada?',
+    a: placeholder,
   },
+  { q: '¿Cómo me registro como transportista?', a: placeholder },
   {
-    q: 'What types of cargo can I ship?',
-    a: 'Mekapal supports both light and heavy cargo. From small packages to full truckloads, our network covers a wide range of transportation needs.',
+    q: '¿Debo tener asegurado mi vehículo para operar como transportista?',
+    a: placeholder,
   },
+  { q: '¿Cómo funcionan las comisiones?', a: placeholder },
+  { q: '¿Cómo funciona Mekapal?', a: placeholder },
   {
-    q: 'How long does it take to receive payment?',
-    a: 'Transporters on the Professional plan receive payment within 48 hours of confirmed delivery. Starter plan settlements are processed within 5 business days.',
+    q: '¿Qué impuestos me corresponden pagar a mí si soy transportista?',
+    a: placeholder,
   },
-  {
-    q: 'Is there a minimum contract period?',
-    a: 'No. All plans are month-to-month with no long-term commitment. You can upgrade, downgrade, or cancel at any time.',
-  },
-  {
-    q: 'What areas does Mekapal cover?',
-    a: 'We currently operate throughout Guatemala, covering all major routes and municipalities. We are actively expanding to neighboring countries.',
-  },
-  {
-    q: 'Can I integrate Mekapal with my existing systems?',
-    a: 'Enterprise plan customers get full API access for custom integrations with ERP systems, warehouse management software, and more.',
-  },
+  { q: '¿Qué áreas cubre el servicio de Envío Express?', a: placeholder },
 ]
 ---
 
-<section id="faq" class="bg-surface py-20 md:py-28">
-  <div class="mx-auto max-w-3xl px-4">
-    <div class="text-center">
-      <h2 class="fade-up text-3xl font-bold tracking-tight md:text-4xl">
-        Frequently Asked Questions
+<section
+  id="faq"
+  class="bg-secondary-50 py-16 md:py-24 lg:py-28"
+  aria-label="Preguntas frecuentes"
+>
+  <div class="container-main">
+    <div>
+      <h2
+        class="fade-up text-text-active text-3xl font-extrabold tracking-tight md:text-4xl lg:text-5xl"
+      >
+        Preguntas Frecuentes
       </h2>
-      <p class="fade-up fade-up-delay-1 text-muted mx-auto mt-4 max-w-lg">
-        Everything you need to know about using Mekapal.
+      <p
+        class="fade-up fade-up-delay-1 text-text-idle mt-4 max-w-2xl text-base md:text-lg"
+      >
+        Encuentra aquí las respuestas que estás buscando.<br />
+        Si no la encuentras, puedes
+        <a href="#contacto" class="text-primary-500 font-medium hover:underline">
+          contactarnos aquí.
+        </a>
       </p>
     </div>
 
-    <div class="mt-12 divide-y divide-gray-200">
+    <div class="mt-10 flex flex-col gap-3 md:mt-14">
       {
         faqs.map(({ q, a }, i) => (
-          <details class={`fade-up fade-up-delay-${(i % 3) + 1} group py-5`}>
-            <summary class="flex cursor-pointer items-center justify-between text-left font-medium">
-              {q}
+          <details
+            class={`fade-up fade-up-delay-${(i % 3) + 1} group bg-white rounded-2xl border border-transparent open:border-secondary-500 transition-colors`}
+          >
+            <summary class="text-text-active flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-left text-base font-semibold md:px-6 md:py-5 md:text-lg">
+              <span>{q}</span>
               <svg
-                class="text-muted size-5 shrink-0 transition-transform group-open:rotate-45"
+                class="text-text-active size-5 shrink-0 transition-transform group-open:rotate-180"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M12 4v16m8-8H4"
+                  d="M19 9l-7 7-7-7"
                 />
               </svg>
             </summary>
-            <p class="text-muted mt-3 text-sm leading-relaxed">{a}</p>
+            <div class="text-text-idle px-5 pb-5 text-sm leading-relaxed md:px-6 md:pb-6 md:text-base">
+              {a}
+            </div>
           </details>
         ))
       }
+    </div>
+
+    <div class="fade-up mt-10 flex justify-center md:mt-12">
+      <a
+        href="#contacto"
+        class="bg-secondary-500 hover:bg-secondary-600 inline-flex items-center justify-center rounded-full px-8 py-3.5 text-base font-semibold text-white shadow-md transition-colors"
+      >
+        Ver Más
+      </a>
     </div>
   </div>
 </section>

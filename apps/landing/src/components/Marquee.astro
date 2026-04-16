@@ -1,0 +1,35 @@
+---
+const message = '15% de descuento en tu primer envío al suscribirte a nuestro boletín de correo'
+const items = Array.from({ length: 8 })
+---
+
+<div
+  class="bg-primary-500 relative flex overflow-hidden py-3 text-white"
+  aria-hidden="true"
+>
+  <div
+    class="marquee-track flex shrink-0 items-center gap-6 pr-6 whitespace-nowrap"
+  >
+    {
+      items.map(() => (
+        <span class="flex items-center gap-6 text-sm font-medium md:text-base">
+          <span>{message}</span>
+          <span class="opacity-70">·</span>
+        </span>
+      ))
+    }
+  </div>
+  <div
+    class="marquee-track flex shrink-0 items-center gap-6 pr-6 whitespace-nowrap"
+    aria-hidden="true"
+  >
+    {
+      items.map(() => (
+        <span class="flex items-center gap-6 text-sm font-medium md:text-base">
+          <span>{message}</span>
+          <span class="opacity-70">·</span>
+        </span>
+      ))
+    }
+  </div>
+</div>

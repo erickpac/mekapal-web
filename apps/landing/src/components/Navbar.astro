@@ -1,103 +1,121 @@
 ---
+import { Image } from 'astro:assets'
+import logoWhite from '../assets/logo/mekapal-white.svg'
+
 const links = [
-  { href: '#how-it-works', label: 'How It Works' },
-  { href: '#features', label: 'Features' },
-  { href: '#pricing', label: 'Pricing' },
-  { href: '#faq', label: 'FAQ' },
-  { href: '#contact', label: 'Contact' },
+  { href: '#inicio', label: 'Inicio' },
+  { href: '#acerca-de', label: 'Acerca de' },
+  { href: '#servicios', label: 'Nuestros Servicios' },
+  { href: '#como-funciona', label: '¿Cómo Funciona?' },
+  { href: '#faq', label: 'Preguntas Frecuentes' },
+  { href: '#contacto', label: 'Contacto' },
 ]
 ---
 
 <header
   id="navbar"
-  class="fixed top-0 right-0 left-0 z-50 transition-colors duration-300"
+  class="fixed inset-x-0 top-3 z-50 md:top-6 lg:top-[50px]"
 >
-  <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-    <a href="/" class="text-xl font-bold tracking-tight">Mekapal</a>
-
-    <!-- Desktop links -->
-    <ul class="hidden items-center gap-6 md:flex">
-      {
-        links.map(({ href, label }) => (
-          <li>
-            <a
-              href={href}
-              class="text-sm font-medium text-gray-600 transition-colors hover:text-gray-900"
-            >
-              {label}
-            </a>
-          </li>
-        ))
-      }
-      <li>
-        <a
-          href="#contact"
-          class="bg-primary text-primary-foreground rounded-lg px-4 py-2 text-sm font-medium transition-opacity hover:opacity-90"
-        >
-          Get Started
-        </a>
-      </li>
-    </ul>
-
-    <!-- Mobile hamburger -->
-    <button
-      id="menu-toggle"
-      class="flex size-10 items-center justify-center rounded-lg md:hidden"
-      aria-label="Toggle menu"
+  <div class="container-main">
+    <nav
+      class="bg-primary-500 flex h-[70px] items-center justify-between gap-4 overflow-hidden rounded-[15px] px-6 shadow-lg shadow-black/10 lg:gap-10"
     >
-      <svg
-        id="menu-icon"
-        class="size-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
+      <!-- Mobile hamburger (left on mobile, hidden on desktop) -->
+      <button
+        id="menu-toggle"
+        class="flex size-10 items-center justify-center rounded-lg text-white lg:hidden"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M4 6h16M4 12h16M4 18h16"></path>
-      </svg>
-      <svg
-        id="close-icon"
-        class="hidden size-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
-  </nav>
-
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden border-t bg-white md:hidden">
-    <ul class="flex flex-col gap-1 px-4 py-3">
-      {
-        links.map(({ href, label }) => (
-          <li>
-            <a
-              href={href}
-              class="mobile-link block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900"
-            >
-              {label}
-            </a>
-          </li>
-        ))
-      }
-      <li class="pt-1">
-        <a
-          href="#contact"
-          class="mobile-link bg-primary text-primary-foreground block rounded-lg px-3 py-2 text-center text-sm font-medium"
+        <svg
+          id="menu-icon"
+          class="size-7"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
         >
-          Get Started
-        </a>
-      </li>
-    </ul>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+        <svg
+          id="close-icon"
+          class="hidden size-7"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
+      <!-- Logo: centered on mobile (between hamburger + spacer), left on desktop -->
+      <a href="#inicio" class="flex items-center" aria-label="Mekapal">
+        <Image
+          src={logoWhite}
+          alt="Mekapal"
+          class="h-9 w-auto lg:h-7"
+          loading="eager"
+        />
+      </a>
+
+      <!-- Desktop links (hidden on mobile) -->
+      <ul class="hidden items-center gap-10 lg:flex">
+        {
+          links.map(({ href, label }) => {
+            const section = href.replace('#', '')
+            return (
+              <li>
+                <a
+                  href={href}
+                  data-nav-link={section}
+                  class="nav-link rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap text-white outline-none transition-opacity hover:opacity-80"
+                >
+                  {label}
+                </a>
+              </li>
+            )
+          })
+        }
+      </ul>
+
+      <!-- Spacer: balances hamburger so logo stays centered on mobile -->
+      <div class="size-10 lg:hidden" aria-hidden="true"></div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div
+      id="mobile-menu"
+      class="bg-primary-500 mt-2 hidden rounded-[15px] shadow-lg shadow-black/10 lg:hidden"
+    >
+      <ul class="flex flex-col gap-1 px-4 py-3">
+      {
+        links.map(({ href, label }) => {
+          const section = href.replace('#', '')
+          return (
+            <li>
+              <a
+                href={href}
+                data-nav-link={section}
+                class="mobile-link nav-link block rounded-lg px-3 py-2.5 text-sm font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white"
+              >
+                {label}
+              </a>
+            </li>
+          )
+        })
+      }
+      </ul>
+    </div>
   </div>
 </header>
 
@@ -106,32 +124,82 @@ const links = [
   const menu = document.getElementById('mobile-menu')!
   const menuIcon = document.getElementById('menu-icon')!
   const closeIcon = document.getElementById('close-icon')!
-  const navbar = document.getElementById('navbar')!
 
   toggle.addEventListener('click', () => {
-    const open = menu.classList.toggle('hidden')
-    menuIcon.classList.toggle('hidden', !open)
-    closeIcon.classList.toggle('hidden', open)
+    const isOpen = !menu.classList.contains('hidden')
+    if (isOpen) {
+      menu.classList.add('hidden')
+      menuIcon.classList.remove('hidden')
+      closeIcon.classList.add('hidden')
+      toggle.setAttribute('aria-expanded', 'false')
+      toggle.setAttribute('aria-label', 'Abrir menú')
+    } else {
+      menu.classList.remove('hidden')
+      menuIcon.classList.add('hidden')
+      closeIcon.classList.remove('hidden')
+      toggle.setAttribute('aria-expanded', 'true')
+      toggle.setAttribute('aria-label', 'Cerrar menú')
+    }
   })
 
-  // Close mobile menu on link click
   menu.querySelectorAll('.mobile-link').forEach((link) => {
     link.addEventListener('click', () => {
       menu.classList.add('hidden')
       menuIcon.classList.remove('hidden')
       closeIcon.classList.add('hidden')
+      toggle.setAttribute('aria-expanded', 'false')
+      toggle.setAttribute('aria-label', 'Abrir menú')
     })
   })
 
-  // Background on scroll
-  function updateNavbar() {
-    if (window.scrollY > 20) {
-      navbar.classList.add('bg-white/95', 'shadow-sm', 'backdrop-blur-sm')
-    } else {
-      navbar.classList.remove('bg-white/95', 'shadow-sm', 'backdrop-blur-sm')
-    }
+  // Scroll-spy: highlight the nav link of whichever section is most in view
+  const sectionIds = [
+    'inicio',
+    'acerca-de',
+    'servicios',
+    'como-funciona',
+    'faq',
+    'contacto',
+  ]
+  const sections = sectionIds
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null)
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>('.nav-link')
+
+  const setActive = (id: string) => {
+    navLinks.forEach((link) => {
+      link.classList.toggle('is-active', link.dataset.navLink === id)
+    })
   }
 
-  window.addEventListener('scroll', updateNavbar, { passive: true })
-  updateNavbar()
+  // Default to first section so something is highlighted on load
+  setActive('inicio')
+
+  const visibility = new Map<string, number>()
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        visibility.set(entry.target.id, entry.intersectionRatio)
+      })
+      let topId = 'inicio'
+      let topRatio = 0
+      for (const [id, ratio] of visibility) {
+        if (ratio > topRatio) {
+          topRatio = ratio
+          topId = id
+        }
+      }
+      if (topRatio > 0) setActive(topId)
+    },
+    { threshold: [0, 0.25, 0.5, 0.75, 1] },
+  )
+
+  sections.forEach((section) => observer.observe(section))
 </script>
+
+<style>
+  .nav-link.is-active {
+    background-color: var(--color-primary-600);
+    font-weight: 600;
+  }
+</style>

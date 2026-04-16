@@ -2,24 +2,29 @@
 import BaseLayout from '../layouts/BaseLayout.astro'
 import Navbar from '../components/Navbar.astro'
 import Hero from '../components/Hero.astro'
-import HowItWorks from '../components/HowItWorks.astro'
-import Features from '../components/Features.astro'
+import WhatsAppButton from '../components/WhatsAppButton.astro'
 import Pricing from '../components/Pricing.astro'
+import Features from '../components/Features.astro'
+import HowItWorks from '../components/HowItWorks.astro'
 import FAQ from '../components/FAQ.astro'
+import Marquee from '../components/Marquee.astro'
+import Newsletter from '../components/Newsletter.astro'
 import Contact from '../components/Contact.astro'
 import Footer from '../components/Footer.astro'
-import '../styles/global.css'
 ---
 
 <BaseLayout>
   <Navbar />
   <main>
     <Hero />
-    <HowItWorks />
-    <Features />
     <Pricing />
+    <Features />
+    <HowItWorks />
     <FAQ />
+    <Marquee />
+    <Newsletter />
     <Contact />
   </main>
   <Footer />
+  <WhatsAppButton />
 </BaseLayout>

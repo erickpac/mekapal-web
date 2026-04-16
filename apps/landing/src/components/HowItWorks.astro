@@ -1,49 +1,134 @@
 ---
-const steps = [
-  {
-    number: '1',
-    title: 'Post Your Shipment',
-    description:
-      'Enter pickup, destination, cargo details, and preferred dates. Our system matches you with the best transporters.',
-  },
-  {
-    number: '2',
-    title: 'Choose a Transporter',
-    description:
-      'Review quotes, ratings, and vehicle info. Select the transporter that fits your needs and budget.',
-  },
-  {
-    number: '3',
-    title: 'Track & Settle',
-    description:
-      'Monitor your shipment in real time. Once delivered, payment is processed securely through the platform.',
-  },
-]
+import { Image } from 'astro:assets'
+import howItWorksThumb from '../assets/sections/how-it-works-thumb.png'
+
+interface Props {
+  youtubeId?: string
+}
+
+const { youtubeId } = Astro.props
 ---
 
-<section id="how-it-works" class="bg-white py-20 md:py-28">
-  <div class="mx-auto max-w-6xl px-4">
-    <div class="text-center">
-      <h2 class="fade-up text-3xl font-bold tracking-tight md:text-4xl">
-        How It Works
+<section
+  id="como-funciona"
+  class="bg-white py-16 md:py-24 lg:py-28"
+  aria-label="¿Cómo funciona?"
+>
+  <div class="container-main">
+    <div>
+      <h2
+        class="fade-up text-text-active text-3xl font-extrabold tracking-tight md:text-4xl lg:text-5xl"
+      >
+        ¿Cómo funciona?
       </h2>
-      <p class="fade-up fade-up-delay-1 text-muted mx-auto mt-4 max-w-lg">
-        Get your cargo moving in three simple steps.
+      <p
+        class="fade-up fade-up-delay-1 text-text-idle mt-4 max-w-2xl text-base md:text-lg"
+      >
+        Aquí te explicamos como funciona Mekapal.
       </p>
     </div>
 
-    <div class="mt-16 grid gap-8 md:grid-cols-3">
-      {
-        steps.map(({ number, title, description }, i) => (
-          <div class={`fade-up fade-up-delay-${i + 1} text-center`}>
-            <div class="bg-primary/10 text-primary mx-auto flex size-14 items-center justify-center rounded-2xl text-xl font-bold">
-              {number}
-            </div>
-            <h3 class="mt-5 text-lg font-semibold">{title}</h3>
-            <p class="text-muted mt-2 text-sm leading-relaxed">{description}</p>
-          </div>
-        ))
-      }
+    <div class="fade-up fade-up-delay-2 mt-10 md:mt-14">
+      <button
+        type="button"
+        id="video-trigger"
+        data-youtube-id={youtubeId ?? ''}
+        class="group focus-visible:outline-primary-500 relative block w-full overflow-hidden rounded-2xl shadow-xl focus-visible:outline-2 focus-visible:outline-offset-4 md:rounded-3xl"
+        aria-label="Reproducir video"
+      >
+        <Image
+          src={howItWorksThumb}
+          alt="Vista previa del video sobre cómo funciona Mekapal"
+          class="h-auto w-full"
+          loading="lazy"
+        />
+        <span
+          class="absolute inset-0 flex items-center justify-center bg-black/15 transition-colors group-hover:bg-black/25"
+          aria-hidden="true"
+        >
+          <span
+            class="flex size-16 items-center justify-center rounded-full bg-white/95 shadow-2xl transition-transform group-hover:scale-110 md:size-24"
+          >
+            <svg
+              class="text-primary-500 ml-1 size-7 md:size-10"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M8 5v14l11-7z"></path>
+            </svg>
+          </span>
+        </span>
+      </button>
     </div>
   </div>
 </section>
+
+<!-- Lightbox modal (hidden until YouTube ID is provided & user clicks) -->
+<div
+  id="video-modal"
+  class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/80 p-4"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Reproductor de video"
+>
+  <button
+    type="button"
+    id="video-close"
+    class="absolute top-4 right-4 flex size-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+    aria-label="Cerrar video"
+  >
+    <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  </button>
+  <div
+    class="relative mx-auto w-full max-w-4xl overflow-hidden rounded-xl bg-black"
+  >
+    <div class="aspect-video w-full">
+      <iframe
+        id="video-iframe"
+        class="h-full w-full"
+        src=""
+        title="Cómo funciona Mekapal"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  const trigger = document.getElementById('video-trigger') as HTMLButtonElement
+  const modal = document.getElementById('video-modal')!
+  const close = document.getElementById('video-close')!
+  const iframe = document.getElementById('video-iframe') as HTMLIFrameElement
+
+  const openModal = () => {
+    const id = trigger.dataset.youtubeId
+    if (!id) return // No YouTube ID configured yet
+    iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`
+    modal.classList.remove('hidden')
+    modal.classList.add('flex')
+    document.body.style.overflow = 'hidden'
+  }
+
+  const closeModal = () => {
+    iframe.src = ''
+    modal.classList.add('hidden')
+    modal.classList.remove('flex')
+    document.body.style.overflow = ''
+  }
+
+  trigger.addEventListener('click', openModal)
+  close.addEventListener('click', closeModal)
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal()
+  })
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal()
+  })
+</script>

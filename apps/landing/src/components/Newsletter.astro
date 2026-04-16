@@ -1,0 +1,88 @@
+---
+import { Image } from 'astro:assets'
+import newsletterPhone from '../assets/sections/newsletter-phone.png'
+---
+
+<div class="bg-primary-700">
+<section
+  id="newsletter"
+  class="bg-primary-50 rounded-b-[2.5rem] py-16 md:rounded-b-[3.5rem] md:py-24 lg:py-28"
+  aria-label="Suscríbete al boletín"
+>
+  <div class="container-main">
+    <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+      <!-- Left: form -->
+      <div class="fade-up">
+        <h2
+          class="text-text-active text-3xl font-extrabold tracking-tight md:text-4xl lg:text-5xl"
+        >
+          Entérate de todo
+        </h2>
+        <p class="text-text-idle mt-4 max-w-md text-base leading-relaxed">
+          Recibe noticias, actualizaciones y promociones exclusivas directamente
+          en tu correo.
+        </p>
+
+        <form id="newsletter-form" class="mt-8 grid max-w-md gap-4" novalidate>
+          <input
+            id="n-name"
+            name="name"
+            type="text"
+            required
+            placeholder="Nombre y apellido*"
+            aria-label="Nombre y apellido"
+            class="border-light-gray-300 placeholder:text-text-idle focus:border-primary-500 focus:ring-primary-500/20 text-text-active w-full rounded-xl border bg-white px-4 py-3 text-sm transition-colors outline-none focus:ring-4"
+          />
+
+          <input
+            id="n-email"
+            name="email"
+            type="email"
+            required
+            placeholder="Correo Electrónico*"
+            aria-label="Correo electrónico"
+            class="border-light-gray-300 placeholder:text-text-idle focus:border-primary-500 focus:ring-primary-500/20 text-text-active w-full rounded-xl border bg-white px-4 py-3 text-sm transition-colors outline-none focus:ring-4"
+          />
+
+          <button
+            type="submit"
+            class="bg-secondary-400 hover:bg-secondary-500 inline-flex items-center justify-center rounded-xl px-6 py-3.5 text-base font-semibold text-white shadow-sm transition-colors"
+          >
+            Suscribirse
+          </button>
+
+          <p
+            id="newsletter-success"
+            class="hidden text-sm font-medium text-green-600"
+          >
+            ¡Gracias por suscribirte! Pronto recibirás novedades.
+          </p>
+        </form>
+      </div>
+
+      <!-- Right: phone photo -->
+      <div class="fade-up fade-up-delay-1 flex justify-center lg:justify-end">
+        <Image
+          src={newsletterPhone}
+          alt="Persona usando la app de Mekapal en un teléfono"
+          class="h-auto w-full max-w-md rounded-2xl shadow-md lg:max-w-full"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+  // TODO: wire newsletter to backend or Formspree
+  const form = document.getElementById('newsletter-form') as HTMLFormElement
+  const success = document.getElementById('newsletter-success')!
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault()
+    form.reset()
+    success.classList.remove('hidden')
+    setTimeout(() => success.classList.add('hidden'), 4000)
+  })
+</script>
