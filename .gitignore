@@ -10,3 +10,7 @@ dist
 .env.*
 !.env.example
 .vscode
+
+# macOS
+.DS_Store
+**/.DS_Store
