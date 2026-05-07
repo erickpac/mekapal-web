@@ -16,15 +16,22 @@ interface LocationTableProps {
   data: LocationItem[]
   loading?: boolean
   hasChildren?: boolean
+  codeLabel?: string
+  getCode?: (item: LocationItem) => string
   onDrillDown?: (item: LocationItem) => void
   onEdit: (item: LocationItem) => void
   onToggleStatus: (item: LocationItem) => void
 }
 
+const defaultGetCode = (item: LocationItem): string =>
+  'code' in item ? item.code : ''
+
 export function LocationTable({
   data,
   loading,
   hasChildren,
+  codeLabel = 'Código',
+  getCode = defaultGetCode,
   onDrillDown,
   onEdit,
   onToggleStatus,
@@ -34,7 +41,7 @@ export function LocationTable({
       <TableHeader>
         <TableRow>
           <TableHead>Nombre</TableHead>
-          <TableHead>Código</TableHead>
+          <TableHead>{codeLabel}</TableHead>
           <TableHead>Estado</TableHead>
           <TableHead className="text-right">Acciones</TableHead>
         </TableRow>
@@ -58,7 +65,7 @@ export function LocationTable({
               >
                 <TableCell className="font-medium">{item.name}</TableCell>
                 <TableCell className="text-muted-foreground">
-                  {item.code}
+                  {getCode(item)}
                 </TableCell>
                 <TableCell>
                   <Badge variant={item.isActive ? 'default' : 'secondary'}>

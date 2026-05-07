@@ -34,7 +34,7 @@ export interface Municipality {
 export interface Zone {
   id: string
   name: string
-  code: string
+  postalCode: string
   isActive: boolean
   municipalityId: string
   latitude: number | null
@@ -65,7 +65,7 @@ export interface MunicipalityFormData {
 
 export interface ZoneFormData {
   name: string
-  code: string
+  postalCode: string
   municipalityId: string
   latitude?: number
   longitude?: number
@@ -223,7 +223,9 @@ export async function createZone(payload: ZoneFormData): Promise<Zone> {
 
 export async function updateZone(
   id: string,
-  payload: Partial<Pick<ZoneFormData, 'name' | 'code' | 'latitude' | 'longitude'>>,
+  payload: Partial<
+    Pick<ZoneFormData, 'name' | 'postalCode' | 'latitude' | 'longitude'>
+  >,
 ): Promise<Zone> {
   const { data } = await apiClient.put<Zone>(
     `/locations/zones/${id}`,

@@ -23,6 +23,7 @@ import type {
   LocationFormData,
   LocationItem,
   LocationLevel,
+  Zone,
 } from '@/features/locations/api/locations.api'
 import { LocationFormDialog } from '@/features/locations/components/LocationFormDialog'
 import { LocationTable } from '@/features/locations/components/LocationTable'
@@ -106,6 +107,7 @@ function LocationsPage() {
   })
 
   const hasChildren = currentLevel !== 'zone'
+  const isZoneLevel = currentLevel === 'zone'
 
   function handleDrillDown(item: LocationItem) {
     const childLevel = getChildLevel(currentLevel)
@@ -259,6 +261,8 @@ function LocationsPage() {
             data={data ?? []}
             loading={isLoading}
             hasChildren={hasChildren}
+            codeLabel={isZoneLevel ? 'Código postal' : 'Código'}
+            getCode={isZoneLevel ? (item) => (item as Zone).postalCode : undefined}
             onDrillDown={handleDrillDown}
             onEdit={(item) => setEditItem(item)}
             onToggleStatus={(item) => setToggleTarget(item)}
@@ -270,7 +274,9 @@ function LocationsPage() {
         open={formOpen}
         onOpenChange={setFormOpen}
         levelLabel={LEVEL_LABELS[currentLevel]}
-        showCoordinates={currentLevel === 'zone'}
+        codeLabel={isZoneLevel ? 'Código postal' : 'Código'}
+        getCode={isZoneLevel ? (item) => (item as Zone).postalCode : undefined}
+        showCoordinates={isZoneLevel}
         onSubmit={handleCreate}
         isSubmitting={isCreating}
       />
@@ -279,7 +285,9 @@ function LocationsPage() {
         open={!!editItem}
         onOpenChange={(open) => !open && setEditItem(null)}
         levelLabel={LEVEL_LABELS[currentLevel]}
-        showCoordinates={currentLevel === 'zone'}
+        codeLabel={isZoneLevel ? 'Código postal' : 'Código'}
+        getCode={isZoneLevel ? (item) => (item as Zone).postalCode : undefined}
+        showCoordinates={isZoneLevel}
         item={editItem}
         onSubmit={handleUpdate}
         isSubmitting={isUpdating}

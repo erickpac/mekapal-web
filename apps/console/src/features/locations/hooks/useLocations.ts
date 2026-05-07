@@ -137,7 +137,13 @@ export function useToggleMunicipalityStatus() {
 export function useCreateZone() {
   return useLocationMutation(
     (municipalityId: string, data: LocationFormData) =>
-      api.createZone({ ...data, municipalityId }),
+      api.createZone({
+        name: data.name,
+        postalCode: data.code,
+        municipalityId,
+        latitude: data.latitude,
+        longitude: data.longitude,
+      }),
     'Zone created',
     'Failed to create zone',
   )
@@ -145,7 +151,13 @@ export function useCreateZone() {
 
 export function useUpdateZone() {
   return useLocationMutation(
-    (id: string, data: LocationFormData) => api.updateZone(id, data),
+    (id: string, data: LocationFormData) =>
+      api.updateZone(id, {
+        name: data.name,
+        postalCode: data.code,
+        latitude: data.latitude,
+        longitude: data.longitude,
+      }),
     'Zone updated',
     'Failed to update zone',
   )

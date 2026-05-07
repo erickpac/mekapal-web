@@ -34,6 +34,8 @@ interface LocationFormDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   levelLabel: string
+  codeLabel?: string
+  getCode?: (item: LocationItem) => string
   showCoordinates?: boolean
   item?: LocationItem | null
   onSubmit: (data: LocationFormValues) => void
@@ -44,6 +46,8 @@ export function LocationFormDialog({
   open,
   onOpenChange,
   levelLabel,
+  codeLabel = 'Código',
+  getCode,
   showCoordinates,
   item,
   onSubmit,
@@ -65,7 +69,7 @@ export function LocationFormDialog({
     if (item) {
       reset({
         name: item.name,
-        code: item.code,
+        code: getCode ? getCode(item) : 'code' in item ? item.code : '',
         latitude:
           'latitude' in item && item.latitude != null
             ? (item.latitude as number)
@@ -102,7 +106,7 @@ export function LocationFormDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="loc-code">Código</Label>
+            <Label htmlFor="loc-code">{codeLabel}</Label>
             <Input id="loc-code" {...register('code')} />
             {errors.code && (
               <p className="text-destructive text-sm">{errors.code.message}</p>
