@@ -64,7 +64,9 @@ const services = [
       </p>
     </div>
 
-    <div class="mt-12 grid gap-6 md:mt-16 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+    <div
+      class="mt-12 grid gap-6 md:mt-16 md:grid-cols-2 lg:grid-cols-3 lg:gap-8"
+    >
       {
         services.map(({ icon, title, subtitle, description, bullets }, i) => (
           <article
@@ -86,7 +88,7 @@ const services = [
             <p class="text-text-idle mt-4 text-sm leading-relaxed">
               {description}
             </p>
-            <ul class="text-text-idle mt-5 list-disc space-y-2 pl-5 text-sm leading-relaxed marker:text-text-active">
+            <ul class="text-text-idle marker:text-text-active mt-5 list-disc space-y-2 pl-5 text-sm leading-relaxed">
               {bullets.map((b) => (
                 <li>{b}</li>
               ))}

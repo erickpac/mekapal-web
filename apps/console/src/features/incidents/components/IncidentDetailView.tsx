@@ -135,9 +135,7 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
                     <dt className="text-muted-foreground">
                       {t('incidents.detail.resolvedAt')}
                     </dt>
-                    <dd>
-                      {formatDate(data.resolvedAt)}
-                    </dd>
+                    <dd>{formatDate(data.resolvedAt)}</dd>
                   </>
                 )}
               </dl>

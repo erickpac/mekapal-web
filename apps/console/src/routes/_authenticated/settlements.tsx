@@ -170,9 +170,7 @@ function SettlementDetailView({
                       <dt className="text-muted-foreground">
                         {t('settlements.detail.paidAt')}
                       </dt>
-                      <dd>
-                        {formatDate(data.paidAt)}
-                      </dd>
+                      <dd>{formatDate(data.paidAt)}</dd>
                     </>
                   )}
                   {data.comment && (

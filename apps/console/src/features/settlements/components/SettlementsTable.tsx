@@ -71,9 +71,7 @@ export function SettlementsTable({
                     {item.status}
                   </Badge>
                 </TableCell>
-                <TableCell>
-                  {formatDate(item.createdAt)}
-                </TableCell>
+                <TableCell>{formatDate(item.createdAt)}</TableCell>
               </TableRow>
             ))}
         {!loading && data.length === 0 && (

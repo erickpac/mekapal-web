@@ -33,9 +33,7 @@ export function Pagination({
         >
           <ChevronLeft className="size-4" />
         </Button>
-        <span className="text-sm">
-          {t('common.pagination.page', { page })}
-        </span>
+        <span className="text-sm">{t('common.pagination.page', { page })}</span>
         <Button
           variant="outline"
           size="icon-sm"

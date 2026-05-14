@@ -93,22 +93,16 @@ function CommissionsPage() {
                 {t('commissions.detail.commissionExempt')}
               </dt>
               <dd>
-                {selected.isCommissionExempt
-                  ? t('common.yes')
-                  : t('common.no')}
+                {selected.isCommissionExempt ? t('common.yes') : t('common.no')}
               </dd>
               <dt className="text-muted-foreground">
                 {t('commissions.detail.taxExempt')}
               </dt>
-              <dd>
-                {selected.isTaxExempt ? t('common.yes') : t('common.no')}
-              </dd>
+              <dd>{selected.isTaxExempt ? t('common.yes') : t('common.no')}</dd>
               <dt className="text-muted-foreground">
                 {t('commissions.detail.default')}
               </dt>
-              <dd>
-                {selected.isDefault ? t('common.yes') : t('common.no')}
-              </dd>
+              <dd>{selected.isDefault ? t('common.yes') : t('common.no')}</dd>
               <dt className="text-muted-foreground">
                 {t('commissions.detail.status')}
               </dt>

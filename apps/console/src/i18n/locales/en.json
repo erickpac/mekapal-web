@@ -55,5 +55,532 @@
       "incidentNotFound": "We couldn't find the incident.",
       "invalidIncidentStatus": "The incident isn't in a valid state for this action."
     }
+  },
+  "common": {
+    "loading": "Loading...",
+    "actions": {
+      "cancel": "Cancel",
+      "create": "Create",
+      "save": "Save",
+      "delete": "Delete",
+      "assign": "Assign"
+    },
+    "yes": "Yes",
+    "no": "No",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "pageOf": "Page {{page}} of {{total}}",
+      "page": "Page {{page}}",
+      "showing_one": "Showing {{count}} result",
+      "showing_other": "Showing {{count}} results",
+      "results_one": "{{count}} result",
+      "results_other": "{{count}} results"
+    },
+    "roles": {
+      "ADMIN": "Admin",
+      "BACKOFFICE": "Backoffice",
+      "CLIENT": "Client",
+      "TRANSPORTER": "Transporter"
+    }
+  },
+  "dashboard": {
+    "page": {
+      "title": "Dashboard"
+    },
+    "dateRange": {
+      "from": "From",
+      "to": "To"
+    },
+    "kpi": {
+      "totalRevenue": "Total revenue",
+      "totalCommissions": "Total commissions",
+      "totalTaxes": "Total taxes",
+      "completedTransactions": "Completed transactions",
+      "pendingPayments": "Pending payments",
+      "activeTransporters": "Active transporters"
+    },
+    "charts": {
+      "revenueByLoadType": "Revenue by load type",
+      "revenueLast30Days": "Revenue (last 30 days)",
+      "topTransporters": "Top 10 transporters",
+      "revenueTooltip": "Revenue",
+      "earningsTooltip": "Earnings"
+    }
+  },
+  "layout": {
+    "appName": "Mekapal",
+    "nav": {
+      "dashboard": "Dashboard",
+      "validations": "Validations",
+      "settlements": "Settlements",
+      "incidents": "Incidents",
+      "commissions": "Commissions",
+      "locations": "Locations",
+      "reports": "Reports",
+      "users": "Users"
+    },
+    "sidebar": {
+      "collapse": "Collapse"
+    }
+  },
+  "auth": {
+    "login": {
+      "appName": "Mekapal",
+      "cardDescription": "Sign in to your account",
+      "emailLabel": "Email",
+      "emailPlaceholder": "email@mekapal.com",
+      "passwordLabel": "Password",
+      "submit": "Sign in"
+    },
+    "newPassword": {
+      "instructions": "You must set a new password before continuing.",
+      "newPasswordLabel": "New password",
+      "confirmPasswordLabel": "Confirm password",
+      "submit": "Set password"
+    },
+    "validation": {
+      "emailInvalid": "Invalid email",
+      "passwordRequired": "Password is required",
+      "newPasswordMin": "Minimum 8 characters",
+      "confirmPasswordRequired": "Confirm your password",
+      "passwordsMismatch": "Passwords don't match"
+    }
+  },
+  "validations": {
+    "page": {
+      "title": "Validations",
+      "backToList": "Back to list"
+    },
+    "filters": {
+      "allTypes": "All types",
+      "typeVehicle": "Vehicle",
+      "typeProfile": "Profile",
+      "searchPlaceholder": "Search by name..."
+    },
+    "table": {
+      "type": "Type",
+      "transporter": "Transporter",
+      "summary": "Summary",
+      "submittedAt": "Submitted at",
+      "typeVehicle": "Vehicle",
+      "typeProfile": "Profile",
+      "empty": "No validations found."
+    },
+    "approval": {
+      "approve": "Approve",
+      "reject": "Reject"
+    },
+    "reject": {
+      "title": "Reject validation",
+      "description": "Select a reason and provide details to reject this validation.",
+      "reasonLabel": "Reason",
+      "reasonPlaceholder": "Select a reason...",
+      "detailsLabel": "Details",
+      "detailsPlaceholder": "Provide detailed information about the rejection reason...",
+      "detailsCount": "{{current}}/{{min}} characters minimum",
+      "submit": "Reject",
+      "categories": {
+        "poorQualityPhotos": "Poor quality photos",
+        "expiredDocuments": "Expired documents",
+        "informationMismatch": "Information mismatch",
+        "additionalDocumentationRequired": "Additional documentation required",
+        "other": "Other"
+      }
+    },
+    "documentViewer": {
+      "empty": "No documents available",
+      "imageAlt": "Document {{number}}"
+    },
+    "vehicleDetail": {
+      "title": "Vehicle: {{plate}}",
+      "detailsTitle": "Details",
+      "transporter": "Transporter",
+      "brandModel": "Brand / Model",
+      "year": "Year",
+      "color": "Color",
+      "vehicleType": "Vehicle type",
+      "loadType": "Load type",
+      "licensePlate": "License plate",
+      "vin": "VIN",
+      "maxWeight": "Max weight (kg)",
+      "maxVolume": "Max volume (m³)",
+      "insuranceExpiration": "Insurance expiration"
+    },
+    "profileDetail": {
+      "detailsTitle": "Details",
+      "email": "Email",
+      "phone": "Phone",
+      "licenseNumber": "License number",
+      "licenseExpiration": "License expiration",
+      "city": "City",
+      "state": "State",
+      "address": "Address"
+    },
+    "toast": {
+      "vehicleApproved": "Vehicle approved",
+      "vehicleRejected": "Vehicle rejected",
+      "profileApproved": "Profile approved",
+      "profileRejected": "Profile rejected"
+    }
+  },
+  "settlements": {
+    "page": {
+      "title": "Settlements",
+      "backToList": "Back to list"
+    },
+    "filters": {
+      "allStatuses": "All statuses",
+      "statusPending": "Pending",
+      "statusPaid": "Paid",
+      "from": "From",
+      "to": "To"
+    },
+    "table": {
+      "transporterId": "Transporter ID",
+      "orderId": "Order ID",
+      "amount": "Amount",
+      "status": "Status",
+      "createdAt": "Created",
+      "empty": "No settlements found."
+    },
+    "detail": {
+      "title": "Settlement details",
+      "detailsCardTitle": "Details",
+      "orderId": "Order ID",
+      "transporterId": "Transporter ID",
+      "amount": "Amount",
+      "createdAt": "Created",
+      "paymentInfoTitle": "Payment info",
+      "transferDate": "Transfer date",
+      "transactionNumber": "Transaction #",
+      "bankAccount": "Bank account",
+      "paidAt": "Paid at",
+      "comment": "Comment",
+      "screenshot": "Screenshot",
+      "viewScreenshot": "View",
+      "recordPayment": "Record payment"
+    },
+    "recordPayment": {
+      "title": "Record payment",
+      "description": "Enter the transfer details for this settlement.",
+      "transferDateLabel": "Transfer date",
+      "transactionNumberLabel": "Transaction number",
+      "transactionNumberPlaceholder": "e.g. TXN-123456",
+      "bankAccountIdLabel": "Bank account ID (optional)",
+      "bankAccountIdPlaceholder": "Bank account UUID",
+      "screenshotUrlLabel": "Screenshot URL (optional)",
+      "commentLabel": "Comment (optional)",
+      "commentPlaceholder": "Additional notes...",
+      "submit": "Record payment",
+      "validation": {
+        "transferDateRequired": "Transfer date is required",
+        "transactionNumberRequired": "Transaction number is required"
+      }
+    },
+    "toast": {
+      "recordPaymentSuccess": "Payment recorded successfully"
+    }
+  },
+  "reports": {
+    "page": {
+      "title": "Reports",
+      "subtitle": "Financial summary for the selected period.",
+      "exportButton": "Export CSV"
+    },
+    "cards": {
+      "totalRevenue": "Total revenue",
+      "totalCommissions": "Total commissions",
+      "totalTaxes": "Total taxes",
+      "completedTransactions": "Completed transactions",
+      "pendingPayments": "Pending payments",
+      "pendingPaymentsCount": "Pending payments count"
+    },
+    "toast": {
+      "exportSuccess": "Report exported"
+    }
+  },
+  "locations": {
+    "page": {
+      "title": "Locations",
+      "subtitle": "Manage the location hierarchy for your operations."
+    },
+    "levels": {
+      "country": "Country",
+      "state": "State",
+      "municipality": "Municipality",
+      "zone": "Zone"
+    },
+    "levelsPlural": {
+      "country": "Countries",
+      "state": "States",
+      "municipality": "Municipalities",
+      "zone": "Zones"
+    },
+    "card": {
+      "insideOf": "Inside {{name}}",
+      "topLevelCountries": "Top-level countries",
+      "addButton": "Add {{level}}"
+    },
+    "breadcrumb": {
+      "countries": "Countries"
+    },
+    "table": {
+      "name": "Name",
+      "code": "Code",
+      "postalCode": "Postal code",
+      "status": "Status",
+      "actions": "Actions",
+      "empty": "No items found."
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "form": {
+      "createTitle": "Create {{level}}",
+      "editTitle": "Edit {{level}}",
+      "name": "Name",
+      "code": "Code",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "validation": {
+        "nameRequired": "Name is required",
+        "codeRequired": "Code is required"
+      }
+    },
+    "toggle": {
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "activateLower": "activate",
+      "deactivateLower": "deactivate",
+      "title": "{{action}} {{level}}",
+      "confirmPrefix": "Are you sure you want to {{action}} ",
+      "confirmSuffix": "?"
+    },
+    "toast": {
+      "countryCreated": "Country created",
+      "countryUpdated": "Country updated",
+      "countryStatusUpdated": "Country status updated",
+      "stateCreated": "State created",
+      "stateUpdated": "State updated",
+      "stateStatusUpdated": "State status updated",
+      "municipalityCreated": "Municipality created",
+      "municipalityUpdated": "Municipality updated",
+      "municipalityStatusUpdated": "Municipality status updated",
+      "zoneCreated": "Zone created",
+      "zoneUpdated": "Zone updated",
+      "zoneStatusUpdated": "Zone status updated"
+    }
+  },
+  "incidents": {
+    "page": {
+      "title": "Incidents",
+      "backToList": "Back to list"
+    },
+    "stats": {
+      "open": "Open",
+      "investigating": "Investigating",
+      "resolved": "Resolved",
+      "closed": "Closed"
+    },
+    "filters": {
+      "allStatuses": "All statuses",
+      "statusOpen": "Open",
+      "statusInvestigating": "Investigating",
+      "statusResolved": "Resolved",
+      "statusClosed": "Closed",
+      "allSeverities": "All severities",
+      "severityLow": "Low",
+      "severityMedium": "Medium",
+      "severityHigh": "High",
+      "severityCritical": "Critical",
+      "allTypes": "All types",
+      "typeDamage": "Damage",
+      "typeDelay": "Delay",
+      "typeLoss": "Loss",
+      "typeFraud": "Fraud",
+      "typeOther": "Other"
+    },
+    "table": {
+      "incidentNumber": "Incident #",
+      "severity": "Severity",
+      "type": "Type",
+      "status": "Status",
+      "description": "Description",
+      "date": "Date",
+      "empty": "No incidents found."
+    },
+    "detail": {
+      "infoTitle": "Incident info",
+      "type": "Type",
+      "orderId": "Order ID",
+      "reportedBy": "Reported by",
+      "reportedAgainst": "Reported against",
+      "assignedTo": "Assigned to",
+      "createdAt": "Created",
+      "resolutionTitle": "Resolution",
+      "resolution": "Resolution",
+      "userAction": "User action",
+      "refundAmount": "Refund amount",
+      "resolvedAt": "Resolved at",
+      "descriptionTitle": "Description",
+      "internalNotesTitle": "Internal notes",
+      "evidenceTitle": "Evidence",
+      "startInvestigation": "Start investigation",
+      "resolve": "Resolve"
+    },
+    "resolveForm": {
+      "title": "Resolve incident",
+      "description": "Provide the resolution details and any action to take.",
+      "resolutionLabel": "Resolution",
+      "resolutionPlaceholder": "Select a resolution...",
+      "resolutionResolved": "Resolved successfully",
+      "resolutionClosed": "Closed without resolution",
+      "resolutionNotesLabel": "Resolution notes",
+      "resolutionNotesPlaceholder": "Describe the resolution in detail...",
+      "refundAmountLabel": "Refund amount (optional)",
+      "userActionLabel": "User action (optional)",
+      "userActionPlaceholder": "Select an action...",
+      "userActionNone": "None",
+      "userActionWarning": "Warning",
+      "userActionSuspension": "Suspension",
+      "userActionBan": "Ban",
+      "submit": "Resolve",
+      "validation": {
+        "resolutionNotesMin": "Minimum 100 characters required"
+      }
+    },
+    "toast": {
+      "updateSuccess": "Incident updated",
+      "resolveSuccess": "Incident resolved"
+    }
+  },
+  "commissions": {
+    "page": {
+      "title": "Commissions",
+      "createButton": "New profile",
+      "backToList": "Back to list"
+    },
+    "detail": {
+      "tabDetails": "Details",
+      "tabClients": "Clients",
+      "type": "Type",
+      "value": "Value",
+      "minimum": "Minimum amount",
+      "maximum": "Maximum amount",
+      "tax": "Tax",
+      "commissionExempt": "Commission exempt",
+      "taxExempt": "Tax exempt",
+      "default": "Default",
+      "status": "Status"
+    },
+    "table": {
+      "name": "Name",
+      "type": "Type",
+      "value": "Value",
+      "min": "Min",
+      "max": "Max",
+      "taxPercent": "Tax %",
+      "status": "Status",
+      "actions": "Actions",
+      "default": "Default",
+      "empty": "No billing profiles found."
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "form": {
+      "createTitle": "Create billing profile",
+      "editTitle": "Edit billing profile",
+      "name": "Name",
+      "description": "Description (optional)",
+      "commissionType": "Commission type",
+      "commissionTypePercentage": "Percentage",
+      "commissionTypeFixed": "Fixed amount",
+      "valuePercent": "Value (%)",
+      "valueFixed": "Value (Q)",
+      "minimumAmount": "Minimum amount (Q)",
+      "maximumAmount": "Maximum amount (Q)",
+      "optional": "Optional",
+      "taxPercent": "Tax percentage (%)",
+      "isCommissionExempt": "Commission exempt",
+      "isTaxExempt": "Tax exempt",
+      "isDefault": "Default profile",
+      "statusLabel": "Status: {{status}}",
+      "validation": {
+        "nameRequired": "Name is required",
+        "valuePositive": "Value must be positive"
+      }
+    },
+    "delete": {
+      "title": "Delete billing profile",
+      "confirmPrefix": "Are you sure you want to delete ",
+      "confirmSuffix": "? This action can't be undone."
+    },
+    "clients": {
+      "instructions": "Assign or remove clients from this billing profile by entering their client ID.",
+      "assignButton": "Assign client",
+      "unassignButton": "Remove client",
+      "assignTitle": "Assign client",
+      "assignDescription": "Enter the client ID to assign to this billing profile.",
+      "unassignTitle": "Remove client",
+      "unassignDescription": "Enter the client ID to remove its billing profile assignment.",
+      "clientIdLabel": "Client ID",
+      "clientIdPlaceholder": "Client UUID"
+    },
+    "toast": {
+      "createSuccess": "Billing profile created",
+      "updateSuccess": "Billing profile updated",
+      "deleteSuccess": "Billing profile deleted",
+      "assignSuccess": "Client assigned",
+      "unassignSuccess": "Client removed"
+    }
+  },
+  "users": {
+    "page": {
+      "title": "Users",
+      "subtitle": "Manage users and create administrator accounts.",
+      "createButton": "Create user",
+      "cardTitle": "All users",
+      "totalCount": "{{total}} users total"
+    },
+    "filters": {
+      "allRoles": "All roles",
+      "sortRecent": "Recent",
+      "sortOldest": "Oldest",
+      "searchPlaceholder": "Search by name or email..."
+    },
+    "table": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "role": "Role",
+      "company": "Company",
+      "registered": "Registered",
+      "empty": "No users found."
+    },
+    "createDialog": {
+      "title": "Create user",
+      "description": "Create an admin or backoffice user. They will receive a temporary password by email if one isn't provided.",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone (optional)",
+      "temporaryPassword": "Temporary password (optional)",
+      "temporaryPasswordPlaceholder": "Leave empty to generate automatically",
+      "role": "Role",
+      "submit": "Create",
+      "validation": {
+        "firstNameRequired": "First name is required",
+        "lastNameRequired": "Last name is required",
+        "emailInvalid": "Invalid email",
+        "passwordMin": "Minimum 8 characters"
+      }
+    },
+    "toast": {
+      "createSuccess": "User created successfully"
+    }
   }
 }

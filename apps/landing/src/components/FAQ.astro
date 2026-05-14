@@ -41,7 +41,10 @@ const faqs = [
       >
         Encuentra aquí las respuestas que estás buscando.<br />
         Si no la encuentras, puedes
-        <a href="#contacto" class="text-primary-500 font-medium hover:underline">
+        <a
+          href="#contacto"
+          class="text-primary-500 font-medium hover:underline"
+        >
           contactarnos aquí.
         </a>
       </p>
@@ -51,7 +54,7 @@ const faqs = [
       {
         faqs.map(({ q, a }, i) => (
           <details
-            class={`fade-up fade-up-delay-${(i % 3) + 1} group bg-white rounded-2xl border border-transparent open:border-secondary-500 transition-colors`}
+            class={`fade-up fade-up-delay-${(i % 3) + 1} group open:border-secondary-500 rounded-2xl border border-transparent bg-white transition-colors`}
           >
             <summary class="text-text-active flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-left text-base font-semibold md:px-6 md:py-5 md:text-lg">
               <span>{q}</span>

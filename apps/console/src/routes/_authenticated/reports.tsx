@@ -60,9 +60,7 @@ function ReportsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">{t('reports.page.title')}</h1>
-          <p className="text-muted-foreground">
-            {t('reports.page.subtitle')}
-          </p>
+          <p className="text-muted-foreground">{t('reports.page.subtitle')}</p>
         </div>
         <Button size="sm" onClick={handleExport} disabled={exporting}>
           {exporting ? (

@@ -227,10 +227,7 @@ export async function updateZone(
     Pick<ZoneFormData, 'name' | 'postalCode' | 'latitude' | 'longitude'>
   >,
 ): Promise<Zone> {
-  const { data } = await apiClient.put<Zone>(
-    `/locations/zones/${id}`,
-    payload,
-  )
+  const { data } = await apiClient.put<Zone>(`/locations/zones/${id}`, payload)
   return data
 }
 

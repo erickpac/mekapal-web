@@ -6,18 +6,18 @@ Logistics and transportation management console for Guatemala.
 
 ## Apps
 
-| App | Description | Stack |
-| --- | --- | --- |
+| App            | Description                | Stack                        |
+| -------------- | -------------------------- | ---------------------------- |
 | `apps/console` | Admin/backoffice dashboard | Vite + React 19 + TypeScript |
-| `apps/landing` | Public landing page | Astro |
+| `apps/landing` | Public landing page        | Astro                        |
 
 ## Shared Packages
 
-| Package | Description |
-| --- | --- |
+| Package                    | Description                   |
+| -------------------------- | ----------------------------- |
 | `packages/tailwind-config` | Shared Tailwind configuration |
-| `packages/types` | Shared TypeScript types |
-| `packages/ui` | Shared UI components |
+| `packages/types`           | Shared TypeScript types       |
+| `packages/ui`              | Shared UI components          |
 
 ## Requirements
 

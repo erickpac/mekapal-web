@@ -19,7 +19,8 @@ import { Label } from '@/components/ui/label'
 import type { LocationItem } from '../api/locations.api'
 
 const optionalNumber = z.preprocess(
-  (v) => (v === '' || v === undefined || Number.isNaN(v) ? undefined : Number(v)),
+  (v) =>
+    v === '' || v === undefined || Number.isNaN(v) ? undefined : Number(v),
   z.number().optional(),
 )
 
@@ -89,7 +90,7 @@ export function LocationFormDialog({
     } else {
       reset({ name: '', code: '' })
     }
-  }, [item, reset])
+  }, [item, reset, getCode])
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -125,9 +126,7 @@ export function LocationFormDialog({
           {showCoordinates && (
             <>
               <div className="grid gap-2">
-                <Label htmlFor="loc-lat">
-                  {t('locations.form.latitude')}
-                </Label>
+                <Label htmlFor="loc-lat">{t('locations.form.latitude')}</Label>
                 <Input
                   id="loc-lat"
                   type="number"
@@ -136,9 +135,7 @@ export function LocationFormDialog({
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="loc-lng">
-                  {t('locations.form.longitude')}
-                </Label>
+                <Label htmlFor="loc-lng">{t('locations.form.longitude')}</Label>
                 <Input
                   id="loc-lng"
                   type="number"

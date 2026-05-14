@@ -115,9 +115,7 @@ export function VehicleDetailView({ id, onDone }: VehicleDetailViewProps) {
                 <dt className="text-muted-foreground">
                   {t('validations.vehicleDetail.insuranceExpiration')}
                 </dt>
-                <dd>
-                  {formatDate(data.insuranceExpiration)}
-                </dd>
+                <dd>{formatDate(data.insuranceExpiration)}</dd>
               </>
             )}
           </dl>

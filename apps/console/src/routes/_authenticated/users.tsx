@@ -119,13 +119,9 @@ function UsersPage() {
             role={role}
             search={searchInput}
             sort={sort}
-            onRoleChange={(r) =>
-              setSearchParam({ role: r, page: 1 })
-            }
+            onRoleChange={(r) => setSearchParam({ role: r, page: 1 })}
             onSearchChange={setSearchInput}
-            onSortChange={(s) =>
-              setSearchParam({ sort: s, page: 1 })
-            }
+            onSortChange={(s) => setSearchParam({ sort: s, page: 1 })}
           />
 
           <UsersTable data={data?.data ?? []} loading={isLoading} />

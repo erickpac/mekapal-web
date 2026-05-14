@@ -98,9 +98,7 @@ export function IncidentsTable({
                 <TableCell className="max-w-48 truncate">
                   {item.description}
                 </TableCell>
-                <TableCell>
-                  {formatDate(item.createdAt)}
-                </TableCell>
+                <TableCell>{formatDate(item.createdAt)}</TableCell>
               </TableRow>
             ))}
         {!loading && data.length === 0 && (

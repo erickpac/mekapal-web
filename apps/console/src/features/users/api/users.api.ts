@@ -53,10 +53,9 @@ export interface AdminUserResponse {
 export async function getUsers(
   query: UserListQuery,
 ): Promise<UserListResponse> {
-  const { data } = await apiClient.get<UserListResponse>(
-    '/backoffice/users',
-    { params: query },
-  )
+  const { data } = await apiClient.get<UserListResponse>('/backoffice/users', {
+    params: query,
+  })
   return data
 }
 

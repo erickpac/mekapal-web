@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
@@ -116,6 +116,16 @@ function LocationsPage() {
   const codeLabel = isZoneLevel
     ? t('locations.table.postalCode')
     : t('locations.table.code')
+
+  // Memoized so consumers' effects can depend on it without re-running on
+  // every render of this route.
+  const getCode = useMemo(
+    () =>
+      isZoneLevel
+        ? (item: LocationItem) => (item as Zone).postalCode
+        : undefined,
+    [isZoneLevel],
+  )
 
   function handleDrillDown(item: LocationItem) {
     const childLevel = getChildLevel(currentLevel)
@@ -272,7 +282,7 @@ function LocationsPage() {
             loading={isLoading}
             hasChildren={hasChildren}
             codeLabel={codeLabel}
-            getCode={isZoneLevel ? (item) => (item as Zone).postalCode : undefined}
+            getCode={getCode}
             onDrillDown={handleDrillDown}
             onEdit={(item) => setEditItem(item)}
             onToggleStatus={(item) => setToggleTarget(item)}
@@ -285,7 +295,7 @@ function LocationsPage() {
         onOpenChange={setFormOpen}
         levelLabel={levelLabel}
         codeLabel={codeLabel}
-        getCode={isZoneLevel ? (item) => (item as Zone).postalCode : undefined}
+        getCode={getCode}
         showCoordinates={isZoneLevel}
         onSubmit={handleCreate}
         isSubmitting={isCreating}
@@ -296,7 +306,7 @@ function LocationsPage() {
         onOpenChange={(open) => !open && setEditItem(null)}
         levelLabel={levelLabel}
         codeLabel={codeLabel}
-        getCode={isZoneLevel ? (item) => (item as Zone).postalCode : undefined}
+        getCode={getCode}
         showCoordinates={isZoneLevel}
         item={editItem}
         onSubmit={handleUpdate}

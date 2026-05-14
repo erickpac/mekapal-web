@@ -75,9 +75,7 @@ export function ProfileDetailView({ id, onDone }: ProfileDetailViewProps) {
                 <dt className="text-muted-foreground">
                   {t('validations.profileDetail.licenseExpiration')}
                 </dt>
-                <dd>
-                  {formatDate(data.licenseExpiration)}
-                </dd>
+                <dd>{formatDate(data.licenseExpiration)}</dd>
               </>
             )}
             <dt className="text-muted-foreground">

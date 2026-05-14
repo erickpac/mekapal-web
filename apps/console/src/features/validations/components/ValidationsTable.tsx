@@ -75,9 +75,7 @@ export function ValidationsTable({
                 <TableCell className="text-muted-foreground text-sm">
                   {formatSummary(item)}
                 </TableCell>
-                <TableCell>
-                  {formatDate(item.createdAt)}
-                </TableCell>
+                <TableCell>{formatDate(item.createdAt)}</TableCell>
               </TableRow>
             ))}
         {!loading && data.length === 0 && (

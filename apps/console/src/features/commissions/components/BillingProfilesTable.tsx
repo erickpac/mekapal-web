@@ -102,9 +102,7 @@ export function BillingProfilesTable({
                   {profile.taxPercent}%
                 </TableCell>
                 <TableCell>
-                  <Badge
-                    variant={profile.isActive ? 'default' : 'secondary'}
-                  >
+                  <Badge variant={profile.isActive ? 'default' : 'secondary'}>
                     {profile.isActive
                       ? t('commissions.status.active')
                       : t('commissions.status.inactive')}

@@ -4,7 +4,11 @@ import { ArrowLeft } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/components/ui/button'
-import type { IncidentSeverity, IncidentStatus, IncidentType } from '@/shared/types'
+import type {
+  IncidentSeverity,
+  IncidentStatus,
+  IncidentType,
+} from '@/shared/types'
 import type { Incident } from '@/features/incidents/api/incidents.api'
 import { IncidentDetailView } from '@/features/incidents/components/IncidentDetailView'
 import { IncidentFilters } from '@/features/incidents/components/IncidentFilters'

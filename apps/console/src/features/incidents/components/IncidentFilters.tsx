@@ -99,9 +99,7 @@ export function IncidentFilters({
           <SelectValue placeholder={t('incidents.filters.allTypes')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">
-            {t('incidents.filters.allTypes')}
-          </SelectItem>
+          <SelectItem value="all">{t('incidents.filters.allTypes')}</SelectItem>
           <SelectItem value="DAMAGE">
             {t('incidents.filters.typeDamage')}
           </SelectItem>

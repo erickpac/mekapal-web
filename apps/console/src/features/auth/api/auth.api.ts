@@ -33,10 +33,10 @@ export async function signIn(
   password: string,
 ): Promise<AuthResponse | ChallengeResponse> {
   try {
-    const { data } = await apiClient.post<AuthResponse>(
-      '/auth/admin/sign-in',
-      { email, password },
-    )
+    const { data } = await apiClient.post<AuthResponse>('/auth/admin/sign-in', {
+      email,
+      password,
+    })
     return data
   } catch (error) {
     // The NEW_PASSWORD_REQUIRED challenge arrives as a 400 carrying the
@@ -78,18 +78,6 @@ export async function completeNewPassword(
   } catch (error) {
     throw parseApiError(error)
   }
-}
-
-export async function refreshToken(token: string): Promise<AuthResponse> {
-  const { data } = await apiClient.post<AuthResponse>('/auth/refresh', {
-    refreshToken: token,
-  })
-  return data
-}
-
-export async function getMe(): Promise<AuthUser> {
-  const { data } = await apiClient.get<AuthUser>('/auth/me')
-  return data
 }
 
 export async function signOut(): Promise<void> {

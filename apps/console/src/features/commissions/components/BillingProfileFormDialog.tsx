@@ -142,9 +142,7 @@ export function BillingProfileFormDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="bp-desc">
-              {t('commissions.form.description')}
-            </Label>
+            <Label htmlFor="bp-desc">{t('commissions.form.description')}</Label>
             <Input id="bp-desc" {...register('description')} />
           </div>
 

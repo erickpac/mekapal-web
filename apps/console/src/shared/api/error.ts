@@ -235,12 +235,7 @@ export function parseApiError(error: unknown): AppError {
           serverErrorCode,
         )
       default:
-        return new AppError(
-          ErrorCode.UNKNOWN,
-          status,
-          message,
-          serverErrorCode,
-        )
+        return new AppError(ErrorCode.UNKNOWN, status, message, serverErrorCode)
     }
   }
 
