@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -19,10 +20,12 @@ export function RevenueByLoadTypeChart({
   data,
   loading,
 }: RevenueByLoadTypeChartProps) {
+  const { t } = useTranslation()
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Ingresos por tipo de carga</CardTitle>
+        <CardTitle>{t('dashboard.charts.revenueByLoadType')}</CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (
@@ -49,7 +52,7 @@ export function RevenueByLoadTypeChart({
                 <Tooltip
                   formatter={(value) => [
                     formatCurrency(Number(value)),
-                    'Ingresos',
+                    t('dashboard.charts.revenueTooltip'),
                   ]}
                 />
               </PieChart>

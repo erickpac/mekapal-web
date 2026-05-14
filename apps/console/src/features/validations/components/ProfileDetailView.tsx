@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -28,6 +29,7 @@ function collectDocuments(data: {
 }
 
 export function ProfileDetailView({ id, onDone }: ProfileDetailViewProps) {
+  const { t } = useTranslation()
   const { data, isLoading } = useProfileDetail(id)
   const approve = useApproveProfile()
   const reject = useRejectProfile()
@@ -52,31 +54,45 @@ export function ProfileDetailView({ id, onDone }: ProfileDetailViewProps) {
 
       <Card>
         <CardHeader>
-          <CardTitle>Detalles</CardTitle>
+          <CardTitle>{t('validations.profileDetail.detailsTitle')}</CardTitle>
         </CardHeader>
         <CardContent>
           <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-            <dt className="text-muted-foreground">Correo</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.profileDetail.email')}
+            </dt>
             <dd>{data.user.email}</dd>
-            <dt className="text-muted-foreground">Teléfono</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.profileDetail.phone')}
+            </dt>
             <dd>{data.user.phone ?? '—'}</dd>
-            <dt className="text-muted-foreground">Número de licencia</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.profileDetail.licenseNumber')}
+            </dt>
             <dd>{data.licenseNumber}</dd>
             {data.licenseExpiration && (
               <>
-                <dt className="text-muted-foreground">Vencimiento de licencia</dt>
+                <dt className="text-muted-foreground">
+                  {t('validations.profileDetail.licenseExpiration')}
+                </dt>
                 <dd>
                   {formatDate(data.licenseExpiration)}
                 </dd>
               </>
             )}
-            <dt className="text-muted-foreground">Ciudad</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.profileDetail.city')}
+            </dt>
             <dd>{data.city}</dd>
-            <dt className="text-muted-foreground">Departamento</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.profileDetail.state')}
+            </dt>
             <dd>{data.state}</dd>
             {data.address && (
               <>
-                <dt className="text-muted-foreground">Dirección</dt>
+                <dt className="text-muted-foreground">
+                  {t('validations.profileDetail.address')}
+                </dt>
                 <dd>{data.address}</dd>
               </>
             )}

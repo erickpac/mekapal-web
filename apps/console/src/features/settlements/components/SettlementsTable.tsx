@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -22,15 +23,19 @@ export function SettlementsTable({
   loading,
   onRowClick,
 }: SettlementsTableProps) {
+  const { t } = useTranslation()
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>ID del transportista</TableHead>
-          <TableHead>ID de orden</TableHead>
-          <TableHead className="text-right">Monto</TableHead>
-          <TableHead>Estado</TableHead>
-          <TableHead>Creado</TableHead>
+          <TableHead>{t('settlements.table.transporterId')}</TableHead>
+          <TableHead>{t('settlements.table.orderId')}</TableHead>
+          <TableHead className="text-right">
+            {t('settlements.table.amount')}
+          </TableHead>
+          <TableHead>{t('settlements.table.status')}</TableHead>
+          <TableHead>{t('settlements.table.createdAt')}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -77,7 +82,7 @@ export function SettlementsTable({
               colSpan={5}
               className="text-muted-foreground text-center"
             >
-              No se encontraron liquidaciones.
+              {t('settlements.table.empty')}
             </TableCell>
           </TableRow>
         )}

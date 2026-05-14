@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import type { TFunction } from 'i18next'
 import { Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -23,15 +25,26 @@ import type {
   RejectValidationData,
 } from '../api/validations.api'
 
-const REJECTION_CATEGORIES: { value: RejectionCategory; label: string }[] = [
-  { value: 'POOR_QUALITY_PHOTOS', label: 'Fotos de mala calidad' },
-  { value: 'EXPIRED_DOCUMENTS', label: 'Documentos vencidos' },
-  { value: 'INFORMATION_MISMATCH', label: 'Información no coincide' },
+const getRejectionCategories = (
+  t: TFunction,
+): { value: RejectionCategory; label: string }[] => [
+  {
+    value: 'POOR_QUALITY_PHOTOS',
+    label: t('validations.reject.categories.poorQualityPhotos'),
+  },
+  {
+    value: 'EXPIRED_DOCUMENTS',
+    label: t('validations.reject.categories.expiredDocuments'),
+  },
+  {
+    value: 'INFORMATION_MISMATCH',
+    label: t('validations.reject.categories.informationMismatch'),
+  },
   {
     value: 'ADDITIONAL_DOCUMENTATION_REQUIRED',
-    label: 'Documentación adicional requerida',
+    label: t('validations.reject.categories.additionalDocumentationRequired'),
   },
-  { value: 'OTHER', label: 'Otro' },
+  { value: 'OTHER', label: t('validations.reject.categories.other') },
 ]
 
 const MIN_DETAILS_LENGTH = 50
@@ -49,9 +62,11 @@ export function RejectDialog({
   onSubmit,
   isSubmitting,
 }: RejectDialogProps) {
+  const { t } = useTranslation()
   const [category, setCategory] = useState<RejectionCategory>()
   const [details, setDetails] = useState('')
 
+  const rejectionCategories = getRejectionCategories(t)
   const isValid = category && details.trim().length >= MIN_DETAILS_LENGTH
 
   const handleSubmit = () => {
@@ -65,25 +80,26 @@ export function RejectDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Rechazar validación</DialogTitle>
+          <DialogTitle>{t('validations.reject.title')}</DialogTitle>
           <DialogDescription>
-            Selecciona un motivo y proporciona detalles para rechazar esta
-            validación.
+            {t('validations.reject.description')}
           </DialogDescription>
         </DialogHeader>
 
         <div className="grid gap-4 py-2">
           <div className="grid gap-2">
-            <Label>Motivo</Label>
+            <Label>{t('validations.reject.reasonLabel')}</Label>
             <Select
               value={category}
               onValueChange={(v) => setCategory(v as RejectionCategory)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Seleccionar motivo..." />
+                <SelectValue
+                  placeholder={t('validations.reject.reasonPlaceholder')}
+                />
               </SelectTrigger>
               <SelectContent>
-                {REJECTION_CATEGORIES.map((cat) => (
+                {rejectionCategories.map((cat) => (
                   <SelectItem key={cat.value} value={cat.value}>
                     {cat.label}
                   </SelectItem>
@@ -93,22 +109,25 @@ export function RejectDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label>Detalles</Label>
+            <Label>{t('validations.reject.detailsLabel')}</Label>
             <Textarea
-              placeholder="Proporciona información detallada sobre el motivo del rechazo..."
+              placeholder={t('validations.reject.detailsPlaceholder')}
               value={details}
               onChange={(e) => setDetails(e.target.value)}
               rows={3}
             />
             <p className="text-muted-foreground text-xs">
-              {details.trim().length}/{MIN_DETAILS_LENGTH} caracteres mínimo
+              {t('validations.reject.detailsCount', {
+                current: details.trim().length,
+                min: MIN_DETAILS_LENGTH,
+              })}
             </p>
           </div>
         </div>
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancelar
+            {t('common.actions.cancel')}
           </Button>
           <Button
             variant="destructive"
@@ -116,7 +135,7 @@ export function RejectDialog({
             disabled={!isValid || isSubmitting}
           >
             {isSubmitting && <Loader2 className="animate-spin" />}
-            Rechazar
+            {t('validations.reject.submit')}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,4 +1,5 @@
 import { Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -25,19 +26,22 @@ export function DeleteProfileDialog({
   onConfirm,
   isDeleting,
 }: DeleteProfileDialogProps) {
+  const { t } = useTranslation()
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>Eliminar perfil de facturación</DialogTitle>
+          <DialogTitle>{t('commissions.delete.title')}</DialogTitle>
           <DialogDescription>
-            ¿Estás seguro de que deseas eliminar <strong>{profileName}</strong>?
-            Esta acción no se puede deshacer.
+            {t('commissions.delete.confirmPrefix')}
+            <strong>{profileName}</strong>
+            {t('commissions.delete.confirmSuffix')}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancelar
+            {t('common.actions.cancel')}
           </Button>
           <Button
             variant="destructive"
@@ -45,7 +49,7 @@ export function DeleteProfileDialog({
             disabled={isDeleting}
           >
             {isDeleting && <Loader2 className="animate-spin" />}
-            Eliminar
+            {t('common.actions.delete')}
           </Button>
         </DialogFooter>
       </DialogContent>

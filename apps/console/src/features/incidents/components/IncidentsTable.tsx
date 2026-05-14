@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -42,16 +43,18 @@ export function IncidentsTable({
   loading,
   onRowClick,
 }: IncidentsTableProps) {
+  const { t } = useTranslation()
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Incidente #</TableHead>
-          <TableHead>Severidad</TableHead>
-          <TableHead>Tipo</TableHead>
-          <TableHead>Estado</TableHead>
-          <TableHead>Descripción</TableHead>
-          <TableHead>Fecha</TableHead>
+          <TableHead>{t('incidents.table.incidentNumber')}</TableHead>
+          <TableHead>{t('incidents.table.severity')}</TableHead>
+          <TableHead>{t('incidents.table.type')}</TableHead>
+          <TableHead>{t('incidents.table.status')}</TableHead>
+          <TableHead>{t('incidents.table.description')}</TableHead>
+          <TableHead>{t('incidents.table.date')}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -106,7 +109,7 @@ export function IncidentsTable({
               colSpan={6}
               className="text-muted-foreground text-center"
             >
-              No se encontraron incidentes.
+              {t('incidents.table.empty')}
             </TableCell>
           </TableRow>
         )}

@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { ArrowLeft } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -23,6 +24,7 @@ export const Route = createFileRoute('/_authenticated/settlements')({
 })
 
 function SettlementsPage() {
+  const { t } = useTranslation()
   const [status, setStatus] = useState<SettlementStatus>()
   const [fromDate, setFromDate] = useState('')
   const [toDate, setToDate] = useState('')
@@ -43,7 +45,7 @@ function SettlementsPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Liquidaciones</h1>
+      <h1 className="text-2xl font-bold">{t('settlements.page.title')}</h1>
 
       <SettlementFilters
         status={status}
@@ -72,6 +74,7 @@ function SettlementDetailView({
   item: Settlement
   onBack: () => void
 }) {
+  const { t } = useTranslation()
   const { data, isLoading } = useSettlement(item.id)
   const recordPayment = useRecordPayment()
   const [paymentOpen, setPaymentOpen] = useState(false)
@@ -80,7 +83,7 @@ function SettlementDetailView({
     <div className="space-y-4">
       <Button variant="ghost" size="sm" onClick={onBack}>
         <ArrowLeft className="size-4" />
-        Volver a la lista
+        {t('settlements.page.backToList')}
       </Button>
 
       {isLoading || !data ? (
@@ -91,7 +94,9 @@ function SettlementDetailView({
       ) : (
         <>
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Detalles de liquidación</h2>
+            <h2 className="text-lg font-semibold">
+              {t('settlements.detail.title')}
+            </h2>
             <Badge variant={data.status === 'PAID' ? 'default' : 'secondary'}>
               {data.status}
             </Badge>
@@ -99,17 +104,25 @@ function SettlementDetailView({
 
           <Card>
             <CardHeader>
-              <CardTitle>Detalles</CardTitle>
+              <CardTitle>{t('settlements.detail.detailsCardTitle')}</CardTitle>
             </CardHeader>
             <CardContent>
               <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                <dt className="text-muted-foreground">ID de orden</dt>
+                <dt className="text-muted-foreground">
+                  {t('settlements.detail.orderId')}
+                </dt>
                 <dd className="font-mono text-xs">{data.orderId}</dd>
-                <dt className="text-muted-foreground">ID del transportista</dt>
+                <dt className="text-muted-foreground">
+                  {t('settlements.detail.transporterId')}
+                </dt>
                 <dd className="font-mono text-xs">{data.transporterId}</dd>
-                <dt className="text-muted-foreground">Monto</dt>
+                <dt className="text-muted-foreground">
+                  {t('settlements.detail.amount')}
+                </dt>
                 <dd className="font-medium">{formatCurrency(data.amount)}</dd>
-                <dt className="text-muted-foreground">Creado</dt>
+                <dt className="text-muted-foreground">
+                  {t('settlements.detail.createdAt')}
+                </dt>
                 <dd>{formatDate(data.createdAt)}</dd>
               </dl>
             </CardContent>
@@ -118,19 +131,25 @@ function SettlementDetailView({
           {data.status === 'PAID' && (
             <Card>
               <CardHeader>
-                <CardTitle>Info de pago</CardTitle>
+                <CardTitle>
+                  {t('settlements.detail.paymentInfoTitle')}
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                   {data.transferDate && (
                     <>
-                      <dt className="text-muted-foreground">Fecha de transferencia</dt>
+                      <dt className="text-muted-foreground">
+                        {t('settlements.detail.transferDate')}
+                      </dt>
                       <dd>{formatDate(data.transferDate)}</dd>
                     </>
                   )}
                   {data.transactionNumber && (
                     <>
-                      <dt className="text-muted-foreground">Transacción #</dt>
+                      <dt className="text-muted-foreground">
+                        {t('settlements.detail.transactionNumber')}
+                      </dt>
                       <dd className="font-mono text-xs">
                         {data.transactionNumber}
                       </dd>
@@ -138,7 +157,9 @@ function SettlementDetailView({
                   )}
                   {data.bankAccountId && (
                     <>
-                      <dt className="text-muted-foreground">Cuenta bancaria</dt>
+                      <dt className="text-muted-foreground">
+                        {t('settlements.detail.bankAccount')}
+                      </dt>
                       <dd className="font-mono text-xs">
                         {data.bankAccountId}
                       </dd>
@@ -146,7 +167,9 @@ function SettlementDetailView({
                   )}
                   {data.paidAt && (
                     <>
-                      <dt className="text-muted-foreground">Pagado el</dt>
+                      <dt className="text-muted-foreground">
+                        {t('settlements.detail.paidAt')}
+                      </dt>
                       <dd>
                         {formatDate(data.paidAt)}
                       </dd>
@@ -154,13 +177,17 @@ function SettlementDetailView({
                   )}
                   {data.comment && (
                     <>
-                      <dt className="text-muted-foreground">Comentario</dt>
+                      <dt className="text-muted-foreground">
+                        {t('settlements.detail.comment')}
+                      </dt>
                       <dd>{data.comment}</dd>
                     </>
                   )}
                   {data.screenshotUrl && (
                     <>
-                      <dt className="text-muted-foreground">Captura de pantalla</dt>
+                      <dt className="text-muted-foreground">
+                        {t('settlements.detail.screenshot')}
+                      </dt>
                       <dd>
                         <a
                           href={data.screenshotUrl}
@@ -168,7 +195,7 @@ function SettlementDetailView({
                           rel="noopener noreferrer"
                           className="text-primary underline"
                         >
-                          Ver
+                          {t('settlements.detail.viewScreenshot')}
                         </a>
                       </dd>
                     </>
@@ -181,7 +208,7 @@ function SettlementDetailView({
           {data.status === 'PENDING' && (
             <>
               <Button onClick={() => setPaymentOpen(true)}>
-                Registrar pago
+                {t('settlements.detail.recordPayment')}
               </Button>
               <RecordPaymentForm
                 open={paymentOpen}

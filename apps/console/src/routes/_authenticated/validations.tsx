@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/components/ui/button'
 import type {
@@ -20,6 +21,7 @@ export const Route = createFileRoute('/_authenticated/validations')({
 const LIMIT = 20
 
 function ValidationsPage() {
+  const { t } = useTranslation()
   const [type, setType] = useState<ValidationType>()
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
@@ -41,7 +43,7 @@ function ValidationsPage() {
       <div className="space-y-4">
         <Button variant="ghost" size="sm" onClick={() => setSelected(null)}>
           <ArrowLeft className="size-4" />
-          Back to list
+          {t('validations.page.backToList')}
         </Button>
 
         {selected.type === 'VEHICLE' ? (
@@ -61,7 +63,7 @@ function ValidationsPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Validaciones</h1>
+      <h1 className="text-2xl font-bold">{t('validations.page.title')}</h1>
 
       <ValidationFilters
         type={type}
@@ -85,7 +87,7 @@ function ValidationsPage() {
       {pagination && (
         <div className="flex items-center justify-between">
           <p className="text-muted-foreground text-sm">
-            {pagination.total} result{pagination.total !== 1 ? 's' : ''}
+            {t('common.pagination.results', { count: pagination.total })}
           </p>
           <div className="flex items-center gap-2">
             <Button
@@ -97,7 +99,10 @@ function ValidationsPage() {
               <ChevronLeft className="size-4" />
             </Button>
             <span className="text-sm">
-              Page {page} of {pagination.totalPages}
+              {t('common.pagination.pageOf', {
+                page,
+                total: pagination.totalPages,
+              })}
             </span>
             <Button
               variant="outline"

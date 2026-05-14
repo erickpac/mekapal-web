@@ -1,6 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { TFunction } from 'i18next'
 import { Loader2 } from 'lucide-react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import {
@@ -22,16 +24,25 @@ import {
 } from '@/components/ui/select'
 import type { CreateAdminUserData } from '../api/users.api'
 
-const createUserSchema = z.object({
-  firstName: z.string().min(1, 'El nombre es obligatorio'),
-  lastName: z.string().min(1, 'El apellido es obligatorio'),
-  email: z.string().email('Correo electrónico inválido'),
-  role: z.enum(['ADMIN', 'BACKOFFICE']),
-  phone: z.string().optional(),
-  temporaryPassword: z.string().min(8, 'Mínimo 8 caracteres').optional().or(z.literal('')),
-})
+const createUserSchema = (t: TFunction) =>
+  z.object({
+    firstName: z
+      .string()
+      .min(1, t('users.createDialog.validation.firstNameRequired')),
+    lastName: z
+      .string()
+      .min(1, t('users.createDialog.validation.lastNameRequired')),
+    email: z.string().email(t('users.createDialog.validation.emailInvalid')),
+    role: z.enum(['ADMIN', 'BACKOFFICE']),
+    phone: z.string().optional(),
+    temporaryPassword: z
+      .string()
+      .min(8, t('users.createDialog.validation.passwordMin'))
+      .optional()
+      .or(z.literal('')),
+  })
 
-type CreateUserFormValues = z.infer<typeof createUserSchema>
+type CreateUserFormValues = z.infer<ReturnType<typeof createUserSchema>>
 
 interface CreateAdminUserDialogProps {
   open: boolean
@@ -46,15 +57,16 @@ export function CreateAdminUserDialog({
   onSubmit,
   isSubmitting,
 }: CreateAdminUserDialogProps) {
+  const { t } = useTranslation()
   const {
+    control,
     register,
     handleSubmit,
     setValue,
-    watch,
     reset,
     formState: { errors },
   } = useForm<CreateUserFormValues>({
-    resolver: zodResolver(createUserSchema),
+    resolver: zodResolver(createUserSchema(t)),
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -65,7 +77,7 @@ export function CreateAdminUserDialog({
     },
   })
 
-  const role = watch('role')
+  const role = useWatch({ control, name: 'role' })
 
   function handleClose() {
     reset()
@@ -80,7 +92,8 @@ export function CreateAdminUserDialog({
       role: values.role,
     }
     if (values.phone) payload.phone = values.phone
-    if (values.temporaryPassword) payload.temporaryPassword = values.temporaryPassword
+    if (values.temporaryPassword)
+      payload.temporaryPassword = values.temporaryPassword
     onSubmit(payload)
   }
 
@@ -88,10 +101,9 @@ export function CreateAdminUserDialog({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Crear usuario</DialogTitle>
+          <DialogTitle>{t('users.createDialog.title')}</DialogTitle>
           <DialogDescription>
-            Crea un usuario admin o backoffice. Recibirán una contraseña
-            temporal por correo si no se proporciona.
+            {t('users.createDialog.description')}
           </DialogDescription>
         </DialogHeader>
 
@@ -101,7 +113,9 @@ export function CreateAdminUserDialog({
         >
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="user-first-name">Nombre</Label>
+              <Label htmlFor="user-first-name">
+                {t('users.createDialog.firstName')}
+              </Label>
               <Input id="user-first-name" {...register('firstName')} />
               {errors.firstName && (
                 <p className="text-destructive text-sm">
@@ -110,7 +124,9 @@ export function CreateAdminUserDialog({
               )}
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="user-last-name">Apellido</Label>
+              <Label htmlFor="user-last-name">
+                {t('users.createDialog.lastName')}
+              </Label>
               <Input id="user-last-name" {...register('lastName')} />
               {errors.lastName && (
                 <p className="text-destructive text-sm">
@@ -121,7 +137,7 @@ export function CreateAdminUserDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="user-email">Correo electrónico</Label>
+            <Label htmlFor="user-email">{t('users.createDialog.email')}</Label>
             <Input id="user-email" type="email" {...register('email')} />
             {errors.email && (
               <p className="text-destructive text-sm">{errors.email.message}</p>
@@ -129,18 +145,18 @@ export function CreateAdminUserDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="user-phone">Teléfono (opcional)</Label>
+            <Label htmlFor="user-phone">{t('users.createDialog.phone')}</Label>
             <Input id="user-phone" type="tel" {...register('phone')} />
           </div>
 
           <div className="grid gap-2">
             <Label htmlFor="user-password">
-              Contraseña temporal (opcional)
+              {t('users.createDialog.temporaryPassword')}
             </Label>
             <Input
               id="user-password"
               type="password"
-              placeholder="Dejar vacío para generar automáticamente"
+              placeholder={t('users.createDialog.temporaryPasswordPlaceholder')}
               {...register('temporaryPassword')}
             />
             {errors.temporaryPassword && (
@@ -151,7 +167,7 @@ export function CreateAdminUserDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label>Rol</Label>
+            <Label>{t('users.createDialog.role')}</Label>
             <Select
               value={role}
               onValueChange={(v) =>
@@ -162,19 +178,21 @@ export function CreateAdminUserDialog({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ADMIN">Admin</SelectItem>
-                <SelectItem value="BACKOFFICE">Backoffice</SelectItem>
+                <SelectItem value="ADMIN">{t('common.roles.ADMIN')}</SelectItem>
+                <SelectItem value="BACKOFFICE">
+                  {t('common.roles.BACKOFFICE')}
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={handleClose}>
-              Cancelar
+              {t('common.actions.cancel')}
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && <Loader2 className="animate-spin" />}
-              Crear
+              {t('users.createDialog.submit')}
             </Button>
           </DialogFooter>
         </form>

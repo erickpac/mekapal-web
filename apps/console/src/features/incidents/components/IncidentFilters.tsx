@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import {
   Select,
   SelectContent,
@@ -28,6 +29,8 @@ export function IncidentFilters({
   onSeverityChange,
   onTypeChange,
 }: IncidentFiltersProps) {
+  const { t } = useTranslation()
+
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
       <Select
@@ -37,14 +40,24 @@ export function IncidentFilters({
         }
       >
         <SelectTrigger className="w-40">
-          <SelectValue placeholder="Todos los estados" />
+          <SelectValue placeholder={t('incidents.filters.allStatuses')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Todos los estados</SelectItem>
-          <SelectItem value="OPEN">Abierto</SelectItem>
-          <SelectItem value="INVESTIGATING">En investigación</SelectItem>
-          <SelectItem value="RESOLVED">Resuelto</SelectItem>
-          <SelectItem value="CLOSED">Cerrado</SelectItem>
+          <SelectItem value="all">
+            {t('incidents.filters.allStatuses')}
+          </SelectItem>
+          <SelectItem value="OPEN">
+            {t('incidents.filters.statusOpen')}
+          </SelectItem>
+          <SelectItem value="INVESTIGATING">
+            {t('incidents.filters.statusInvestigating')}
+          </SelectItem>
+          <SelectItem value="RESOLVED">
+            {t('incidents.filters.statusResolved')}
+          </SelectItem>
+          <SelectItem value="CLOSED">
+            {t('incidents.filters.statusClosed')}
+          </SelectItem>
         </SelectContent>
       </Select>
 
@@ -55,14 +68,24 @@ export function IncidentFilters({
         }
       >
         <SelectTrigger className="w-36">
-          <SelectValue placeholder="Todas las severidades" />
+          <SelectValue placeholder={t('incidents.filters.allSeverities')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Todas las severidades</SelectItem>
-          <SelectItem value="LOW">Baja</SelectItem>
-          <SelectItem value="MEDIUM">Media</SelectItem>
-          <SelectItem value="HIGH">Alta</SelectItem>
-          <SelectItem value="CRITICAL">Crítica</SelectItem>
+          <SelectItem value="all">
+            {t('incidents.filters.allSeverities')}
+          </SelectItem>
+          <SelectItem value="LOW">
+            {t('incidents.filters.severityLow')}
+          </SelectItem>
+          <SelectItem value="MEDIUM">
+            {t('incidents.filters.severityMedium')}
+          </SelectItem>
+          <SelectItem value="HIGH">
+            {t('incidents.filters.severityHigh')}
+          </SelectItem>
+          <SelectItem value="CRITICAL">
+            {t('incidents.filters.severityCritical')}
+          </SelectItem>
         </SelectContent>
       </Select>
 
@@ -73,15 +96,27 @@ export function IncidentFilters({
         }
       >
         <SelectTrigger className="w-36">
-          <SelectValue placeholder="Todos los tipos" />
+          <SelectValue placeholder={t('incidents.filters.allTypes')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Todos los tipos</SelectItem>
-          <SelectItem value="DAMAGE">Daño</SelectItem>
-          <SelectItem value="DELAY">Retraso</SelectItem>
-          <SelectItem value="LOSS">Pérdida</SelectItem>
-          <SelectItem value="FRAUD">Fraude</SelectItem>
-          <SelectItem value="OTHER">Otro</SelectItem>
+          <SelectItem value="all">
+            {t('incidents.filters.allTypes')}
+          </SelectItem>
+          <SelectItem value="DAMAGE">
+            {t('incidents.filters.typeDamage')}
+          </SelectItem>
+          <SelectItem value="DELAY">
+            {t('incidents.filters.typeDelay')}
+          </SelectItem>
+          <SelectItem value="LOSS">
+            {t('incidents.filters.typeLoss')}
+          </SelectItem>
+          <SelectItem value="FRAUD">
+            {t('incidents.filters.typeFraud')}
+          </SelectItem>
+          <SelectItem value="OTHER">
+            {t('incidents.filters.typeOther')}
+          </SelectItem>
         </SelectContent>
       </Select>
     </div>

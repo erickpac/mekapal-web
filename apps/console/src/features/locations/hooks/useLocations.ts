@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { useLocalizedError } from '@/shared/api/useLocalizedError'
 import type { LocationFormData } from '../api/locations.api'
 import * as api from '../api/locations.api'
 
@@ -36,18 +38,19 @@ export function useZones(municipalityId: string) {
 
 function useLocationMutation<TArgs extends unknown[]>(
   mutationFn: (...args: TArgs) => Promise<unknown>,
-  successMsg: string,
-  errorMsg: string,
+  successKey: string,
 ) {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   return useMutation({
     mutationFn: (args: TArgs) => mutationFn(...args),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['locations'] })
-      toast.success(successMsg)
+      toast.success(t(successKey))
     },
-    onError: () => {
-      toast.error(errorMsg)
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
     },
   })
 }
@@ -57,24 +60,21 @@ function useLocationMutation<TArgs extends unknown[]>(
 export function useCreateCountry() {
   return useLocationMutation(
     (data: LocationFormData) => api.createCountry(data),
-    'Country created',
-    'Failed to create country',
+    'locations.toast.countryCreated',
   )
 }
 
 export function useUpdateCountry() {
   return useLocationMutation(
     (id: string, data: LocationFormData) => api.updateCountry(id, data),
-    'Country updated',
-    'Failed to update country',
+    'locations.toast.countryUpdated',
   )
 }
 
 export function useToggleCountryStatus() {
   return useLocationMutation(
     (id: string) => api.toggleCountryStatus(id),
-    'Country status updated',
-    'Failed to update country status',
+    'locations.toast.countryStatusUpdated',
   )
 }
 
@@ -84,24 +84,21 @@ export function useCreateState() {
   return useLocationMutation(
     (countryId: string, data: LocationFormData) =>
       api.createState({ ...data, countryId }),
-    'State created',
-    'Failed to create state',
+    'locations.toast.stateCreated',
   )
 }
 
 export function useUpdateState() {
   return useLocationMutation(
     (id: string, data: LocationFormData) => api.updateState(id, data),
-    'State updated',
-    'Failed to update state',
+    'locations.toast.stateUpdated',
   )
 }
 
 export function useToggleStateStatus() {
   return useLocationMutation(
     (id: string) => api.toggleStateStatus(id),
-    'State status updated',
-    'Failed to update state status',
+    'locations.toast.stateStatusUpdated',
   )
 }
 
@@ -111,24 +108,21 @@ export function useCreateMunicipality() {
   return useLocationMutation(
     (stateId: string, data: LocationFormData) =>
       api.createMunicipality({ ...data, stateId }),
-    'Municipality created',
-    'Failed to create municipality',
+    'locations.toast.municipalityCreated',
   )
 }
 
 export function useUpdateMunicipality() {
   return useLocationMutation(
     (id: string, data: LocationFormData) => api.updateMunicipality(id, data),
-    'Municipality updated',
-    'Failed to update municipality',
+    'locations.toast.municipalityUpdated',
   )
 }
 
 export function useToggleMunicipalityStatus() {
   return useLocationMutation(
     (id: string) => api.toggleMunicipalityStatus(id),
-    'Municipality status updated',
-    'Failed to update municipality status',
+    'locations.toast.municipalityStatusUpdated',
   )
 }
 
@@ -144,8 +138,7 @@ export function useCreateZone() {
         latitude: data.latitude,
         longitude: data.longitude,
       }),
-    'Zone created',
-    'Failed to create zone',
+    'locations.toast.zoneCreated',
   )
 }
 
@@ -158,15 +151,13 @@ export function useUpdateZone() {
         latitude: data.latitude,
         longitude: data.longitude,
       }),
-    'Zone updated',
-    'Failed to update zone',
+    'locations.toast.zoneUpdated',
   )
 }
 
 export function useToggleZoneStatus() {
   return useLocationMutation(
     (id: string) => api.toggleZoneStatus(id),
-    'Zone status updated',
-    'Failed to update zone status',
+    'locations.toast.zoneStatusUpdated',
   )
 }

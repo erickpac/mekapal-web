@@ -1,8 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { TFunction } from 'i18next'
 import { Loader2 } from 'lucide-react'
 import { useEffect } from 'react'
 import type { Resolver } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import {
@@ -21,14 +23,15 @@ const optionalNumber = z.preprocess(
   z.number().optional(),
 )
 
-const locationSchema = z.object({
-  name: z.string().min(1, 'El nombre es obligatorio'),
-  code: z.string().min(1, 'El código es obligatorio'),
-  latitude: optionalNumber,
-  longitude: optionalNumber,
-})
+const createLocationSchema = (t: TFunction) =>
+  z.object({
+    name: z.string().min(1, t('locations.form.validation.nameRequired')),
+    code: z.string().min(1, t('locations.form.validation.codeRequired')),
+    latitude: optionalNumber,
+    longitude: optionalNumber,
+  })
 
-type LocationFormValues = z.infer<typeof locationSchema>
+type LocationFormValues = z.infer<ReturnType<typeof createLocationSchema>>
 
 interface LocationFormDialogProps {
   open: boolean
@@ -46,14 +49,16 @@ export function LocationFormDialog({
   open,
   onOpenChange,
   levelLabel,
-  codeLabel = 'Código',
+  codeLabel,
   getCode,
   showCoordinates,
   item,
   onSubmit,
   isSubmitting,
 }: LocationFormDialogProps) {
+  const { t } = useTranslation()
   const isEditing = !!item
+  const resolvedCodeLabel = codeLabel ?? t('locations.form.code')
 
   const {
     register,
@@ -61,7 +66,9 @@ export function LocationFormDialog({
     reset,
     formState: { errors },
   } = useForm<LocationFormValues>({
-    resolver: zodResolver(locationSchema) as Resolver<LocationFormValues>,
+    resolver: zodResolver(
+      createLocationSchema(t),
+    ) as Resolver<LocationFormValues>,
     defaultValues: { name: '', code: '' },
   })
 
@@ -89,7 +96,9 @@ export function LocationFormDialog({
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? `Editar ${levelLabel}` : `Crear ${levelLabel}`}
+            {isEditing
+              ? t('locations.form.editTitle', { level: levelLabel })
+              : t('locations.form.createTitle', { level: levelLabel })}
           </DialogTitle>
         </DialogHeader>
 
@@ -98,7 +107,7 @@ export function LocationFormDialog({
           className="grid gap-4 py-2"
         >
           <div className="grid gap-2">
-            <Label htmlFor="loc-name">Nombre</Label>
+            <Label htmlFor="loc-name">{t('locations.form.name')}</Label>
             <Input id="loc-name" {...register('name')} />
             {errors.name && (
               <p className="text-destructive text-sm">{errors.name.message}</p>
@@ -106,7 +115,7 @@ export function LocationFormDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="loc-code">{codeLabel}</Label>
+            <Label htmlFor="loc-code">{resolvedCodeLabel}</Label>
             <Input id="loc-code" {...register('code')} />
             {errors.code && (
               <p className="text-destructive text-sm">{errors.code.message}</p>
@@ -116,7 +125,9 @@ export function LocationFormDialog({
           {showCoordinates && (
             <>
               <div className="grid gap-2">
-                <Label htmlFor="loc-lat">Latitud</Label>
+                <Label htmlFor="loc-lat">
+                  {t('locations.form.latitude')}
+                </Label>
                 <Input
                   id="loc-lat"
                   type="number"
@@ -125,7 +136,9 @@ export function LocationFormDialog({
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="loc-lng">Longitud</Label>
+                <Label htmlFor="loc-lng">
+                  {t('locations.form.longitude')}
+                </Label>
                 <Input
                   id="loc-lng"
                   type="number"
@@ -142,11 +155,13 @@ export function LocationFormDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancelar
+              {t('common.actions.cancel')}
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && <Loader2 className="animate-spin" />}
-              {isEditing ? 'Guardar' : 'Crear'}
+              {isEditing
+                ? t('common.actions.save')
+                : t('common.actions.create')}
             </Button>
           </DialogFooter>
         </form>

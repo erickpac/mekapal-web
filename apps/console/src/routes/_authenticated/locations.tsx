@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { requireModule } from '@/shared/utils/route-guard'
 
 import {
@@ -58,21 +59,22 @@ interface BreadcrumbEntry {
   level: LocationLevel
 }
 
-const LEVEL_LABELS: Record<LocationLevel, string> = {
-  country: 'País',
-  state: 'Departamento',
-  municipality: 'Municipio',
-  zone: 'Zona',
+const LEVEL_LABEL_KEYS: Record<LocationLevel, string> = {
+  country: 'locations.levels.country',
+  state: 'locations.levels.state',
+  municipality: 'locations.levels.municipality',
+  zone: 'locations.levels.zone',
 }
 
-const LEVEL_PLURAL: Record<LocationLevel, string> = {
-  country: 'Países',
-  state: 'Departamentos',
-  municipality: 'Municipios',
-  zone: 'Zonas',
+const LEVEL_PLURAL_KEYS: Record<LocationLevel, string> = {
+  country: 'locations.levelsPlural.country',
+  state: 'locations.levelsPlural.state',
+  municipality: 'locations.levelsPlural.municipality',
+  zone: 'locations.levelsPlural.zone',
 }
 
 function LocationsPage() {
+  const { t } = useTranslation()
   const [path, setPath] = useState<BreadcrumbEntry[]>([])
   const [formOpen, setFormOpen] = useState(false)
   const [editItem, setEditItem] = useState<LocationItem | null>(null)
@@ -108,6 +110,12 @@ function LocationsPage() {
 
   const hasChildren = currentLevel !== 'zone'
   const isZoneLevel = currentLevel === 'zone'
+
+  const levelLabel = t(LEVEL_LABEL_KEYS[currentLevel])
+  const levelPlural = t(LEVEL_PLURAL_KEYS[currentLevel])
+  const codeLabel = isZoneLevel
+    ? t('locations.table.postalCode')
+    : t('locations.table.code')
 
   function handleDrillDown(item: LocationItem) {
     const childLevel = getChildLevel(currentLevel)
@@ -199,9 +207,9 @@ function LocationsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Ubicaciones</h1>
+          <h1 className="text-2xl font-bold">{t('locations.page.title')}</h1>
           <p className="text-muted-foreground">
-            Administra la jerarquía de ubicaciones para tus operaciones.
+            {t('locations.page.subtitle')}
           </p>
         </div>
       </div>
@@ -210,16 +218,18 @@ function LocationsPage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>{LEVEL_PLURAL[currentLevel]}</CardTitle>
+              <CardTitle>{levelPlural}</CardTitle>
               <CardDescription>
                 {path.length > 0
-                  ? `Dentro de ${path[path.length - 1].name}`
-                  : 'Países de nivel superior'}
+                  ? t('locations.card.insideOf', {
+                      name: path[path.length - 1].name,
+                    })
+                  : t('locations.card.topLevelCountries')}
               </CardDescription>
             </div>
             <Button size="sm" onClick={() => setFormOpen(true)}>
               <Plus className="size-4" />
-              Agregar {LEVEL_LABELS[currentLevel]}
+              {t('locations.card.addButton', { level: levelLabel })}
             </Button>
           </div>
 
@@ -231,7 +241,7 @@ function LocationsPage() {
                     className="cursor-pointer"
                     onClick={() => handleBreadcrumbClick(0)}
                   >
-                    Países
+                    {t('locations.breadcrumb.countries')}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 {path.map((entry, i) => (
@@ -261,7 +271,7 @@ function LocationsPage() {
             data={data ?? []}
             loading={isLoading}
             hasChildren={hasChildren}
-            codeLabel={isZoneLevel ? 'Código postal' : 'Código'}
+            codeLabel={codeLabel}
             getCode={isZoneLevel ? (item) => (item as Zone).postalCode : undefined}
             onDrillDown={handleDrillDown}
             onEdit={(item) => setEditItem(item)}
@@ -273,8 +283,8 @@ function LocationsPage() {
       <LocationFormDialog
         open={formOpen}
         onOpenChange={setFormOpen}
-        levelLabel={LEVEL_LABELS[currentLevel]}
-        codeLabel={isZoneLevel ? 'Código postal' : 'Código'}
+        levelLabel={levelLabel}
+        codeLabel={codeLabel}
         getCode={isZoneLevel ? (item) => (item as Zone).postalCode : undefined}
         showCoordinates={isZoneLevel}
         onSubmit={handleCreate}
@@ -284,8 +294,8 @@ function LocationsPage() {
       <LocationFormDialog
         open={!!editItem}
         onOpenChange={(open) => !open && setEditItem(null)}
-        levelLabel={LEVEL_LABELS[currentLevel]}
-        codeLabel={isZoneLevel ? 'Código postal' : 'Código'}
+        levelLabel={levelLabel}
+        codeLabel={codeLabel}
         getCode={isZoneLevel ? (item) => (item as Zone).postalCode : undefined}
         showCoordinates={isZoneLevel}
         item={editItem}
@@ -296,7 +306,7 @@ function LocationsPage() {
       <ToggleStatusDialog
         open={!!toggleTarget}
         onOpenChange={(open) => !open && setToggleTarget(null)}
-        levelLabel={LEVEL_LABELS[currentLevel]}
+        levelLabel={levelLabel}
         itemName={toggleTarget?.name ?? ''}
         isActive={toggleTarget?.isActive ?? true}
         onConfirm={handleToggleStatus}

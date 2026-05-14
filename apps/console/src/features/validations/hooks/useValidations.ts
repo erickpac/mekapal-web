@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { useLocalizedError } from '@/shared/api/useLocalizedError'
 import type {
   ApproveValidationData,
   RejectValidationData,
@@ -32,6 +34,8 @@ export function useProfileDetail(id: string) {
 
 export function useApproveVehicle() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   return useMutation({
     mutationFn: ({
       id,
@@ -42,16 +46,18 @@ export function useApproveVehicle() {
     }) => api.approveVehicle(id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['validations'] })
-      toast.success('Vehicle approved')
+      toast.success(t('validations.toast.vehicleApproved'))
     },
-    onError: () => {
-      toast.error('Failed to approve vehicle')
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
     },
   })
 }
 
 export function useRejectVehicle() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   return useMutation({
     mutationFn: ({
       id,
@@ -62,16 +68,18 @@ export function useRejectVehicle() {
     }) => api.rejectVehicle(id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['validations'] })
-      toast.success('Vehicle rejected')
+      toast.success(t('validations.toast.vehicleRejected'))
     },
-    onError: () => {
-      toast.error('Failed to reject vehicle')
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
     },
   })
 }
 
 export function useApproveProfile() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   return useMutation({
     mutationFn: ({
       id,
@@ -82,16 +90,18 @@ export function useApproveProfile() {
     }) => api.approveProfile(id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['validations'] })
-      toast.success('Profile approved')
+      toast.success(t('validations.toast.profileApproved'))
     },
-    onError: () => {
-      toast.error('Failed to approve profile')
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
     },
   })
 }
 
 export function useRejectProfile() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   return useMutation({
     mutationFn: ({
       id,
@@ -102,10 +112,10 @@ export function useRejectProfile() {
     }) => api.rejectProfile(id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['validations'] })
-      toast.success('Profile rejected')
+      toast.success(t('validations.toast.profileRejected'))
     },
-    onError: () => {
-      toast.error('Failed to reject profile')
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
     },
   })
 }

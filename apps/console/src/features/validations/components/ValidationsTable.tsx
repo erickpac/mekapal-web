@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -11,9 +12,9 @@ import {
 import { formatDate } from '@/shared/utils/format'
 import type { ValidationItem, ValidationType } from '../api/validations.api'
 
-const typeLabels: Record<ValidationType, string> = {
-  VEHICLE: 'Vehículo',
-  TRANSPORTER_PROFILE: 'Perfil',
+const TYPE_LABEL_KEYS: Record<ValidationType, string> = {
+  VEHICLE: 'validations.table.typeVehicle',
+  TRANSPORTER_PROFILE: 'validations.table.typeProfile',
 }
 
 interface ValidationsTableProps {
@@ -27,14 +28,16 @@ export function ValidationsTable({
   loading,
   onRowClick,
 }: ValidationsTableProps) {
+  const { t } = useTranslation()
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Tipo</TableHead>
-          <TableHead>Transportista</TableHead>
-          <TableHead>Resumen</TableHead>
-          <TableHead>Fecha de envío</TableHead>
+          <TableHead>{t('validations.table.type')}</TableHead>
+          <TableHead>{t('validations.table.transporter')}</TableHead>
+          <TableHead>{t('validations.table.summary')}</TableHead>
+          <TableHead>{t('validations.table.submittedAt')}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -62,7 +65,9 @@ export function ValidationsTable({
                 onClick={() => onRowClick(item)}
               >
                 <TableCell>
-                  <Badge variant="outline">{typeLabels[item.type]}</Badge>
+                  <Badge variant="outline">
+                    {t(TYPE_LABEL_KEYS[item.type])}
+                  </Badge>
                 </TableCell>
                 <TableCell className="font-medium">
                   {item.transporter.firstName} {item.transporter.lastName}
@@ -81,7 +86,7 @@ export function ValidationsTable({
               colSpan={4}
               className="text-muted-foreground text-center"
             >
-              No se encontraron validaciones.
+              {t('validations.table.empty')}
             </TableCell>
           </TableRow>
         )}

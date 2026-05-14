@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { ArrowLeft } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/components/ui/button'
 import type { IncidentSeverity, IncidentStatus, IncidentType } from '@/shared/types'
@@ -22,6 +23,7 @@ export const Route = createFileRoute('/_authenticated/incidents')({
 const LIMIT = 20
 
 function IncidentsPage() {
+  const { t } = useTranslation()
   const [status, setStatus] = useState<IncidentStatus>()
   const [severity, setSeverity] = useState<IncidentSeverity>()
   const [type, setType] = useState<IncidentType>()
@@ -43,7 +45,7 @@ function IncidentsPage() {
       <div className="space-y-4">
         <Button variant="ghost" size="sm" onClick={() => setSelected(null)}>
           <ArrowLeft className="size-4" />
-          Volver a la lista
+          {t('incidents.page.backToList')}
         </Button>
         <IncidentDetailView id={selected.id} onDone={() => setSelected(null)} />
       </div>
@@ -52,7 +54,7 @@ function IncidentsPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Incidentes</h1>
+      <h1 className="text-2xl font-bold">{t('incidents.page.title')}</h1>
 
       <IncidentStatsCards stats={stats} loading={statsLoading} />
 

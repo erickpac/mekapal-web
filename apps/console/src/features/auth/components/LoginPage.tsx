@@ -1,4 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import {
   Card,
   CardContent,
@@ -9,6 +10,7 @@ import {
 import { LoginForm } from './LoginForm'
 
 export function LoginPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   return (
@@ -16,9 +18,9 @@ export function LoginPage() {
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold tracking-tight">
-            Mekapal
+            {t('auth.login.appName')}
           </CardTitle>
-          <CardDescription>Inicia sesión en tu cuenta</CardDescription>
+          <CardDescription>{t('auth.login.cardDescription')}</CardDescription>
         </CardHeader>
         <CardContent>
           <LoginForm onSuccess={() => navigate({ to: '/dashboard' })} />

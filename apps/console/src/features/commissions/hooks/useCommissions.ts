@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 
+import { useLocalizedError } from '@/shared/api/useLocalizedError'
 import type {
   BillingProfileFormData,
   UpdateBillingProfileData,
@@ -24,21 +26,25 @@ export function useBillingProfile(id: string) {
 
 export function useCreateBillingProfile() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   return useMutation({
     mutationFn: (data: BillingProfileFormData) =>
       api.createBillingProfile(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['billing-profiles'] })
-      toast.success('Billing profile created')
+      toast.success(t('commissions.toast.createSuccess'))
     },
-    onError: () => {
-      toast.error('Failed to create billing profile')
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
     },
   })
 }
 
 export function useUpdateBillingProfile() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   return useMutation({
     mutationFn: ({
       id,
@@ -49,30 +55,34 @@ export function useUpdateBillingProfile() {
     }) => api.updateBillingProfile(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['billing-profiles'] })
-      toast.success('Billing profile updated')
+      toast.success(t('commissions.toast.updateSuccess'))
     },
-    onError: () => {
-      toast.error('Failed to update billing profile')
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
     },
   })
 }
 
 export function useDeleteBillingProfile() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   return useMutation({
     mutationFn: (id: string) => api.deleteBillingProfile(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['billing-profiles'] })
-      toast.success('Billing profile deleted')
+      toast.success(t('commissions.toast.deleteSuccess'))
     },
-    onError: () => {
-      toast.error('Failed to delete billing profile')
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
     },
   })
 }
 
 export function useAssignClient() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   return useMutation({
     mutationFn: ({
       clientId,
@@ -83,24 +93,26 @@ export function useAssignClient() {
     }) => api.assignClient(clientId, profileId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['billing-profiles'] })
-      toast.success('Client assigned')
+      toast.success(t('commissions.toast.assignSuccess'))
     },
-    onError: () => {
-      toast.error('Failed to assign client')
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
     },
   })
 }
 
 export function useUnassignClient() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   return useMutation({
     mutationFn: (clientId: string) => api.unassignClient(clientId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['billing-profiles'] })
-      toast.success('Client removed')
+      toast.success(t('commissions.toast.unassignSuccess'))
     },
-    onError: () => {
-      toast.error('Failed to remove client')
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
     },
   })
 }

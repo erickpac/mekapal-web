@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Download, Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { requireModule } from '@/shared/utils/route-guard'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
+import { useLocalizedError } from '@/shared/api/useLocalizedError'
 import { DateRangePicker } from '@/features/dashboard/components/DateRangePicker'
 import { exportDashboardCsv } from '@/features/reports/api/reports.api'
 import { FinancialSummaryCards } from '@/features/reports/components/FinancialSummaryCards'
@@ -26,6 +28,8 @@ function getDefaultRange() {
 }
 
 function ReportsPage() {
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   const defaults = getDefaultRange()
   const [fromDate, setFromDate] = useState(defaults.start)
   const [toDate, setToDate] = useState(defaults.end)
@@ -43,9 +47,9 @@ function ReportsPage() {
       a.download = `report-${fromDate}-to-${toDate}.csv`
       a.click()
       URL.revokeObjectURL(url)
-      toast.success('Reporte exportado')
-    } catch {
-      toast.error('Error al exportar el reporte')
+      toast.success(t('reports.toast.exportSuccess'))
+    } catch (error) {
+      toast.error(getErrorMessage(error))
     } finally {
       setExporting(false)
     }
@@ -55,9 +59,9 @@ function ReportsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Reportes</h1>
+          <h1 className="text-2xl font-bold">{t('reports.page.title')}</h1>
           <p className="text-muted-foreground">
-            Resumen financiero del período seleccionado.
+            {t('reports.page.subtitle')}
           </p>
         </div>
         <Button size="sm" onClick={handleExport} disabled={exporting}>
@@ -66,7 +70,7 @@ function ReportsPage() {
           ) : (
             <Download className="size-4" />
           )}
-          Exportar CSV
+          {t('reports.page.exportButton')}
         </Button>
       </div>
 

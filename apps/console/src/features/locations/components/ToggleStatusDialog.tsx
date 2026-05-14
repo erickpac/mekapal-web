@@ -1,4 +1,5 @@
 import { Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -28,23 +29,30 @@ export function ToggleStatusDialog({
   onConfirm,
   isPending,
 }: ToggleStatusDialogProps) {
-  const action = isActive ? 'Desactivar' : 'Activar'
+  const { t } = useTranslation()
+  const action = isActive
+    ? t('locations.toggle.deactivate')
+    : t('locations.toggle.activate')
+  const actionLower = isActive
+    ? t('locations.toggle.deactivateLower')
+    : t('locations.toggle.activateLower')
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>
-            {action} {levelLabel}
+            {t('locations.toggle.title', { action, level: levelLabel })}
           </DialogTitle>
           <DialogDescription>
-            ¿Estás seguro de que deseas {action.toLowerCase()}{' '}
-            <strong>{itemName}</strong>?
+            {t('locations.toggle.confirmPrefix', { action: actionLower })}
+            <strong>{itemName}</strong>
+            {t('locations.toggle.confirmSuffix')}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancelar
+            {t('common.actions.cancel')}
           </Button>
           <Button
             variant={isActive ? 'destructive' : 'default'}

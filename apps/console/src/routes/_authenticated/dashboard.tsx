@@ -8,6 +8,7 @@ import {
   Receipt,
   Users,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import { formatCurrency } from '@/shared/utils/format'
 import { DateRangePicker } from '@/features/dashboard/components/DateRangePicker'
@@ -32,6 +33,7 @@ function getDefaultDateRange() {
 }
 
 function DashboardPage() {
+  const { t } = useTranslation()
   const defaults = getDefaultDateRange()
   const [fromDate, setFromDate] = useState(defaults.start)
   const [toDate, setToDate] = useState(defaults.end)
@@ -42,7 +44,7 @@ function DashboardPage() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <h1 className="text-2xl font-bold">{t('dashboard.page.title')}</h1>
         <DateRangePicker
           startDate={fromDate}
           endDate={toDate}
@@ -55,37 +57,37 @@ function DashboardPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <KpiCard
-          title="Ingresos totales"
+          title={t('dashboard.kpi.totalRevenue')}
           value={formatCurrency(summary?.totalRevenue ?? 0)}
           icon={DollarSign}
           loading={isLoading}
         />
         <KpiCard
-          title="Comisiones totales"
+          title={t('dashboard.kpi.totalCommissions')}
           value={formatCurrency(summary?.totalCommissions ?? 0)}
           icon={Banknote}
           loading={isLoading}
         />
         <KpiCard
-          title="Impuestos totales"
+          title={t('dashboard.kpi.totalTaxes')}
           value={formatCurrency(summary?.totalTaxes ?? 0)}
           icon={Receipt}
           loading={isLoading}
         />
         <KpiCard
-          title="Transacciones completadas"
+          title={t('dashboard.kpi.completedTransactions')}
           value={String(summary?.completedTransactions ?? 0)}
           icon={CheckCircle}
           loading={isLoading}
         />
         <KpiCard
-          title="Pagos pendientes"
+          title={t('dashboard.kpi.pendingPayments')}
           value={formatCurrency(summary?.pendingPayments ?? 0)}
           icon={Hourglass}
           loading={isLoading}
         />
         <KpiCard
-          title="Transportistas activos"
+          title={t('dashboard.kpi.activeTransporters')}
           value={String(data?.userStats?.activeTransporters ?? 0)}
           icon={Users}
           loading={isLoading}

@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { useLocalizedError } from '@/shared/api/useLocalizedError'
 import type {
   RecordPaymentData,
   SettlementFilters,
@@ -23,15 +25,17 @@ export function useSettlement(id: string) {
 
 export function useRecordPayment() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: RecordPaymentData }) =>
       api.recordPayment(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['settlements'] })
-      toast.success('Payment recorded successfully')
+      toast.success(t('settlements.toast.recordPaymentSuccess'))
     },
-    onError: () => {
-      toast.error('Failed to record payment')
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
     },
   })
 }

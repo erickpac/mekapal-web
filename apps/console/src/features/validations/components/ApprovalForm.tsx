@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { CheckCircle, XCircle } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { RejectDialog } from './RejectDialog'
 import type { RejectValidationData } from '../api/validations.api'
@@ -17,6 +18,7 @@ export function ApprovalForm({
   isApproving,
   isRejecting,
 }: ApprovalFormProps) {
+  const { t } = useTranslation()
   const [rejectOpen, setRejectOpen] = useState(false)
 
   return (
@@ -27,7 +29,7 @@ export function ApprovalForm({
         disabled={isApproving || isRejecting}
       >
         <CheckCircle className="size-4" />
-        Aprobar
+        {t('validations.approval.approve')}
       </Button>
       <Button
         variant="destructive"
@@ -35,7 +37,7 @@ export function ApprovalForm({
         disabled={isApproving || isRejecting}
       >
         <XCircle className="size-4" />
-        Rechazar
+        {t('validations.approval.reject')}
       </Button>
 
       <RejectDialog

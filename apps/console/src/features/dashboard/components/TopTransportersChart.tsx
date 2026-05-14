@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import {
   Bar,
   BarChart,
@@ -21,10 +22,12 @@ export function TopTransportersChart({
   data,
   loading,
 }: TopTransportersChartProps) {
+  const { t } = useTranslation()
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Top 10 transportistas</CardTitle>
+        <CardTitle>{t('dashboard.charts.topTransporters')}</CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (
@@ -43,7 +46,7 @@ export function TopTransportersChart({
               <Tooltip
                 formatter={(value) => [
                   formatCurrency(Number(value)),
-                  'Ganancias',
+                  t('dashboard.charts.earningsTooltip'),
                 ]}
               />
               <Bar

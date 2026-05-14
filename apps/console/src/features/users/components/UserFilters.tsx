@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -25,6 +26,8 @@ export function UserFilters({
   onSearchChange,
   onSortChange,
 }: UserFiltersProps) {
+  const { t } = useTranslation()
+
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
       <Select
@@ -34,29 +37,40 @@ export function UserFilters({
         }
       >
         <SelectTrigger className="w-40">
-          <SelectValue placeholder="Todos los roles" />
+          <SelectValue placeholder={t('users.filters.allRoles')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Todos los roles</SelectItem>
-          <SelectItem value="ADMIN">Admin</SelectItem>
-          <SelectItem value="BACKOFFICE">Backoffice</SelectItem>
-          <SelectItem value="CLIENT">Cliente</SelectItem>
-          <SelectItem value="TRANSPORTER">Transportista</SelectItem>
+          <SelectItem value="all">{t('users.filters.allRoles')}</SelectItem>
+          <SelectItem value="ADMIN">{t('common.roles.ADMIN')}</SelectItem>
+          <SelectItem value="BACKOFFICE">
+            {t('common.roles.BACKOFFICE')}
+          </SelectItem>
+          <SelectItem value="CLIENT">{t('common.roles.CLIENT')}</SelectItem>
+          <SelectItem value="TRANSPORTER">
+            {t('common.roles.TRANSPORTER')}
+          </SelectItem>
         </SelectContent>
       </Select>
 
-      <Select value={sort} onValueChange={(v) => onSortChange(v as 'recent' | 'oldest')}>
+      <Select
+        value={sort}
+        onValueChange={(v) => onSortChange(v as 'recent' | 'oldest')}
+      >
         <SelectTrigger className="w-32">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="recent">Recientes</SelectItem>
-          <SelectItem value="oldest">Antiguos</SelectItem>
+          <SelectItem value="recent">
+            {t('users.filters.sortRecent')}
+          </SelectItem>
+          <SelectItem value="oldest">
+            {t('users.filters.sortOldest')}
+          </SelectItem>
         </SelectContent>
       </Select>
 
       <Input
-        placeholder="Buscar por nombre o correo..."
+        placeholder={t('users.filters.searchPlaceholder')}
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
         className="max-w-xs"

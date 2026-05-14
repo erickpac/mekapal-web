@@ -1,6 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { TFunction } from 'i18next'
 import { Loader2 } from 'lucide-react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import {
@@ -24,25 +26,44 @@ import { Textarea } from '@/components/ui/textarea'
 import type { IncidentResolution, UserAction } from '@/shared/types'
 import type { ResolveIncidentData } from '../api/incidents.api'
 
-const resolveSchema = z.object({
-  resolution: z.enum(['RESOLVED_SATISFACTORILY', 'CLOSED_WITHOUT_RESOLUTION']),
-  resolutionNotes: z.string().min(100, 'Se requieren mínimo 100 caracteres'),
-  refundAmount: z.number().min(0).optional(),
-  userAction: z.enum(['NONE', 'WARNING', 'SUSPENSION', 'BAN']).optional(),
-})
+const createResolveSchema = (t: TFunction) =>
+  z.object({
+    resolution: z.enum([
+      'RESOLVED_SATISFACTORILY',
+      'CLOSED_WITHOUT_RESOLUTION',
+    ]),
+    resolutionNotes: z
+      .string()
+      .min(100, t('incidents.resolveForm.validation.resolutionNotesMin')),
+    refundAmount: z.number().min(0).optional(),
+    userAction: z.enum(['NONE', 'WARNING', 'SUSPENSION', 'BAN']).optional(),
+  })
 
-type ResolveFormValues = z.infer<typeof resolveSchema>
+type ResolveFormValues = z.infer<ReturnType<typeof createResolveSchema>>
 
-const RESOLUTIONS: { value: IncidentResolution; label: string }[] = [
-  { value: 'RESOLVED_SATISFACTORILY', label: 'Resuelto satisfactoriamente' },
-  { value: 'CLOSED_WITHOUT_RESOLUTION', label: 'Cerrado sin resolución' },
+const getResolutions = (
+  t: TFunction,
+): { value: IncidentResolution; label: string }[] => [
+  {
+    value: 'RESOLVED_SATISFACTORILY',
+    label: t('incidents.resolveForm.resolutionResolved'),
+  },
+  {
+    value: 'CLOSED_WITHOUT_RESOLUTION',
+    label: t('incidents.resolveForm.resolutionClosed'),
+  },
 ]
 
-const USER_ACTIONS: { value: UserAction; label: string }[] = [
-  { value: 'NONE', label: 'Ninguna' },
-  { value: 'WARNING', label: 'Advertencia' },
-  { value: 'SUSPENSION', label: 'Suspensión' },
-  { value: 'BAN', label: 'Bloqueo' },
+const getUserActions = (
+  t: TFunction,
+): { value: UserAction; label: string }[] => [
+  { value: 'NONE', label: t('incidents.resolveForm.userActionNone') },
+  { value: 'WARNING', label: t('incidents.resolveForm.userActionWarning') },
+  {
+    value: 'SUSPENSION',
+    label: t('incidents.resolveForm.userActionSuspension'),
+  },
+  { value: 'BAN', label: t('incidents.resolveForm.userActionBan') },
 ]
 
 interface ResolveIncidentFormProps {
@@ -58,19 +79,23 @@ export function ResolveIncidentForm({
   onSubmit,
   isSubmitting,
 }: ResolveIncidentFormProps) {
+  const { t } = useTranslation()
   const {
+    control,
     register,
     handleSubmit,
     setValue,
-    watch,
     reset,
     formState: { errors },
   } = useForm<ResolveFormValues>({
-    resolver: zodResolver(resolveSchema),
+    resolver: zodResolver(createResolveSchema(t)),
   })
 
-  const resolution = watch('resolution')
-  const userAction = watch('userAction')
+  const resolutions = getResolutions(t)
+  const userActions = getUserActions(t)
+
+  const resolution = useWatch({ control, name: 'resolution' })
+  const userAction = useWatch({ control, name: 'userAction' })
 
   const handleFormSubmit = (values: ResolveFormValues) => {
     onSubmit({
@@ -86,9 +111,9 @@ export function ResolveIncidentForm({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Resolver incidente</DialogTitle>
+          <DialogTitle>{t('incidents.resolveForm.title')}</DialogTitle>
           <DialogDescription>
-            Proporciona los detalles de la resolución y cualquier acción a tomar.
+            {t('incidents.resolveForm.description')}
           </DialogDescription>
         </DialogHeader>
 
@@ -97,7 +122,7 @@ export function ResolveIncidentForm({
           className="grid gap-4 py-2"
         >
           <div className="grid gap-2">
-            <Label>Resolución</Label>
+            <Label>{t('incidents.resolveForm.resolutionLabel')}</Label>
             <Select
               value={resolution}
               onValueChange={(v) =>
@@ -105,10 +130,12 @@ export function ResolveIncidentForm({
               }
             >
               <SelectTrigger>
-                <SelectValue placeholder="Seleccionar resolución..." />
+                <SelectValue
+                  placeholder={t('incidents.resolveForm.resolutionPlaceholder')}
+                />
               </SelectTrigger>
               <SelectContent>
-                {RESOLUTIONS.map((r) => (
+                {resolutions.map((r) => (
                   <SelectItem key={r.value} value={r.value}>
                     {r.label}
                   </SelectItem>
@@ -123,10 +150,14 @@ export function ResolveIncidentForm({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="resolutionNotes">Notas de resolución</Label>
+            <Label htmlFor="resolutionNotes">
+              {t('incidents.resolveForm.resolutionNotesLabel')}
+            </Label>
             <Textarea
               id="resolutionNotes"
-              placeholder="Describe la resolución en detalle..."
+              placeholder={t(
+                'incidents.resolveForm.resolutionNotesPlaceholder',
+              )}
               rows={4}
               {...register('resolutionNotes')}
             />
@@ -138,7 +169,9 @@ export function ResolveIncidentForm({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="refundAmount">Monto de reembolso (opcional)</Label>
+            <Label htmlFor="refundAmount">
+              {t('incidents.resolveForm.refundAmountLabel')}
+            </Label>
             <Input
               id="refundAmount"
               type="number"
@@ -154,16 +187,18 @@ export function ResolveIncidentForm({
           </div>
 
           <div className="grid gap-2">
-            <Label>Acción del usuario (opcional)</Label>
+            <Label>{t('incidents.resolveForm.userActionLabel')}</Label>
             <Select
               value={userAction}
               onValueChange={(v) => setValue('userAction', v as UserAction)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Seleccionar acción..." />
+                <SelectValue
+                  placeholder={t('incidents.resolveForm.userActionPlaceholder')}
+                />
               </SelectTrigger>
               <SelectContent>
-                {USER_ACTIONS.map((action) => (
+                {userActions.map((action) => (
                   <SelectItem key={action.value} value={action.value}>
                     {action.label}
                   </SelectItem>
@@ -178,11 +213,11 @@ export function ResolveIncidentForm({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancelar
+              {t('common.actions.cancel')}
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && <Loader2 className="animate-spin" />}
-              Resolver
+              {t('incidents.resolveForm.submit')}
             </Button>
           </DialogFooter>
         </form>

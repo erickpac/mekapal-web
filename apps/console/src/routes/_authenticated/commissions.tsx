@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { ArrowLeft, Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { requireModule } from '@/shared/utils/route-guard'
 
 import { Button } from '@/components/ui/button'
@@ -23,6 +24,7 @@ export const Route = createFileRoute('/_authenticated/commissions')({
 })
 
 function CommissionsPage() {
+  const { t } = useTranslation()
   const { data, isLoading } = useBillingProfiles()
   const createProfile = useCreateBillingProfile()
   const updateProfile = useUpdateBillingProfile()
@@ -38,49 +40,83 @@ function CommissionsPage() {
       <div className="space-y-4">
         <Button variant="ghost" size="sm" onClick={() => setSelected(null)}>
           <ArrowLeft className="size-4" />
-          Volver a la lista
+          {t('commissions.page.backToList')}
         </Button>
 
         <h2 className="text-lg font-semibold">{selected.name}</h2>
 
         <Tabs defaultValue="details">
           <TabsList>
-            <TabsTrigger value="details">Detalles</TabsTrigger>
-            <TabsTrigger value="clients">Clientes</TabsTrigger>
+            <TabsTrigger value="details">
+              {t('commissions.detail.tabDetails')}
+            </TabsTrigger>
+            <TabsTrigger value="clients">
+              {t('commissions.detail.tabClients')}
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="details" className="mt-4">
             <dl className="grid max-w-md grid-cols-2 gap-x-4 gap-y-2 text-sm">
-              <dt className="text-muted-foreground">Tipo</dt>
+              <dt className="text-muted-foreground">
+                {t('commissions.detail.type')}
+              </dt>
               <dd>{selected.commissionType}</dd>
-              <dt className="text-muted-foreground">Valor</dt>
+              <dt className="text-muted-foreground">
+                {t('commissions.detail.value')}
+              </dt>
               <dd>
                 {selected.commissionType === 'PERCENTAGE'
                   ? `${selected.commissionValue}%`
                   : `Q${selected.commissionValue.toFixed(2)}`}
               </dd>
-              <dt className="text-muted-foreground">Monto mínimo</dt>
+              <dt className="text-muted-foreground">
+                {t('commissions.detail.minimum')}
+              </dt>
               <dd>
                 {selected.commissionMinimum != null
                   ? `Q${selected.commissionMinimum.toFixed(2)}`
                   : '—'}
               </dd>
-              <dt className="text-muted-foreground">Monto máximo</dt>
+              <dt className="text-muted-foreground">
+                {t('commissions.detail.maximum')}
+              </dt>
               <dd>
                 {selected.commissionMaximum != null
                   ? `Q${selected.commissionMaximum.toFixed(2)}`
                   : '—'}
               </dd>
-              <dt className="text-muted-foreground">Impuesto</dt>
+              <dt className="text-muted-foreground">
+                {t('commissions.detail.tax')}
+              </dt>
               <dd>{selected.taxPercent}%</dd>
-              <dt className="text-muted-foreground">Exento de comisión</dt>
-              <dd>{selected.isCommissionExempt ? 'Sí' : 'No'}</dd>
-              <dt className="text-muted-foreground">Exento de impuesto</dt>
-              <dd>{selected.isTaxExempt ? 'Sí' : 'No'}</dd>
-              <dt className="text-muted-foreground">Predeterminado</dt>
-              <dd>{selected.isDefault ? 'Sí' : 'No'}</dd>
-              <dt className="text-muted-foreground">Estado</dt>
-              <dd>{selected.isActive ? 'Activo' : 'Inactivo'}</dd>
+              <dt className="text-muted-foreground">
+                {t('commissions.detail.commissionExempt')}
+              </dt>
+              <dd>
+                {selected.isCommissionExempt
+                  ? t('common.yes')
+                  : t('common.no')}
+              </dd>
+              <dt className="text-muted-foreground">
+                {t('commissions.detail.taxExempt')}
+              </dt>
+              <dd>
+                {selected.isTaxExempt ? t('common.yes') : t('common.no')}
+              </dd>
+              <dt className="text-muted-foreground">
+                {t('commissions.detail.default')}
+              </dt>
+              <dd>
+                {selected.isDefault ? t('common.yes') : t('common.no')}
+              </dd>
+              <dt className="text-muted-foreground">
+                {t('commissions.detail.status')}
+              </dt>
+              <dd>
+                {selected.isActive
+                  ? t('commissions.status.active')
+                  : t('commissions.status.inactive')}
+              </dd>
             </dl>
           </TabsContent>
 
@@ -95,10 +131,10 @@ function CommissionsPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Comisiones</h1>
+        <h1 className="text-2xl font-bold">{t('commissions.page.title')}</h1>
         <Button size="sm" onClick={() => setFormOpen(true)}>
           <Plus className="size-4" />
-          Nuevo perfil
+          {t('commissions.page.createButton')}
         </Button>
       </div>
 

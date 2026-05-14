@@ -55,5 +55,532 @@
       "incidentNotFound": "No encontramos el incidente.",
       "invalidIncidentStatus": "El incidente no está en un estado válido para esta acción."
     }
+  },
+  "common": {
+    "loading": "Cargando...",
+    "actions": {
+      "cancel": "Cancelar",
+      "create": "Crear",
+      "save": "Guardar",
+      "delete": "Eliminar",
+      "assign": "Asignar"
+    },
+    "yes": "Sí",
+    "no": "No",
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "pageOf": "Página {{page}} de {{total}}",
+      "page": "Página {{page}}",
+      "showing_one": "Mostrando {{count}} resultado",
+      "showing_other": "Mostrando {{count}} resultados",
+      "results_one": "{{count}} resultado",
+      "results_other": "{{count}} resultados"
+    },
+    "roles": {
+      "ADMIN": "Admin",
+      "BACKOFFICE": "Backoffice",
+      "CLIENT": "Cliente",
+      "TRANSPORTER": "Transportista"
+    }
+  },
+  "dashboard": {
+    "page": {
+      "title": "Dashboard"
+    },
+    "dateRange": {
+      "from": "Desde",
+      "to": "Hasta"
+    },
+    "kpi": {
+      "totalRevenue": "Ingresos totales",
+      "totalCommissions": "Comisiones totales",
+      "totalTaxes": "Impuestos totales",
+      "completedTransactions": "Transacciones completadas",
+      "pendingPayments": "Pagos pendientes",
+      "activeTransporters": "Transportistas activos"
+    },
+    "charts": {
+      "revenueByLoadType": "Ingresos por tipo de carga",
+      "revenueLast30Days": "Ingresos (últimos 30 días)",
+      "topTransporters": "Top 10 transportistas",
+      "revenueTooltip": "Ingresos",
+      "earningsTooltip": "Ganancias"
+    }
+  },
+  "layout": {
+    "appName": "Mekapal",
+    "nav": {
+      "dashboard": "Dashboard",
+      "validations": "Validaciones",
+      "settlements": "Liquidaciones",
+      "incidents": "Incidentes",
+      "commissions": "Comisiones",
+      "locations": "Ubicaciones",
+      "reports": "Reportes",
+      "users": "Usuarios"
+    },
+    "sidebar": {
+      "collapse": "Contraer"
+    }
+  },
+  "auth": {
+    "login": {
+      "appName": "Mekapal",
+      "cardDescription": "Inicia sesión en tu cuenta",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "correo@mekapal.com",
+      "passwordLabel": "Contraseña",
+      "submit": "Iniciar sesión"
+    },
+    "newPassword": {
+      "instructions": "Debes establecer una nueva contraseña antes de continuar.",
+      "newPasswordLabel": "Nueva contraseña",
+      "confirmPasswordLabel": "Confirmar contraseña",
+      "submit": "Establecer contraseña"
+    },
+    "validation": {
+      "emailInvalid": "Correo electrónico inválido",
+      "passwordRequired": "La contraseña es obligatoria",
+      "newPasswordMin": "Mínimo 8 caracteres",
+      "confirmPasswordRequired": "Confirma tu contraseña",
+      "passwordsMismatch": "Las contraseñas no coinciden"
+    }
+  },
+  "validations": {
+    "page": {
+      "title": "Validaciones",
+      "backToList": "Volver a la lista"
+    },
+    "filters": {
+      "allTypes": "Todos los tipos",
+      "typeVehicle": "Vehículo",
+      "typeProfile": "Perfil",
+      "searchPlaceholder": "Buscar por nombre..."
+    },
+    "table": {
+      "type": "Tipo",
+      "transporter": "Transportista",
+      "summary": "Resumen",
+      "submittedAt": "Fecha de envío",
+      "typeVehicle": "Vehículo",
+      "typeProfile": "Perfil",
+      "empty": "No se encontraron validaciones."
+    },
+    "approval": {
+      "approve": "Aprobar",
+      "reject": "Rechazar"
+    },
+    "reject": {
+      "title": "Rechazar validación",
+      "description": "Selecciona un motivo y proporciona detalles para rechazar esta validación.",
+      "reasonLabel": "Motivo",
+      "reasonPlaceholder": "Seleccionar motivo...",
+      "detailsLabel": "Detalles",
+      "detailsPlaceholder": "Proporciona información detallada sobre el motivo del rechazo...",
+      "detailsCount": "{{current}}/{{min}} caracteres mínimo",
+      "submit": "Rechazar",
+      "categories": {
+        "poorQualityPhotos": "Fotos de mala calidad",
+        "expiredDocuments": "Documentos vencidos",
+        "informationMismatch": "Información no coincide",
+        "additionalDocumentationRequired": "Documentación adicional requerida",
+        "other": "Otro"
+      }
+    },
+    "documentViewer": {
+      "empty": "No hay documentos disponibles",
+      "imageAlt": "Documento {{number}}"
+    },
+    "vehicleDetail": {
+      "title": "Vehículo: {{plate}}",
+      "detailsTitle": "Detalles",
+      "transporter": "Transportista",
+      "brandModel": "Marca / Modelo",
+      "year": "Año",
+      "color": "Color",
+      "vehicleType": "Tipo de vehículo",
+      "loadType": "Tipo de carga",
+      "licensePlate": "Placa",
+      "vin": "VIN",
+      "maxWeight": "Peso máximo (kg)",
+      "maxVolume": "Volumen máximo (m³)",
+      "insuranceExpiration": "Vencimiento de seguro"
+    },
+    "profileDetail": {
+      "detailsTitle": "Detalles",
+      "email": "Correo",
+      "phone": "Teléfono",
+      "licenseNumber": "Número de licencia",
+      "licenseExpiration": "Vencimiento de licencia",
+      "city": "Ciudad",
+      "state": "Departamento",
+      "address": "Dirección"
+    },
+    "toast": {
+      "vehicleApproved": "Vehículo aprobado",
+      "vehicleRejected": "Vehículo rechazado",
+      "profileApproved": "Perfil aprobado",
+      "profileRejected": "Perfil rechazado"
+    }
+  },
+  "settlements": {
+    "page": {
+      "title": "Liquidaciones",
+      "backToList": "Volver a la lista"
+    },
+    "filters": {
+      "allStatuses": "Todos los estados",
+      "statusPending": "Pendiente",
+      "statusPaid": "Pagado",
+      "from": "Desde",
+      "to": "Hasta"
+    },
+    "table": {
+      "transporterId": "ID del transportista",
+      "orderId": "ID de orden",
+      "amount": "Monto",
+      "status": "Estado",
+      "createdAt": "Creado",
+      "empty": "No se encontraron liquidaciones."
+    },
+    "detail": {
+      "title": "Detalles de liquidación",
+      "detailsCardTitle": "Detalles",
+      "orderId": "ID de orden",
+      "transporterId": "ID del transportista",
+      "amount": "Monto",
+      "createdAt": "Creado",
+      "paymentInfoTitle": "Info de pago",
+      "transferDate": "Fecha de transferencia",
+      "transactionNumber": "Transacción #",
+      "bankAccount": "Cuenta bancaria",
+      "paidAt": "Pagado el",
+      "comment": "Comentario",
+      "screenshot": "Captura de pantalla",
+      "viewScreenshot": "Ver",
+      "recordPayment": "Registrar pago"
+    },
+    "recordPayment": {
+      "title": "Registrar pago",
+      "description": "Ingresa los detalles de la transferencia para esta liquidación.",
+      "transferDateLabel": "Fecha de transferencia",
+      "transactionNumberLabel": "Número de transacción",
+      "transactionNumberPlaceholder": "ej. TXN-123456",
+      "bankAccountIdLabel": "ID de cuenta bancaria (opcional)",
+      "bankAccountIdPlaceholder": "UUID de la cuenta bancaria",
+      "screenshotUrlLabel": "URL de captura (opcional)",
+      "commentLabel": "Comentario (opcional)",
+      "commentPlaceholder": "Notas adicionales...",
+      "submit": "Registrar pago",
+      "validation": {
+        "transferDateRequired": "La fecha de transferencia es obligatoria",
+        "transactionNumberRequired": "El número de transacción es obligatorio"
+      }
+    },
+    "toast": {
+      "recordPaymentSuccess": "Pago registrado correctamente"
+    }
+  },
+  "reports": {
+    "page": {
+      "title": "Reportes",
+      "subtitle": "Resumen financiero del período seleccionado.",
+      "exportButton": "Exportar CSV"
+    },
+    "cards": {
+      "totalRevenue": "Ingresos totales",
+      "totalCommissions": "Comisiones totales",
+      "totalTaxes": "Impuestos totales",
+      "completedTransactions": "Transacciones completadas",
+      "pendingPayments": "Pagos pendientes",
+      "pendingPaymentsCount": "Cantidad de pagos pendientes"
+    },
+    "toast": {
+      "exportSuccess": "Reporte exportado"
+    }
+  },
+  "locations": {
+    "page": {
+      "title": "Ubicaciones",
+      "subtitle": "Administra la jerarquía de ubicaciones para tus operaciones."
+    },
+    "levels": {
+      "country": "País",
+      "state": "Departamento",
+      "municipality": "Municipio",
+      "zone": "Zona"
+    },
+    "levelsPlural": {
+      "country": "Países",
+      "state": "Departamentos",
+      "municipality": "Municipios",
+      "zone": "Zonas"
+    },
+    "card": {
+      "insideOf": "Dentro de {{name}}",
+      "topLevelCountries": "Países de nivel superior",
+      "addButton": "Agregar {{level}}"
+    },
+    "breadcrumb": {
+      "countries": "Países"
+    },
+    "table": {
+      "name": "Nombre",
+      "code": "Código",
+      "postalCode": "Código postal",
+      "status": "Estado",
+      "actions": "Acciones",
+      "empty": "No se encontraron elementos."
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo"
+    },
+    "form": {
+      "createTitle": "Crear {{level}}",
+      "editTitle": "Editar {{level}}",
+      "name": "Nombre",
+      "code": "Código",
+      "latitude": "Latitud",
+      "longitude": "Longitud",
+      "validation": {
+        "nameRequired": "El nombre es obligatorio",
+        "codeRequired": "El código es obligatorio"
+      }
+    },
+    "toggle": {
+      "activate": "Activar",
+      "deactivate": "Desactivar",
+      "activateLower": "activar",
+      "deactivateLower": "desactivar",
+      "title": "{{action}} {{level}}",
+      "confirmPrefix": "¿Estás seguro de que deseas {{action}} ",
+      "confirmSuffix": "?"
+    },
+    "toast": {
+      "countryCreated": "País creado",
+      "countryUpdated": "País actualizado",
+      "countryStatusUpdated": "Estado del país actualizado",
+      "stateCreated": "Departamento creado",
+      "stateUpdated": "Departamento actualizado",
+      "stateStatusUpdated": "Estado del departamento actualizado",
+      "municipalityCreated": "Municipio creado",
+      "municipalityUpdated": "Municipio actualizado",
+      "municipalityStatusUpdated": "Estado del municipio actualizado",
+      "zoneCreated": "Zona creada",
+      "zoneUpdated": "Zona actualizada",
+      "zoneStatusUpdated": "Estado de la zona actualizado"
+    }
+  },
+  "incidents": {
+    "page": {
+      "title": "Incidentes",
+      "backToList": "Volver a la lista"
+    },
+    "stats": {
+      "open": "Abiertos",
+      "investigating": "En investigación",
+      "resolved": "Resueltos",
+      "closed": "Cerrados"
+    },
+    "filters": {
+      "allStatuses": "Todos los estados",
+      "statusOpen": "Abierto",
+      "statusInvestigating": "En investigación",
+      "statusResolved": "Resuelto",
+      "statusClosed": "Cerrado",
+      "allSeverities": "Todas las severidades",
+      "severityLow": "Baja",
+      "severityMedium": "Media",
+      "severityHigh": "Alta",
+      "severityCritical": "Crítica",
+      "allTypes": "Todos los tipos",
+      "typeDamage": "Daño",
+      "typeDelay": "Retraso",
+      "typeLoss": "Pérdida",
+      "typeFraud": "Fraude",
+      "typeOther": "Otro"
+    },
+    "table": {
+      "incidentNumber": "Incidente #",
+      "severity": "Severidad",
+      "type": "Tipo",
+      "status": "Estado",
+      "description": "Descripción",
+      "date": "Fecha",
+      "empty": "No se encontraron incidentes."
+    },
+    "detail": {
+      "infoTitle": "Info del incidente",
+      "type": "Tipo",
+      "orderId": "ID de orden",
+      "reportedBy": "Reportado por",
+      "reportedAgainst": "Reportado contra",
+      "assignedTo": "Asignado a",
+      "createdAt": "Creado",
+      "resolutionTitle": "Resolución",
+      "resolution": "Resolución",
+      "userAction": "Acción del usuario",
+      "refundAmount": "Monto de reembolso",
+      "resolvedAt": "Resuelto el",
+      "descriptionTitle": "Descripción",
+      "internalNotesTitle": "Notas internas",
+      "evidenceTitle": "Evidencia",
+      "startInvestigation": "Iniciar investigación",
+      "resolve": "Resolver"
+    },
+    "resolveForm": {
+      "title": "Resolver incidente",
+      "description": "Proporciona los detalles de la resolución y cualquier acción a tomar.",
+      "resolutionLabel": "Resolución",
+      "resolutionPlaceholder": "Seleccionar resolución...",
+      "resolutionResolved": "Resuelto satisfactoriamente",
+      "resolutionClosed": "Cerrado sin resolución",
+      "resolutionNotesLabel": "Notas de resolución",
+      "resolutionNotesPlaceholder": "Describe la resolución en detalle...",
+      "refundAmountLabel": "Monto de reembolso (opcional)",
+      "userActionLabel": "Acción del usuario (opcional)",
+      "userActionPlaceholder": "Seleccionar acción...",
+      "userActionNone": "Ninguna",
+      "userActionWarning": "Advertencia",
+      "userActionSuspension": "Suspensión",
+      "userActionBan": "Bloqueo",
+      "submit": "Resolver",
+      "validation": {
+        "resolutionNotesMin": "Se requieren mínimo 100 caracteres"
+      }
+    },
+    "toast": {
+      "updateSuccess": "Incidente actualizado",
+      "resolveSuccess": "Incidente resuelto"
+    }
+  },
+  "commissions": {
+    "page": {
+      "title": "Comisiones",
+      "createButton": "Nuevo perfil",
+      "backToList": "Volver a la lista"
+    },
+    "detail": {
+      "tabDetails": "Detalles",
+      "tabClients": "Clientes",
+      "type": "Tipo",
+      "value": "Valor",
+      "minimum": "Monto mínimo",
+      "maximum": "Monto máximo",
+      "tax": "Impuesto",
+      "commissionExempt": "Exento de comisión",
+      "taxExempt": "Exento de impuesto",
+      "default": "Predeterminado",
+      "status": "Estado"
+    },
+    "table": {
+      "name": "Nombre",
+      "type": "Tipo",
+      "value": "Valor",
+      "min": "Mín",
+      "max": "Máx",
+      "taxPercent": "Imp. %",
+      "status": "Estado",
+      "actions": "Acciones",
+      "default": "Predeterminado",
+      "empty": "No se encontraron perfiles de facturación."
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo"
+    },
+    "form": {
+      "createTitle": "Crear perfil de facturación",
+      "editTitle": "Editar perfil de facturación",
+      "name": "Nombre",
+      "description": "Descripción (opcional)",
+      "commissionType": "Tipo de comisión",
+      "commissionTypePercentage": "Porcentaje",
+      "commissionTypeFixed": "Monto fijo",
+      "valuePercent": "Valor (%)",
+      "valueFixed": "Valor (Q)",
+      "minimumAmount": "Monto mínimo (Q)",
+      "maximumAmount": "Monto máximo (Q)",
+      "optional": "Opcional",
+      "taxPercent": "Porcentaje de impuesto (%)",
+      "isCommissionExempt": "Exento de comisión",
+      "isTaxExempt": "Exento de impuesto",
+      "isDefault": "Perfil predeterminado",
+      "statusLabel": "Estado: {{status}}",
+      "validation": {
+        "nameRequired": "El nombre es obligatorio",
+        "valuePositive": "El valor debe ser positivo"
+      }
+    },
+    "delete": {
+      "title": "Eliminar perfil de facturación",
+      "confirmPrefix": "¿Estás seguro de que deseas eliminar ",
+      "confirmSuffix": "? Esta acción no se puede deshacer."
+    },
+    "clients": {
+      "instructions": "Asigna o elimina clientes de este perfil de facturación ingresando su ID de cliente.",
+      "assignButton": "Asignar cliente",
+      "unassignButton": "Eliminar cliente",
+      "assignTitle": "Asignar cliente",
+      "assignDescription": "Ingresa el ID del cliente para asignar a este perfil de facturación.",
+      "unassignTitle": "Eliminar cliente",
+      "unassignDescription": "Ingresa el ID del cliente para eliminar su asignación de perfil de facturación.",
+      "clientIdLabel": "ID del cliente",
+      "clientIdPlaceholder": "UUID del cliente"
+    },
+    "toast": {
+      "createSuccess": "Perfil de facturación creado",
+      "updateSuccess": "Perfil de facturación actualizado",
+      "deleteSuccess": "Perfil de facturación eliminado",
+      "assignSuccess": "Cliente asignado",
+      "unassignSuccess": "Cliente eliminado"
+    }
+  },
+  "users": {
+    "page": {
+      "title": "Usuarios",
+      "subtitle": "Administra usuarios y crea cuentas de administrador.",
+      "createButton": "Crear usuario",
+      "cardTitle": "Todos los usuarios",
+      "totalCount": "{{total}} usuarios en total"
+    },
+    "filters": {
+      "allRoles": "Todos los roles",
+      "sortRecent": "Recientes",
+      "sortOldest": "Antiguos",
+      "searchPlaceholder": "Buscar por nombre o correo..."
+    },
+    "table": {
+      "name": "Nombre",
+      "email": "Correo",
+      "phone": "Teléfono",
+      "role": "Rol",
+      "company": "Empresa",
+      "registered": "Registro",
+      "empty": "No se encontraron usuarios."
+    },
+    "createDialog": {
+      "title": "Crear usuario",
+      "description": "Crea un usuario admin o backoffice. Recibirán una contraseña temporal por correo si no se proporciona.",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo electrónico",
+      "phone": "Teléfono (opcional)",
+      "temporaryPassword": "Contraseña temporal (opcional)",
+      "temporaryPasswordPlaceholder": "Dejar vacío para generar automáticamente",
+      "role": "Rol",
+      "submit": "Crear",
+      "validation": {
+        "firstNameRequired": "El nombre es obligatorio",
+        "lastNameRequired": "El apellido es obligatorio",
+        "emailInvalid": "Correo electrónico inválido",
+        "passwordMin": "Mínimo 8 caracteres"
+      }
+    },
+    "toast": {
+      "createSuccess": "Usuario creado correctamente"
+    }
   }
 }

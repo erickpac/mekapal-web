@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -27,16 +28,18 @@ const ROLE_VARIANT: Record<
 }
 
 export function UsersTable({ data, loading }: UsersTableProps) {
+  const { t } = useTranslation()
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Nombre</TableHead>
-          <TableHead>Correo</TableHead>
-          <TableHead>Teléfono</TableHead>
-          <TableHead>Rol</TableHead>
-          <TableHead>Empresa</TableHead>
-          <TableHead>Registro</TableHead>
+          <TableHead>{t('users.table.name')}</TableHead>
+          <TableHead>{t('users.table.email')}</TableHead>
+          <TableHead>{t('users.table.phone')}</TableHead>
+          <TableHead>{t('users.table.role')}</TableHead>
+          <TableHead>{t('users.table.company')}</TableHead>
+          <TableHead>{t('users.table.registered')}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -65,9 +68,7 @@ export function UsersTable({ data, loading }: UsersTableProps) {
                   </Badge>
                 </TableCell>
                 <TableCell>{user.companyName ?? '—'}</TableCell>
-                <TableCell>
-                  {formatDate(user.createdAt)}
-                </TableCell>
+                <TableCell>{formatDate(user.createdAt)}</TableCell>
               </TableRow>
             ))}
         {!loading && data.length === 0 && (
@@ -76,7 +77,7 @@ export function UsersTable({ data, loading }: UsersTableProps) {
               colSpan={6}
               className="text-muted-foreground text-center"
             >
-              No se encontraron usuarios.
+              {t('users.table.empty')}
             </TableCell>
           </TableRow>
         )}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { UserPlus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -45,6 +46,7 @@ function useDebouncedValue<T>(value: T, delay: number): T {
 }
 
 function UsersPage() {
+  const { t } = useTranslation()
   const { canPerform } = usePermissions()
   const canCreate = canPerform('users', 'create')
   const navigate = useNavigate({ from: Route.fullPath })
@@ -90,26 +92,26 @@ function UsersPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Usuarios</h1>
-          <p className="text-muted-foreground">
-            Administra usuarios y crea cuentas de administrador.
-          </p>
+          <h1 className="text-2xl font-bold">{t('users.page.title')}</h1>
+          <p className="text-muted-foreground">{t('users.page.subtitle')}</p>
         </div>
         {canCreate && (
           <Button size="sm" onClick={() => setCreateOpen(true)}>
             <UserPlus className="size-4" />
-            Crear usuario
+            {t('users.page.createButton')}
           </Button>
         )}
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Todos los usuarios</CardTitle>
+          <CardTitle>{t('users.page.cardTitle')}</CardTitle>
           <CardDescription>
             {isLoading
-              ? 'Cargando...'
-              : `${pagination?.total ?? 0} usuarios en total`}
+              ? t('common.loading')
+              : t('users.page.totalCount', {
+                  total: pagination?.total ?? 0,
+                })}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -131,7 +133,10 @@ function UsersPage() {
           {pagination && pagination.totalPages > 1 && (
             <div className="flex items-center justify-between">
               <p className="text-muted-foreground text-sm">
-                Página {pagination.page} de {pagination.totalPages}
+                {t('common.pagination.pageOf', {
+                  page: pagination.page,
+                  total: pagination.totalPages,
+                })}
               </p>
               <div className="flex gap-2">
                 <Button
@@ -140,7 +145,7 @@ function UsersPage() {
                   disabled={pagination.page <= 1}
                   onClick={() => setSearchParam({ page: page - 1 })}
                 >
-                  Anterior
+                  {t('common.pagination.previous')}
                 </Button>
                 <Button
                   variant="outline"
@@ -148,7 +153,7 @@ function UsersPage() {
                   disabled={pagination.page >= pagination.totalPages}
                   onClick={() => setSearchParam({ page: page + 1 })}
                 >
-                  Siguiente
+                  {t('common.pagination.next')}
                 </Button>
               </div>
             </div>

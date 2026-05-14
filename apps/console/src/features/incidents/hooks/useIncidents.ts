@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { useLocalizedError } from '@/shared/api/useLocalizedError'
 import type {
   IncidentFilters,
   ResolveIncidentData,
@@ -31,30 +33,34 @@ export function useIncidentStats() {
 
 export function useUpdateIncident() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateIncidentData }) =>
       api.updateIncident(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['incidents'] })
-      toast.success('Incident updated')
+      toast.success(t('incidents.toast.updateSuccess'))
     },
-    onError: () => {
-      toast.error('Failed to update incident')
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
     },
   })
 }
 
 export function useResolveIncident() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const { getErrorMessage } = useLocalizedError()
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: ResolveIncidentData }) =>
       api.resolveIncident(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['incidents'] })
-      toast.success('Incident resolved')
+      toast.success(t('incidents.toast.resolveSuccess'))
     },
-    onError: () => {
-      toast.error('Failed to resolve incident')
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
     },
   })
 }

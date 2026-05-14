@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { TFunction } from 'i18next'
 import { z } from 'zod'
 import { Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -10,40 +12,45 @@ import { useLocalizedError } from '@/shared/api/useLocalizedError'
 import type { ChallengeResponse } from '../api/auth.api'
 import { useAuth } from '../hooks/useAuth'
 
-const loginSchema = z.object({
-  email: z.email('Correo electrónico inválido'),
-  password: z.string().min(1, 'La contraseña es obligatoria'),
-})
-
-const newPasswordSchema = z
-  .object({
-    newPassword: z.string().min(8, 'Mínimo 8 caracteres'),
-    confirmPassword: z.string().min(1, 'Confirma tu contraseña'),
-  })
-  .refine((d) => d.newPassword === d.confirmPassword, {
-    message: 'Las contraseñas no coinciden',
-    path: ['confirmPassword'],
+const createLoginSchema = (t: TFunction) =>
+  z.object({
+    email: z.email(t('auth.validation.emailInvalid')),
+    password: z.string().min(1, t('auth.validation.passwordRequired')),
   })
 
-type LoginValues = z.infer<typeof loginSchema>
-type NewPasswordValues = z.infer<typeof newPasswordSchema>
+const createNewPasswordSchema = (t: TFunction) =>
+  z
+    .object({
+      newPassword: z.string().min(8, t('auth.validation.newPasswordMin')),
+      confirmPassword: z
+        .string()
+        .min(1, t('auth.validation.confirmPasswordRequired')),
+    })
+    .refine((d) => d.newPassword === d.confirmPassword, {
+      message: t('auth.validation.passwordsMismatch'),
+      path: ['confirmPassword'],
+    })
+
+type LoginValues = z.infer<ReturnType<typeof createLoginSchema>>
+type NewPasswordValues = z.infer<ReturnType<typeof createNewPasswordSchema>>
 
 interface LoginFormProps {
   onSuccess: () => void
 }
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
+  const { t } = useTranslation()
   const { login, completeNewPassword } = useAuth()
   const { getErrorMessage } = useLocalizedError()
   const [apiError, setApiError] = useState<string | null>(null)
   const [challenge, setChallenge] = useState<ChallengeResponse | null>(null)
 
   const loginForm = useForm<LoginValues>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(createLoginSchema(t)),
   })
 
   const passwordForm = useForm<NewPasswordValues>({
-    resolver: zodResolver(newPasswordSchema),
+    resolver: zodResolver(createNewPasswordSchema(t)),
   })
 
   async function onLoginSubmit(values: LoginValues) {
@@ -82,11 +89,13 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         className="grid gap-4"
       >
         <p className="text-muted-foreground text-sm">
-          Debes establecer una nueva contraseña antes de continuar.
+          {t('auth.newPassword.instructions')}
         </p>
 
         <div className="grid gap-2">
-          <Label htmlFor="new-password">Nueva contraseña</Label>
+          <Label htmlFor="new-password">
+            {t('auth.newPassword.newPasswordLabel')}
+          </Label>
           <Input
             id="new-password"
             type="password"
@@ -101,7 +110,9 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="confirm-password">Confirmar contraseña</Label>
+          <Label htmlFor="confirm-password">
+            {t('auth.newPassword.confirmPasswordLabel')}
+          </Label>
           <Input
             id="confirm-password"
             type="password"
@@ -121,7 +132,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           {passwordForm.formState.isSubmitting && (
             <Loader2 className="animate-spin" />
           )}
-          Establecer contraseña
+          {t('auth.newPassword.submit')}
         </Button>
       </form>
     )
@@ -133,11 +144,11 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       className="grid gap-4"
     >
       <div className="grid gap-2">
-        <Label htmlFor="email">Correo electrónico</Label>
+        <Label htmlFor="email">{t('auth.login.emailLabel')}</Label>
         <Input
           id="email"
           type="email"
-          placeholder="correo@mekapal.com"
+          placeholder={t('auth.login.emailPlaceholder')}
           autoComplete="email"
           {...loginForm.register('email')}
         />
@@ -149,7 +160,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       </div>
 
       <div className="grid gap-2">
-        <Label htmlFor="password">Contraseña</Label>
+        <Label htmlFor="password">{t('auth.login.passwordLabel')}</Label>
         <Input
           id="password"
           type="password"
@@ -169,7 +180,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         {loginForm.formState.isSubmitting && (
           <Loader2 className="animate-spin" />
         )}
-        Iniciar sesión
+        {t('auth.login.submit')}
       </Button>
     </form>
   )

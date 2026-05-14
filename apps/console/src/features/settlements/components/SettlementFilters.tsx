@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -24,6 +25,8 @@ export function SettlementFilters({
   onStatusChange,
   onDateChange,
 }: SettlementFiltersProps) {
+  const { t } = useTranslation()
+
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
       <Select
@@ -33,18 +36,24 @@ export function SettlementFilters({
         }
       >
         <SelectTrigger className="w-36">
-          <SelectValue placeholder="Todos los estados" />
+          <SelectValue placeholder={t('settlements.filters.allStatuses')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Todos los estados</SelectItem>
-          <SelectItem value="PENDING">Pendiente</SelectItem>
-          <SelectItem value="PAID">Pagado</SelectItem>
+          <SelectItem value="all">
+            {t('settlements.filters.allStatuses')}
+          </SelectItem>
+          <SelectItem value="PENDING">
+            {t('settlements.filters.statusPending')}
+          </SelectItem>
+          <SelectItem value="PAID">
+            {t('settlements.filters.statusPaid')}
+          </SelectItem>
         </SelectContent>
       </Select>
 
       <div className="grid gap-1">
         <Label htmlFor="settle-from" className="text-xs">
-          Desde
+          {t('settlements.filters.from')}
         </Label>
         <Input
           id="settle-from"
@@ -55,7 +64,7 @@ export function SettlementFilters({
       </div>
       <div className="grid gap-1">
         <Label htmlFor="settle-to" className="text-xs">
-          Hasta
+          {t('settlements.filters.to')}
         </Label>
         <Input
           id="settle-to"

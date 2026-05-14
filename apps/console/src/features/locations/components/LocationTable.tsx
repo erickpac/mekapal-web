@@ -1,4 +1,5 @@
 import { ChevronRight, Pencil, Power } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -30,20 +31,25 @@ export function LocationTable({
   data,
   loading,
   hasChildren,
-  codeLabel = 'Código',
+  codeLabel,
   getCode = defaultGetCode,
   onDrillDown,
   onEdit,
   onToggleStatus,
 }: LocationTableProps) {
+  const { t } = useTranslation()
+  const resolvedCodeLabel = codeLabel ?? t('locations.table.code')
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Nombre</TableHead>
-          <TableHead>{codeLabel}</TableHead>
-          <TableHead>Estado</TableHead>
-          <TableHead className="text-right">Acciones</TableHead>
+          <TableHead>{t('locations.table.name')}</TableHead>
+          <TableHead>{resolvedCodeLabel}</TableHead>
+          <TableHead>{t('locations.table.status')}</TableHead>
+          <TableHead className="text-right">
+            {t('locations.table.actions')}
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -69,7 +75,9 @@ export function LocationTable({
                 </TableCell>
                 <TableCell>
                   <Badge variant={item.isActive ? 'default' : 'secondary'}>
-                    {item.isActive ? 'Activo' : 'Inactivo'}
+                    {item.isActive
+                      ? t('locations.status.active')
+                      : t('locations.status.inactive')}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
@@ -107,7 +115,7 @@ export function LocationTable({
               colSpan={4}
               className="text-muted-foreground text-center"
             >
-              No se encontraron elementos.
+              {t('locations.table.empty')}
             </TableCell>
           </TableRow>
         )}

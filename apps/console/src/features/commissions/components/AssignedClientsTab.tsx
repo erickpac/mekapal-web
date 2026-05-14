@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -19,6 +20,7 @@ interface AssignedClientsTabProps {
 }
 
 export function AssignedClientsTab({ profileId }: AssignedClientsTabProps) {
+  const { t } = useTranslation()
   const assign = useAssignClient()
   const unassign = useUnassignClient()
   const [assignOpen, setAssignOpen] = useState(false)
@@ -51,20 +53,19 @@ export function AssignedClientsTab({ profileId }: AssignedClientsTabProps) {
   return (
     <div className="space-y-4">
       <p className="text-muted-foreground text-sm">
-        Asigna o elimina clientes de este perfil de facturación ingresando su
-        ID de cliente.
+        {t('commissions.clients.instructions')}
       </p>
 
       <div className="flex gap-2">
         <Button size="sm" onClick={() => setAssignOpen(true)}>
-          Asignar cliente
+          {t('commissions.clients.assignButton')}
         </Button>
         <Button
           size="sm"
           variant="outline"
           onClick={() => setUnassignOpen(true)}
         >
-          Eliminar cliente
+          {t('commissions.clients.unassignButton')}
         </Button>
       </div>
 
@@ -77,30 +78,32 @@ export function AssignedClientsTab({ profileId }: AssignedClientsTabProps) {
       >
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
-            <DialogTitle>Asignar cliente</DialogTitle>
+            <DialogTitle>{t('commissions.clients.assignTitle')}</DialogTitle>
             <DialogDescription>
-              Ingresa el ID del cliente para asignar a este perfil de facturación.
+              {t('commissions.clients.assignDescription')}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-2">
-            <Label htmlFor="assign-client-id">ID del cliente</Label>
+            <Label htmlFor="assign-client-id">
+              {t('commissions.clients.clientIdLabel')}
+            </Label>
             <Input
               id="assign-client-id"
-              placeholder="UUID del cliente"
+              placeholder={t('commissions.clients.clientIdPlaceholder')}
               value={clientId}
               onChange={(e) => setClientId(e.target.value)}
             />
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setAssignOpen(false)}>
-              Cancelar
+              {t('common.actions.cancel')}
             </Button>
             <Button
               onClick={handleAssign}
               disabled={!clientId.trim() || assign.isPending}
             >
               {assign.isPending && <Loader2 className="animate-spin" />}
-              Asignar
+              {t('common.actions.assign')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -115,23 +118,25 @@ export function AssignedClientsTab({ profileId }: AssignedClientsTabProps) {
       >
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
-            <DialogTitle>Eliminar cliente</DialogTitle>
+            <DialogTitle>{t('commissions.clients.unassignTitle')}</DialogTitle>
             <DialogDescription>
-              Ingresa el ID del cliente para eliminar su asignación de perfil de facturación.
+              {t('commissions.clients.unassignDescription')}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-2">
-            <Label htmlFor="unassign-client-id">ID del cliente</Label>
+            <Label htmlFor="unassign-client-id">
+              {t('commissions.clients.clientIdLabel')}
+            </Label>
             <Input
               id="unassign-client-id"
-              placeholder="UUID del cliente"
+              placeholder={t('commissions.clients.clientIdPlaceholder')}
               value={clientId}
               onChange={(e) => setClientId(e.target.value)}
             />
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setUnassignOpen(false)}>
-              Cancelar
+              {t('common.actions.cancel')}
             </Button>
             <Button
               variant="destructive"
@@ -139,7 +144,7 @@ export function AssignedClientsTab({ profileId }: AssignedClientsTabProps) {
               disabled={!clientId.trim() || unassign.isPending}
             >
               {unassign.isPending && <Loader2 className="animate-spin" />}
-              Eliminar
+              {t('common.actions.delete')}
             </Button>
           </DialogFooter>
         </DialogContent>

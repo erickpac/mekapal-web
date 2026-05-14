@@ -1,4 +1,5 @@
 import { Pencil, Trash2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -28,18 +29,30 @@ export function BillingProfilesTable({
   onDelete,
   onRowClick,
 }: BillingProfilesTableProps) {
+  const { t } = useTranslation()
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Nombre</TableHead>
-          <TableHead>Tipo</TableHead>
-          <TableHead className="text-right">Valor</TableHead>
-          <TableHead className="text-right">Mín</TableHead>
-          <TableHead className="text-right">Máx</TableHead>
-          <TableHead className="text-right">Imp. %</TableHead>
-          <TableHead>Estado</TableHead>
-          <TableHead className="text-right">Acciones</TableHead>
+          <TableHead>{t('commissions.table.name')}</TableHead>
+          <TableHead>{t('commissions.table.type')}</TableHead>
+          <TableHead className="text-right">
+            {t('commissions.table.value')}
+          </TableHead>
+          <TableHead className="text-right">
+            {t('commissions.table.min')}
+          </TableHead>
+          <TableHead className="text-right">
+            {t('commissions.table.max')}
+          </TableHead>
+          <TableHead className="text-right">
+            {t('commissions.table.taxPercent')}
+          </TableHead>
+          <TableHead>{t('commissions.table.status')}</TableHead>
+          <TableHead className="text-right">
+            {t('commissions.table.actions')}
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -63,7 +76,7 @@ export function BillingProfilesTable({
                   {profile.name}
                   {profile.isDefault && (
                     <Badge variant="outline" className="ml-2">
-                      Predeterminado
+                      {t('commissions.table.default')}
                     </Badge>
                   )}
                 </TableCell>
@@ -92,7 +105,9 @@ export function BillingProfilesTable({
                   <Badge
                     variant={profile.isActive ? 'default' : 'secondary'}
                   >
-                    {profile.isActive ? 'Activo' : 'Inactivo'}
+                    {profile.isActive
+                      ? t('commissions.status.active')
+                      : t('commissions.status.inactive')}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
@@ -127,7 +142,7 @@ export function BillingProfilesTable({
               colSpan={8}
               className="text-muted-foreground text-center"
             >
-              No se encontraron perfiles de facturación.
+              {t('commissions.table.empty')}
             </TableCell>
           </TableRow>
         )}

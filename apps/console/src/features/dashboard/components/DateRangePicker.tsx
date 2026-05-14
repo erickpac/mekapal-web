@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
@@ -12,11 +13,13 @@ export function DateRangePicker({
   endDate,
   onChange,
 }: DateRangePickerProps) {
+  const { t } = useTranslation()
+
   return (
     <div className="flex items-end gap-3">
       <div className="grid gap-1">
         <Label htmlFor="start-date" className="text-xs">
-          Desde
+          {t('dashboard.dateRange.from')}
         </Label>
         <Input
           id="start-date"
@@ -27,7 +30,7 @@ export function DateRangePicker({
       </div>
       <div className="grid gap-1">
         <Label htmlFor="end-date" className="text-xs">
-          Hasta
+          {t('dashboard.dateRange.to')}
         </Label>
         <Input
           id="end-date"

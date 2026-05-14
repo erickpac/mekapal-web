@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { formatCurrency, formatNumber } from '@/shared/utils/format'
@@ -12,29 +13,31 @@ export function FinancialSummaryCards({
   data,
   loading,
 }: FinancialSummaryCardsProps) {
+  const { t } = useTranslation()
+
   const cards = [
     {
-      title: 'Ingresos totales',
+      title: t('reports.cards.totalRevenue'),
       value: data ? formatCurrency(data.totalRevenue) : '',
     },
     {
-      title: 'Comisiones totales',
+      title: t('reports.cards.totalCommissions'),
       value: data ? formatCurrency(data.totalCommissions) : '',
     },
     {
-      title: 'Impuestos totales',
+      title: t('reports.cards.totalTaxes'),
       value: data ? formatCurrency(data.totalTaxes) : '',
     },
     {
-      title: 'Transacciones completadas',
+      title: t('reports.cards.completedTransactions'),
       value: data ? formatNumber(data.completedTransactions) : undefined,
     },
     {
-      title: 'Pagos pendientes',
+      title: t('reports.cards.pendingPayments'),
       value: data ? formatCurrency(data.pendingPayments) : '',
     },
     {
-      title: 'Cantidad de pagos pendientes',
+      title: t('reports.cards.pendingPaymentsCount'),
       value: data ? formatNumber(data.pendingPaymentsCount) : undefined,
     },
   ]

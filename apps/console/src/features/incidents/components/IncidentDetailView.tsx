@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -28,6 +29,7 @@ interface IncidentDetailViewProps {
 }
 
 export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
+  const { t } = useTranslation()
   const { data, isLoading } = useIncident(id)
   const updateIncident = useUpdateIncident()
   const resolveIncident = useResolveIncident()
@@ -63,31 +65,43 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Info del incidente</CardTitle>
+            <CardTitle>{t('incidents.detail.infoTitle')}</CardTitle>
           </CardHeader>
           <CardContent>
             <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-              <dt className="text-muted-foreground">Tipo</dt>
+              <dt className="text-muted-foreground">
+                {t('incidents.detail.type')}
+              </dt>
               <dd className="capitalize">{data.type.toLowerCase()}</dd>
-              <dt className="text-muted-foreground">ID de orden</dt>
+              <dt className="text-muted-foreground">
+                {t('incidents.detail.orderId')}
+              </dt>
               <dd className="font-mono text-xs">{data.orderId}</dd>
-              <dt className="text-muted-foreground">Reportado por</dt>
+              <dt className="text-muted-foreground">
+                {t('incidents.detail.reportedBy')}
+              </dt>
               <dd className="font-mono text-xs">
                 {data.reportedById.slice(0, 8)}…
               </dd>
-              <dt className="text-muted-foreground">Reportado contra</dt>
+              <dt className="text-muted-foreground">
+                {t('incidents.detail.reportedAgainst')}
+              </dt>
               <dd className="font-mono text-xs">
                 {data.reportedAgainstId.slice(0, 8)}…
               </dd>
               {data.assignedToId && (
                 <>
-                  <dt className="text-muted-foreground">Asignado a</dt>
+                  <dt className="text-muted-foreground">
+                    {t('incidents.detail.assignedTo')}
+                  </dt>
                   <dd className="font-mono text-xs">
                     {data.assignedToId.slice(0, 8)}…
                   </dd>
                 </>
               )}
-              <dt className="text-muted-foreground">Creado</dt>
+              <dt className="text-muted-foreground">
+                {t('incidents.detail.createdAt')}
+              </dt>
               <dd>{formatDate(data.createdAt)}</dd>
             </dl>
           </CardContent>
@@ -96,23 +110,31 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
         {data.resolution && (
           <Card>
             <CardHeader>
-              <CardTitle>Resolución</CardTitle>
+              <CardTitle>{t('incidents.detail.resolutionTitle')}</CardTitle>
             </CardHeader>
             <CardContent>
               <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                <dt className="text-muted-foreground">Resolución</dt>
+                <dt className="text-muted-foreground">
+                  {t('incidents.detail.resolution')}
+                </dt>
                 <dd>{data.resolution}</dd>
-                <dt className="text-muted-foreground">Acción del usuario</dt>
+                <dt className="text-muted-foreground">
+                  {t('incidents.detail.userAction')}
+                </dt>
                 <dd>{data.userAction}</dd>
                 {data.refundAmount != null && (
                   <>
-                    <dt className="text-muted-foreground">Monto de reembolso</dt>
+                    <dt className="text-muted-foreground">
+                      {t('incidents.detail.refundAmount')}
+                    </dt>
                     <dd>{formatCurrency(data.refundAmount)}</dd>
                   </>
                 )}
                 {data.resolvedAt && (
                   <>
-                    <dt className="text-muted-foreground">Resuelto el</dt>
+                    <dt className="text-muted-foreground">
+                      {t('incidents.detail.resolvedAt')}
+                    </dt>
                     <dd>
                       {formatDate(data.resolvedAt)}
                     </dd>
@@ -131,7 +153,7 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
 
       <Card>
         <CardHeader>
-          <CardTitle>Descripción</CardTitle>
+          <CardTitle>{t('incidents.detail.descriptionTitle')}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm">{data.description}</p>
@@ -141,7 +163,7 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
       {data.internalNotes && (
         <Card>
           <CardHeader>
-            <CardTitle>Notas internas</CardTitle>
+            <CardTitle>{t('incidents.detail.internalNotesTitle')}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm">{data.internalNotes}</p>
@@ -151,7 +173,9 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
 
       {data.evidenceUrls.length > 0 && (
         <div>
-          <h3 className="mb-2 text-sm font-semibold">Evidencia</h3>
+          <h3 className="mb-2 text-sm font-semibold">
+            {t('incidents.detail.evidenceTitle')}
+          </h3>
           <DocumentViewer images={data.evidenceUrls} />
         </div>
       )}
@@ -169,14 +193,14 @@ export function IncidentDetailView({ id, onDone }: IncidentDetailViewProps) {
               }
               disabled={updateIncident.isPending}
             >
-              Iniciar investigación
+              {t('incidents.detail.startInvestigation')}
             </Button>
           )}
           <Button
             onClick={() => setResolveOpen(true)}
             disabled={resolveIncident.isPending}
           >
-            Resolver
+            {t('incidents.detail.resolve')}
           </Button>
           <ResolveIncidentForm
             open={resolveOpen}

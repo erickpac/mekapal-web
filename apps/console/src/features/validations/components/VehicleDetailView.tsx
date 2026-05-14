@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -34,6 +35,7 @@ function collectPhotos(data: {
 }
 
 export function VehicleDetailView({ id, onDone }: VehicleDetailViewProps) {
+  const { t } = useTranslation()
   const { data, isLoading } = useVehicleDetail(id)
   const approve = useApproveVehicle()
   const reject = useRejectVehicle()
@@ -50,43 +52,69 @@ export function VehicleDetailView({ id, onDone }: VehicleDetailViewProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Vehículo: {data.licensePlate}</h2>
+        <h2 className="text-lg font-semibold">
+          {t('validations.vehicleDetail.title', {
+            plate: data.licensePlate,
+          })}
+        </h2>
         <Badge variant="secondary">{data.status}</Badge>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Detalles</CardTitle>
+          <CardTitle>{t('validations.vehicleDetail.detailsTitle')}</CardTitle>
         </CardHeader>
         <CardContent>
           <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-            <dt className="text-muted-foreground">Transportista</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.vehicleDetail.transporter')}
+            </dt>
             <dd>
               {data.user.firstName} {data.user.lastName}
             </dd>
-            <dt className="text-muted-foreground">Marca / Modelo</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.vehicleDetail.brandModel')}
+            </dt>
             <dd>
               {data.brand} {data.model}
             </dd>
-            <dt className="text-muted-foreground">Año</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.vehicleDetail.year')}
+            </dt>
             <dd>{data.year}</dd>
-            <dt className="text-muted-foreground">Color</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.vehicleDetail.color')}
+            </dt>
             <dd>{data.color}</dd>
-            <dt className="text-muted-foreground">Tipo de vehículo</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.vehicleDetail.vehicleType')}
+            </dt>
             <dd>{data.vehicleType}</dd>
-            <dt className="text-muted-foreground">Tipo de carga</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.vehicleDetail.loadType')}
+            </dt>
             <dd>{data.loadType}</dd>
-            <dt className="text-muted-foreground">Placa</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.vehicleDetail.licensePlate')}
+            </dt>
             <dd>{data.licensePlate}</dd>
-            <dt className="text-muted-foreground">VIN</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.vehicleDetail.vin')}
+            </dt>
             <dd>{data.vin}</dd>
-            <dt className="text-muted-foreground">Peso máximo (kg)</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.vehicleDetail.maxWeight')}
+            </dt>
             <dd>{data.maxWeightKg}</dd>
-            <dt className="text-muted-foreground">Volumen máximo (m³)</dt>
+            <dt className="text-muted-foreground">
+              {t('validations.vehicleDetail.maxVolume')}
+            </dt>
             <dd>{data.maxVolumeM3}</dd>
             {data.insuranceExpiration && (
               <>
-                <dt className="text-muted-foreground">Vencimiento de seguro</dt>
+                <dt className="text-muted-foreground">
+                  {t('validations.vehicleDetail.insuranceExpiration')}
+                </dt>
                 <dd>
                   {formatDate(data.insuranceExpiration)}
                 </dd>

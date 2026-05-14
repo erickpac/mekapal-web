@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -21,6 +22,8 @@ export function ValidationFilters({
   onTypeChange,
   onSearchChange,
 }: ValidationFiltersProps) {
+  const { t } = useTranslation()
+
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
       <Select
@@ -30,17 +33,23 @@ export function ValidationFilters({
         }
       >
         <SelectTrigger className="w-40">
-          <SelectValue placeholder="Todos los tipos" />
+          <SelectValue placeholder={t('validations.filters.allTypes')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Todos los tipos</SelectItem>
-          <SelectItem value="VEHICLE">Vehículo</SelectItem>
-          <SelectItem value="TRANSPORTER_PROFILE">Perfil</SelectItem>
+          <SelectItem value="all">
+            {t('validations.filters.allTypes')}
+          </SelectItem>
+          <SelectItem value="VEHICLE">
+            {t('validations.filters.typeVehicle')}
+          </SelectItem>
+          <SelectItem value="TRANSPORTER_PROFILE">
+            {t('validations.filters.typeProfile')}
+          </SelectItem>
         </SelectContent>
       </Select>
 
       <Input
-        placeholder="Buscar por nombre..."
+        placeholder={t('validations.filters.searchPlaceholder')}
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
         className="max-w-xs"

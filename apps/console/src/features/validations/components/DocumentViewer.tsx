@@ -8,6 +8,7 @@ import {
   ZoomIn,
   ZoomOut,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -17,6 +18,7 @@ interface DocumentViewerProps {
 }
 
 export function DocumentViewer({ images, className }: DocumentViewerProps) {
+  const { t } = useTranslation()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [zoom, setZoom] = useState(1)
   const [rotation, setRotation] = useState(0)
@@ -30,7 +32,7 @@ export function DocumentViewer({ images, className }: DocumentViewerProps) {
           className,
         )}
       >
-        No hay documentos disponibles
+        {t('validations.documentViewer.empty')}
       </div>
     )
   }
@@ -97,7 +99,9 @@ export function DocumentViewer({ images, className }: DocumentViewerProps) {
 
         <img
           src={images[currentIndex]}
-          alt={`Documento ${currentIndex + 1}`}
+          alt={t('validations.documentViewer.imageAlt', {
+            number: currentIndex + 1,
+          })}
           className="max-h-full max-w-full object-contain transition-transform"
           style={{
             transform: `scale(${zoom}) rotate(${rotation}deg)`,

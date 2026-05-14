@@ -1,4 +1,5 @@
 import { AlertTriangle, Archive, CheckCircle, Eye } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { IncidentStats } from '../api/incidents.api'
@@ -12,27 +13,29 @@ export function IncidentStatsCards({
   stats,
   loading,
 }: IncidentStatsCardsProps) {
+  const { t } = useTranslation()
+
   const items = [
     {
-      label: 'Abiertos',
+      label: t('incidents.stats.open'),
       value: stats?.open ?? 0,
       icon: AlertTriangle,
       color: 'text-red-600',
     },
     {
-      label: 'En investigación',
+      label: t('incidents.stats.investigating'),
       value: stats?.investigating ?? 0,
       icon: Eye,
       color: 'text-yellow-600',
     },
     {
-      label: 'Resueltos',
+      label: t('incidents.stats.resolved'),
       value: stats?.resolved ?? 0,
       icon: CheckCircle,
       color: 'text-emerald-600',
     },
     {
-      label: 'Cerrados',
+      label: t('incidents.stats.closed'),
       value: stats?.closed ?? 0,
       icon: Archive,
       color: 'text-gray-600',

@@ -1,7 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { TFunction } from 'i18next'
 import { Loader2 } from 'lucide-react'
 import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -27,20 +29,26 @@ import type {
   BillingProfileFormData,
 } from '../api/commissions.api'
 
-const profileSchema = z.object({
-  name: z.string().min(1, 'El nombre es obligatorio').max(100),
-  description: z.string().max(500).optional(),
-  commissionType: z.enum(['PERCENTAGE', 'FIXED_AMOUNT']),
-  commissionValue: z.number().min(0, 'El valor debe ser positivo'),
-  commissionMinimum: z.number().min(0).optional(),
-  commissionMaximum: z.number().min(0).optional(),
-  isCommissionExempt: z.boolean().optional(),
-  taxPercent: z.number().min(0).max(100),
-  isTaxExempt: z.boolean().optional(),
-  isDefault: z.boolean().optional(),
-})
+const createProfileSchema = (t: TFunction) =>
+  z.object({
+    name: z
+      .string()
+      .min(1, t('commissions.form.validation.nameRequired'))
+      .max(100),
+    description: z.string().max(500).optional(),
+    commissionType: z.enum(['PERCENTAGE', 'FIXED_AMOUNT']),
+    commissionValue: z
+      .number()
+      .min(0, t('commissions.form.validation.valuePositive')),
+    commissionMinimum: z.number().min(0).optional(),
+    commissionMaximum: z.number().min(0).optional(),
+    isCommissionExempt: z.boolean().optional(),
+    taxPercent: z.number().min(0).max(100),
+    isTaxExempt: z.boolean().optional(),
+    isDefault: z.boolean().optional(),
+  })
 
-type ProfileFormValues = z.infer<typeof profileSchema>
+type ProfileFormValues = z.infer<ReturnType<typeof createProfileSchema>>
 
 interface BillingProfileFormDialogProps {
   open: boolean
@@ -57,17 +65,18 @@ export function BillingProfileFormDialog({
   onSubmit,
   isSubmitting,
 }: BillingProfileFormDialogProps) {
+  const { t } = useTranslation()
   const isEditing = !!profile
 
   const {
+    control,
     register,
     handleSubmit,
     setValue,
-    watch,
     reset,
     formState: { errors },
   } = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileSchema),
+    resolver: zodResolver(createProfileSchema(t)),
     defaultValues: {
       name: '',
       commissionType: 'PERCENTAGE',
@@ -79,7 +88,7 @@ export function BillingProfileFormDialog({
     },
   })
 
-  const commissionType = watch('commissionType')
+  const commissionType = useWatch({ control, name: 'commissionType' })
   const isActive = profile?.isActive ?? true
 
   useEffect(() => {
@@ -114,7 +123,9 @@ export function BillingProfileFormDialog({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? 'Editar perfil de facturación' : 'Crear perfil de facturación'}
+            {isEditing
+              ? t('commissions.form.editTitle')
+              : t('commissions.form.createTitle')}
           </DialogTitle>
         </DialogHeader>
 
@@ -123,7 +134,7 @@ export function BillingProfileFormDialog({
           className="grid gap-4 py-2"
         >
           <div className="grid gap-2">
-            <Label htmlFor="bp-name">Nombre</Label>
+            <Label htmlFor="bp-name">{t('commissions.form.name')}</Label>
             <Input id="bp-name" {...register('name')} />
             {errors.name && (
               <p className="text-destructive text-sm">{errors.name.message}</p>
@@ -131,12 +142,14 @@ export function BillingProfileFormDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="bp-desc">Descripción (opcional)</Label>
+            <Label htmlFor="bp-desc">
+              {t('commissions.form.description')}
+            </Label>
             <Input id="bp-desc" {...register('description')} />
           </div>
 
           <div className="grid gap-2">
-            <Label>Tipo de comisión</Label>
+            <Label>{t('commissions.form.commissionType')}</Label>
             <Select
               value={commissionType}
               onValueChange={(v) =>
@@ -147,15 +160,21 @@ export function BillingProfileFormDialog({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="PERCENTAGE">Porcentaje</SelectItem>
-                <SelectItem value="FIXED_AMOUNT">Monto fijo</SelectItem>
+                <SelectItem value="PERCENTAGE">
+                  {t('commissions.form.commissionTypePercentage')}
+                </SelectItem>
+                <SelectItem value="FIXED_AMOUNT">
+                  {t('commissions.form.commissionTypeFixed')}
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="grid gap-2">
             <Label htmlFor="bp-value">
-              Valor {commissionType === 'PERCENTAGE' ? '(%)' : '(Q)'}
+              {commissionType === 'PERCENTAGE'
+                ? t('commissions.form.valuePercent')
+                : t('commissions.form.valueFixed')}
             </Label>
             <Input
               id="bp-value"
@@ -173,22 +192,26 @@ export function BillingProfileFormDialog({
           {commissionType === 'PERCENTAGE' && (
             <div className="grid grid-cols-2 gap-3">
               <div className="grid gap-2">
-                <Label htmlFor="bp-min">Monto mínimo (Q)</Label>
+                <Label htmlFor="bp-min">
+                  {t('commissions.form.minimumAmount')}
+                </Label>
                 <Input
                   id="bp-min"
                   type="number"
                   step="0.01"
-                  placeholder="Opcional"
+                  placeholder={t('commissions.form.optional')}
                   {...register('commissionMinimum', { valueAsNumber: true })}
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="bp-max">Monto máximo (Q)</Label>
+                <Label htmlFor="bp-max">
+                  {t('commissions.form.maximumAmount')}
+                </Label>
                 <Input
                   id="bp-max"
                   type="number"
                   step="0.01"
-                  placeholder="Opcional"
+                  placeholder={t('commissions.form.optional')}
                   {...register('commissionMaximum', { valueAsNumber: true })}
                 />
               </div>
@@ -196,7 +219,7 @@ export function BillingProfileFormDialog({
           )}
 
           <div className="grid gap-2">
-            <Label htmlFor="bp-tax">Porcentaje de impuesto (%)</Label>
+            <Label htmlFor="bp-tax">{t('commissions.form.taxPercent')}</Label>
             <Input
               id="bp-tax"
               type="number"
@@ -217,7 +240,7 @@ export function BillingProfileFormDialog({
                 {...register('isCommissionExempt')}
                 className="size-4"
               />
-              Exento de comisión
+              {t('commissions.form.isCommissionExempt')}
             </label>
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -225,7 +248,7 @@ export function BillingProfileFormDialog({
                 {...register('isTaxExempt')}
                 className="size-4"
               />
-              Exento de impuesto
+              {t('commissions.form.isTaxExempt')}
             </label>
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -233,13 +256,17 @@ export function BillingProfileFormDialog({
                 {...register('isDefault')}
                 className="size-4"
               />
-              Perfil predeterminado
+              {t('commissions.form.isDefault')}
             </label>
           </div>
 
           {isEditing && (
             <p className="text-muted-foreground text-xs">
-              Estado: {isActive ? 'Activo' : 'Inactivo'}
+              {t('commissions.form.statusLabel', {
+                status: isActive
+                  ? t('commissions.status.active')
+                  : t('commissions.status.inactive'),
+              })}
             </p>
           )}
 
@@ -249,11 +276,13 @@ export function BillingProfileFormDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancelar
+              {t('common.actions.cancel')}
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && <Loader2 className="animate-spin" />}
-              {isEditing ? 'Guardar' : 'Crear'}
+              {isEditing
+                ? t('common.actions.save')
+                : t('common.actions.create')}
             </Button>
           </DialogFooter>
         </form>

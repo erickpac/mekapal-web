@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import {
   CartesianGrid,
   Line,
@@ -18,10 +19,12 @@ interface RevenueChartProps {
 }
 
 export function RevenueChart({ data, loading }: RevenueChartProps) {
+  const { t } = useTranslation()
+
   return (
     <Card className="col-span-full lg:col-span-2">
       <CardHeader>
-        <CardTitle>Ingresos (últimos 30 días)</CardTitle>
+        <CardTitle>{t('dashboard.charts.revenueLast30Days')}</CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (
@@ -41,7 +44,7 @@ export function RevenueChart({ data, loading }: RevenueChartProps) {
               <Tooltip
                 formatter={(value) => [
                   formatCurrency(Number(value)),
-                  'Ingresos',
+                  t('dashboard.charts.revenueTooltip'),
                 ]}
                 labelFormatter={(label) => formatDate(String(label))}
               />

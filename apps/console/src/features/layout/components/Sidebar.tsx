@@ -1,5 +1,6 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { ChevronsLeft, ChevronsRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -17,6 +18,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ collapsed, onToggle }: SidebarProps) {
+  const { t } = useTranslation()
   const location = useLocation()
   const { canAccess } = usePermissions()
 
@@ -36,7 +38,9 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         )}
       >
         {!collapsed && (
-          <span className="text-lg font-bold tracking-tight">Mekapal</span>
+          <span className="text-lg font-bold tracking-tight">
+            {t('layout.appName')}
+          </span>
         )}
         {collapsed && <span className="text-lg font-bold">M</span>}
       </div>
@@ -44,8 +48,9 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
       <Separator />
 
       <nav className="flex-1 space-y-1 p-2">
-        {visibleItems.map(({ to, label, icon: Icon }) => {
+        {visibleItems.map(({ to, labelKey, icon: Icon }) => {
           const isActive = location.pathname.startsWith(to)
+          const label = t(labelKey)
           const link = (
             <Link
               key={to}
@@ -90,7 +95,9 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
           ) : (
             <ChevronsLeft className="size-4" />
           )}
-          {!collapsed && <span className="ml-2 text-sm">Contraer</span>}
+          {!collapsed && (
+            <span className="ml-2 text-sm">{t('layout.sidebar.collapse')}</span>
+          )}
         </Button>
       </div>
     </aside>

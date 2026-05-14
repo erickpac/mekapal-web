@@ -1,4 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -16,6 +17,7 @@ interface MobileSidebarProps {
 }
 
 export function MobileSidebar({ open, onOpenChange }: MobileSidebarProps) {
+  const { t } = useTranslation()
   const location = useLocation()
   const { canAccess } = usePermissions()
 
@@ -26,14 +28,14 @@ export function MobileSidebar({ open, onOpenChange }: MobileSidebarProps) {
       <SheetContent side="left" className="w-60 p-0">
         <SheetHeader className="px-4 pt-4">
           <SheetTitle className="text-lg font-bold tracking-tight">
-            Mekapal
+            {t('layout.appName')}
           </SheetTitle>
         </SheetHeader>
 
         <Separator />
 
         <nav className="space-y-1 p-2">
-          {visibleItems.map(({ to, label, icon: Icon }) => {
+          {visibleItems.map(({ to, labelKey, icon: Icon }) => {
             const isActive = location.pathname.startsWith(to)
             return (
               <Link
@@ -48,7 +50,7 @@ export function MobileSidebar({ open, onOpenChange }: MobileSidebarProps) {
                 )}
               >
                 <Icon className="size-4 shrink-0" />
-                <span>{label}</span>
+                <span>{t(labelKey)}</span>
               </Link>
             )
           })}
