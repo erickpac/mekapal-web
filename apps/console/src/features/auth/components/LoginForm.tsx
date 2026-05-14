@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { AxiosError } from 'axios'
 import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useLocalizedError } from '@/shared/api/useLocalizedError'
 import type { ChallengeResponse } from '../api/auth.api'
 import { useAuth } from '../hooks/useAuth'
 
@@ -34,6 +34,7 @@ interface LoginFormProps {
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
   const { login, completeNewPassword } = useAuth()
+  const { getErrorMessage } = useLocalizedError()
   const [apiError, setApiError] = useState<string | null>(null)
   const [challenge, setChallenge] = useState<ChallengeResponse | null>(null)
 
@@ -55,13 +56,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         onSuccess()
       }
     } catch (error) {
-      if (error instanceof AxiosError) {
-        setApiError(
-          error.response?.data?.message ?? 'Correo o contraseña inválidos',
-        )
-      } else {
-        setApiError('Ocurrió un error inesperado')
-      }
+      setApiError(getErrorMessage(error))
     }
   }
 
@@ -76,13 +71,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       )
       onSuccess()
     } catch (error) {
-      if (error instanceof AxiosError) {
-        setApiError(
-          error.response?.data?.message ?? 'Error al establecer la nueva contraseña',
-        )
-      } else {
-        setApiError('Ocurrió un error inesperado')
-      }
+      setApiError(getErrorMessage(error))
     }
   }
 

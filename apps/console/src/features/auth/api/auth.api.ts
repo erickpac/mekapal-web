@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios'
 import { apiClient } from '@/shared/api/client'
+import { parseApiError } from '@/shared/api/error'
 import type { UserRole } from '@/shared/types'
 
 export interface AuthUser {
@@ -38,6 +39,9 @@ export async function signIn(
     )
     return data
   } catch (error) {
+    // The NEW_PASSWORD_REQUIRED challenge arrives as a 400 carrying the
+    // stable `error` code in the standardized contract. It is not a real
+    // failure — surface it as a challenge instead of throwing.
     if (
       error instanceof AxiosError &&
       error.response?.status === 400 &&
@@ -48,7 +52,9 @@ export async function signIn(
         email,
       }
     }
-    throw error
+    // Everything else is normalized to an AppError so callers localize via
+    // the centralized error layer instead of reading `data.message`.
+    throw parseApiError(error)
   }
 }
 
@@ -63,11 +69,15 @@ export async function completeNewPassword(
   newPassword: string,
   session: string,
 ): Promise<AuthResponse> {
-  const { data } = await apiClient.post<AuthResponse>(
-    '/auth/admin/complete-new-password',
-    { email, newPassword, session },
-  )
-  return data
+  try {
+    const { data } = await apiClient.post<AuthResponse>(
+      '/auth/admin/complete-new-password',
+      { email, newPassword, session },
+    )
+    return data
+  } catch (error) {
+    throw parseApiError(error)
+  }
 }
 
 export async function refreshToken(token: string): Promise<AuthResponse> {
