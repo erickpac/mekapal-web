@@ -9,6 +9,7 @@ export interface UserListItem {
   phone: string
   role: UserRole
   companyName: string | null
+  countryCode: string
   createdAt: string
 }
 
@@ -48,6 +49,7 @@ export interface AdminUserResponse {
   firstName: string
   lastName: string
   role: UserRole
+  countryCode: string
 }
 
 export async function getUsers(
