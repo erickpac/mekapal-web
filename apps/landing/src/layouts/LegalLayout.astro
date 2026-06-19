@@ -40,10 +40,19 @@ const { title, lastUpdated, version, bgClass, description, canonical } =
             <h1 class="text-3xl font-extrabold tracking-tight md:text-4xl">
               {title}
             </h1>
-            <p class="text-text-idle mt-3 text-sm">
-              Última actualización: {lastUpdated}
-            </p>
-            <p class="text-text-idle text-sm">Versión: {version}</p>
+            <div class="legal-meta text-text-idle mt-3 text-sm">
+              <p class="text-dark-gray-700 font-semibold">Mekapal</p>
+              <p>
+                <span class="text-dark-gray-700 font-semibold"
+                  >Última actualización:</span
+                > {lastUpdated}
+              </p>
+              <p>
+                <span class="text-dark-gray-700 font-semibold">Versión:</span> {
+                  version
+                }
+              </p>
+            </div>
           </header>
           <slot />
         </article>
@@ -71,6 +80,10 @@ const { title, lastUpdated, version, bgClass, description, canonical } =
   .legal-content :global(p) {
     margin-bottom: 1rem;
     line-height: 1.7;
+  }
+  .legal-content .legal-meta :global(p) {
+    margin-bottom: 0;
+    line-height: 1.5;
   }
   .legal-content :global(ul),
   .legal-content :global(ol) {
