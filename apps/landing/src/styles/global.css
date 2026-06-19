@@ -177,3 +177,14 @@ body {
     transition: none;
   }
 }
+
+/* Modo embebido (WebView del app, ?app=1): solo el contenido legal */
+.embedded #navbar,
+.embedded #contacto,
+.embedded footer {
+  display: none !important;
+}
+
+.embedded .legal-main {
+  padding-top: 1.5rem;
+}

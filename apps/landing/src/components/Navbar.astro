@@ -2,6 +2,11 @@
 import { Image } from 'astro:assets'
 import logoWhite from '../assets/logo/mekapal-white.svg'
 
+interface Props {
+  base?: string
+}
+const { base = '' } = Astro.props
+
 const links = [
   { href: '#inicio', label: 'Inicio' },
   { href: '#acerca-de', label: 'Acerca de' },
@@ -56,7 +61,7 @@ const links = [
       </button>
 
       <!-- Logo: centered on mobile (between hamburger + spacer), left on desktop -->
-      <a href="#inicio" class="flex items-center" aria-label="Mekapal">
+      <a href={`${base}#inicio`} class="flex items-center" aria-label="Mekapal">
         <Image
           src={logoWhite}
           alt="Mekapal"
@@ -73,7 +78,7 @@ const links = [
             return (
               <li>
                 <a
-                  href={href}
+                  href={`${base}${href}`}
                   data-nav-link={section}
                   class="nav-link rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap text-white transition-opacity outline-none hover:opacity-80"
                 >
@@ -101,7 +106,7 @@ const links = [
             return (
               <li>
                 <a
-                  href={href}
+                  href={`${base}${href}`}
                   data-nav-link={section}
                   class="mobile-link nav-link block rounded-lg px-3 py-2.5 text-sm font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white"
                 >

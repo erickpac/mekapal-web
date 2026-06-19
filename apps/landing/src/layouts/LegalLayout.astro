@@ -1,0 +1,113 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import Navbar from '../components/Navbar.astro'
+import Contact from '../components/Contact.astro'
+import Footer from '../components/Footer.astro'
+
+interface Props {
+  title: string
+  lastUpdated: string
+  version: string
+  bgClass: string
+  description?: string
+  canonical?: string
+}
+
+const { title, lastUpdated, version, bgClass, description, canonical } =
+  Astro.props
+---
+
+<BaseLayout
+  title={`${title} — Mekapal`}
+  description={description}
+  canonical={canonical}
+>
+  <script is:inline>
+    if (new URLSearchParams(location.search).get('app') === '1') {
+      document.documentElement.classList.add('embedded')
+    }
+  </script>
+
+  <div class={`legal-bg min-h-screen ${bgClass}`}>
+    <Navbar base="/" />
+
+    <main class="legal-main pt-28 pb-16 md:pt-36 lg:pt-40">
+      <div class="container-main">
+        <article
+          class="legal-content mx-auto max-w-3xl rounded-3xl bg-white p-6 shadow-xl md:p-10"
+        >
+          <header class="border-light-gray-300 mb-8 border-b pb-6">
+            <h1 class="text-3xl font-extrabold tracking-tight md:text-4xl">
+              {title}
+            </h1>
+            <p class="text-text-idle mt-3 text-sm">
+              Última actualización: {lastUpdated}
+            </p>
+            <p class="text-text-idle text-sm">Versión: {version}</p>
+          </header>
+          <slot />
+        </article>
+      </div>
+    </main>
+  </div>
+
+  <Contact />
+  <Footer />
+</BaseLayout>
+
+<style>
+  .legal-content :global(h2) {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .legal-content :global(h3) {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .legal-content :global(p) {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+  .legal-content :global(ul),
+  .legal-content :global(ol) {
+    margin: 0 0 1rem 1.25rem;
+    line-height: 1.7;
+  }
+  .legal-content :global(ul) {
+    list-style: disc;
+  }
+  .legal-content :global(ol) {
+    list-style: decimal;
+  }
+  .legal-content :global(li) {
+    margin-bottom: 0.35rem;
+  }
+  .legal-content :global(a) {
+    color: var(--color-primary-600);
+    text-decoration: underline;
+  }
+  .legal-content :global(table) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin: 1rem 0 1.5rem;
+    font-size: 0.95rem;
+  }
+  .legal-content :global(th),
+  .legal-content :global(td) {
+    border: 1px solid var(--color-light-gray-300);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  .legal-content :global(th) {
+    background: var(--color-primary-50);
+    font-weight: 600;
+  }
+</style>
